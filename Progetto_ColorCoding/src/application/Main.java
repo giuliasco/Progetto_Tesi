@@ -1,5 +1,7 @@
 package application;
 import java.util.ArrayList;
+
+//import java.util.ArrayList;
 import application.building.*;
 
 public class Main {
@@ -11,7 +13,7 @@ public class Main {
 		  public static void main(String[] args) 
 		    { 
 		        // Creating a graph with 5 vertices 
-		        int V = 5; 
+		        /*int V = 5; 
 		       
 		        Graph g1 = new Graph(V); 
 		  
@@ -53,10 +55,36 @@ public class Main {
 			  adj.add(a3);
 			  adj.add(a4);
 			  adj.add(a5);
-			  adj.add(a6);
+			  adj.add(a6);*/
 			  
+			 ColorNode c1= new ColorNode(1, 1);
+			 ColorNode c2= new ColorNode(2, 2);
+			 ColorNode c3= new ColorNode(3, 3);
+			 ColorNode c4= new ColorNode(4, 4);
+			 ColorNode c5= new ColorNode(5, 5);
+			 Treelet t1=new Treelet(c5);
+			 Treelet t2= new Treelet(c3);
+			 Treelet t3= new Treelet(c4);
+			 ArrayList<Treelet> subtree1 = new ArrayList<Treelet>();
+			 ArrayList<Treelet> subtree2 = new ArrayList<Treelet>();
+			 subtree1.add(t2);
+			 subtree1.add(t3);
+			 Treelet t4 = new Treelet(subtree1, c2);
 			 
-			  
-		    }  
-			}
+			 
+			 subtree2.add(t1);
+			 subtree2.add(t4);
+			 Treelet t5 = new Treelet(subtree2, c1);
+
+			 System.out.println(t5.getRoot().getData());
+			 System.out.print(t5.size);
+			 		
+			/*System.out.println(t1.size);
+			for (Treelet x : subtree1) {
+				ColorNode root1 = x.getRoot();
+				System.out.println(root1.getData());
+			 
+		    } */ 
+		    }
+}
 
