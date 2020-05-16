@@ -1,5 +1,7 @@
 package application;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 //import java.util.ArrayList;
 import application.building.*;
@@ -13,7 +15,7 @@ public class Main {
 		  public static void main(String[] args) 
 		    { 
 		        // Creating a graph with 5 vertices 
-		        /*int V = 5; 
+		        int V = 5;
 		       
 		        Graph g1 = new Graph(V); 
 		  
@@ -55,8 +57,10 @@ public class Main {
 			  adj.add(a3);
 			  adj.add(a4);
 			  adj.add(a5);
-			  adj.add(a6);*/
-			  
+			  adj.add(a6);
+			  Graph g2= new Graph(adj);
+
+
 			 ColorNode c1= new ColorNode(1, 1);
 			 ColorNode c2= new ColorNode(2, 2);
 			 ColorNode c3= new ColorNode(3, 3);
@@ -75,16 +79,26 @@ public class Main {
 			 subtree2.add(t1);
 			 subtree2.add(t4);
 			 Treelet t5 = new Treelet(subtree2, c1);
-
-			 System.out.println(t5.getRoot().getData());
-			 System.out.print(t5.size);
+			 int k = t5.size;
+			 int colorSet[] = g2.colorGraph(k);
+				System.out.println("il valore di k è" + k );
+			 //for(int i=0; i<colorSet.length; i++ )
+			 //System.out.println("il vertice :" + i + " ha il colore : " + colorSet[i]);
+			 //System.out.println(t5.getRoot().getData());
+			 //System.out.print(t5.size);
 			 		
 			/*System.out.println(t1.size);
 			for (Treelet x : subtree1) {
 				ColorNode root1 = x.getRoot();
 				System.out.println(root1.getData());
 			 
-		    } */ 
+		    } */
+
+				HashMap<Integer, LinkedList<Treelet>> prova = g2.CC2(k);
+				for (int i=0; i<g2.getV(); i++){
+					 System.out.println(prova.get(i).size());
+				}
+
 		    }
 }
 

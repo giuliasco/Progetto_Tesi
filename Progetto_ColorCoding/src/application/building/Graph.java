@@ -1,6 +1,9 @@
 package application.building;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 public class Graph {
 protected ArrayList<ArrayList<Integer>> adj;
@@ -57,7 +60,7 @@ public int[] colorGraph(int k) {
 }
 
 
-void printAdjacencyList() 
+public void printAdjacencyList()
 { 
     for (int i = 0; i < adj.size(); i++) { 
         System.out.println("Adjacency list of " + i); 
@@ -67,5 +70,21 @@ void printAdjacencyList()
         System.out.println(); 
     } 
 }
+
+public HashMap<Integer, LinkedList<Treelet>> CC2(int k){
+
+	HashMap<Integer, LinkedList<Treelet>> counter = new HashMap<Integer, LinkedList<Treelet>>();
+	int color[]=this.colorGraph(k);
+	for (int v=0; v<V;v++){
+		LinkedList<Treelet> treelets = new LinkedList<Treelet>();
+		ColorNode c1= new ColorNode(v, color[v]);
+		Treelet t1 = new Treelet(c1);
+		treelets.add(t1);
+		counter.put(v, treelets);
+	}
+	return counter;
+}
+
+
 
 }
