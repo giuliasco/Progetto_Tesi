@@ -10,24 +10,28 @@ public class Treelet {
 	
 	public ColorNode root;
 	public int size;
-	
+	public ArrayList<Treelet> subtree ;
+
 	public Treelet() {
-		root=null;
+		root=new ColorNode();
 		size=0;
+		this.subtree= new ArrayList<Treelet>();
 	}
 	
 	public Treelet(ColorNode root) {
 		this.root= root;
 		size=1;
+		this.subtree= new ArrayList<Treelet>();
 	}
 	  
-	public Treelet(ArrayList<Treelet> subtree, ColorNode root) {
+	public Treelet(ArrayList<Treelet> subtrees, ColorNode root) {
 		this.root= root;
-		size =1;
-		
-		if (!subtree.isEmpty()) {
-			for (Treelet x : subtree) {
+		this.size =1;
+		this.subtree= new ArrayList<Treelet>();
+		if (!subtrees.isEmpty()) {
+			for (Treelet x : subtrees) {
 				this.root.addChild(x.root);
+				subtree.add(x);
 				size=size+x.size;
 			}
 		}
@@ -38,27 +42,27 @@ public class Treelet {
 		return size;
 	}
 	
-	public ColorNode getRoot() {
-		return root;
+	public int getRoot() {
+		return root.getData();
 	}
 	
 	public boolean isEmpty() {
 		return this.root==null;
 	}
 	
-	public Iterator<Integer> iteratorLevelOrder(){
-		ArrayList<Integer> templist= new ArrayList<Integer>();
+	public Iterator<ColorNode> iteratorLevelOrder(){
+		ArrayList<ColorNode> templist= new ArrayList<ColorNode>();
 		levelorder(this.root, templist);
 		return templist.iterator();
 	}
 	
-	public void levelorder(ColorNode node, List<Integer> templist) {
+	public void levelorder(ColorNode node, ArrayList<ColorNode> templist) {
 		Queue<ColorNode> queueOfnodes = new LinkedList<ColorNode>();
 		ColorNode current;
 		queueOfnodes.add(node);
 		while(! queueOfnodes.isEmpty()) {
 			current= queueOfnodes.remove();
-			templist.add(current.data);
+			templist.add(current);
 			if(current.hasChild()) {
 				for (int i=0; i<current.child.size();i++) {
 					queueOfnodes.add(current.child.get(i));
@@ -67,53 +71,6 @@ public class Treelet {
 		}
 		
 	}
-	/*// Represents a node of an n-ary tree 
-	static class Node 
-	{ 
-	    int key; 
-	    Vector<Node >child = new Vector<>(); 
-	}; 
-	  
-	// Utility function to create a new tree node 
-	static Node newNode(int key) 
-	{ 
-	    Node temp = new Node(); 
-	    temp.key = key; 
-	    return temp; 
-	} 
-	  
-	// Prints the n-ary tree level wise 
-	static void LevelOrderTraversal(Node root) 
-	{ 
-	    if (root == null) 
-	        return; 
-	  
-	    // Standard level order traversal code 
-	    // using queue 
-	    Queue<Node > q = new LinkedList<>(); // Create a queue 
-	    q.add(root); // Enqueue root  
-	    while (!q.isEmpty()) 
-	    { 
-	        int n = q.size(); 
-	  
-	        // If this node has children 
-	        while (n > 0) 
-	        { 
-	            // Dequeue an item from queue 
-	            // and print it 
-	            Node p = q.peek(); 
-	            q.remove(); 
-	            System.out.print(p.key + " "); 
-	  
-	            // Enqueue all children of  
-	            // the dequeued item 
-	            for (int i = 0; i < p.child.size(); i++) 
-	                q.add(p.child.get(i)); 
-	            n--; 
-	        } 
-	          
-	        // Print new line between two levels 
-	        System.out.println();  
-	    } 
-	} */
+
+
 }

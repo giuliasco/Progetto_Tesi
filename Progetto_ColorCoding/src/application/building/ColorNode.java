@@ -12,6 +12,7 @@ public class ColorNode {
 		this.data=0;
 		this.color=0;
 	}
+
 	
 	public ColorNode(int data,int color) {
 		this.data=data;

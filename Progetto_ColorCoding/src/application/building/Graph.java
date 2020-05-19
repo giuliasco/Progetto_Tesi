@@ -1,9 +1,6 @@
 package application.building;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class Graph {
 protected ArrayList<ArrayList<Integer>> adj;
@@ -71,18 +68,31 @@ public void printAdjacencyList()
     } 
 }
 
-public HashMap<Integer, LinkedList<Treelet>> CC2(int k){
+public HashMap<Integer, HashSet<Treelet>> CC2(int k) {
 
-	HashMap<Integer, LinkedList<Treelet>> counter = new HashMap<Integer, LinkedList<Treelet>>();
-	int color[]=this.colorGraph(k);
-	for (int v=0; v<V;v++){
-		LinkedList<Treelet> treelets = new LinkedList<Treelet>();
-		ColorNode c1= new ColorNode(v, color[v]);
+	HashMap<Integer, HashSet<Treelet>> tcounter = new HashMap<Integer, HashSet<Treelet>>();
+	//innanzitutto coloro il grafo con i k colori
+	int color[] = this.colorGraph(k);
+	/*
+	dopodichè per ogni nodo del grafo mi creo il treelet che aggiungo anche nella hashMap.
+
+	 */
+	for (int v = 0; v < V; v++) {
+		HashSet<Treelet> treelets = new HashSet<Treelet>();
+		ColorNode c1 = new ColorNode(v, color[v]);
 		Treelet t1 = new Treelet(c1);
 		treelets.add(t1);
-		counter.put(v, treelets);
+		tcounter.put(v, treelets);
 	}
-	return counter;
+	 /*
+	 Quello che devo riuscire a far dopo è trovare gli alberi fino a k nodi che riesco ad ottenere a
+	 partire quelli che già ho di k-1 nodi.
+	 li aggiungo solo se i colori sono diversi rispetto a quelli gia presenti
+	 COME CAZZO SI FA???? AHAHAAHAHAHAHAHAAH
+	  */
+
+
+	return tcounter;
 }
 
 
