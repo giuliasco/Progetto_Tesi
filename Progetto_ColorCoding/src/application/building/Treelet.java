@@ -1,47 +1,48 @@
 package application.building;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
-public class Treelet {
+public class Treelet implements Comparable<Treelet>{
 	
 	public ColorNode root;
 	public int size;
-	public ArrayList<Treelet> subtree ;
+	public int num;
+	ArrayList<Integer> subtree = new ArrayList<Integer>();
 
 	public Treelet() {
 		root=new ColorNode();
 		size=0;
-		this.subtree= new ArrayList<Treelet>();
+		num=0;
+
 	}
-	
+
 	public Treelet(ColorNode root) {
 		this.root= root;
 		size=1;
-		this.subtree= new ArrayList<Treelet>();
+		num=0;
+
 	}
-	  
-	public Treelet(ArrayList<Treelet> subtrees, ColorNode root) {
-		this.root= root;
-		this.size =1;
-		this.subtree= new ArrayList<Treelet>();
-		if (!subtrees.isEmpty()) {
-			for (Treelet x : subtrees) {
-				this.root.addChild(x.root);
-				subtree.add(x);
-				size=size+x.size;
-			}
+
+	public Treelet (ArrayList<Treelet> treelet , ColorNode root ){
+		this.root = root;
+		this.size=1;
+		Collections.sort(treelet);
+		for (Treelet t : treelet){
+			subtree.add(t.num);
+			this.size += t.size;
 		}
-		
+		if (!this.root.hasChild()) num=0;
+		else{
+			int binaryNum[] = new int[16];
+			Visit(this.root, binaryNum);
+		}
 	}
-	
-	public int size() {
-		return size;
+
+	public int[] Visit(ColorNode x, int array[]){
+
+		return array;
 	}
-	
+
 	public int getRoot() {
 		return root.getData();
 	}
@@ -73,4 +74,18 @@ public class Treelet {
 	}
 
 
+
+	@Override
+	public int compareTo(Treelet treelet) {
+		String num1 = String.valueOf(this.num);
+		String num2 = String.valueOf(treelet.num);
+		return num1.compareTo(num2);
+	}
 }
+
+/*  per convertire da numero binario a numero decimale
+public void given_binaryNumber_then_ConvertToDecimalNumber() {
+    assertEquals(8, Integer.parseInt("1000", 2));
+    assertEquals(20, Integer.parseInt("10100", 2));
+}
+ */
