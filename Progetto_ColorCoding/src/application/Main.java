@@ -61,11 +61,9 @@ public class Main {
 		subtree2.add(t4);
 		Treelet t5 = new Treelet(subtree2, c1);
 
-				System.out.println(t5.num);
-				for (Integer booo : t5.subtree){
-					System.out.println(booo);
 
-				}
+
+				System.out.println(t5.beta);
 	}
 }
 

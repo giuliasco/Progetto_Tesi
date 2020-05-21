@@ -8,10 +8,10 @@ import java.util.*;
 public class Treelet implements Comparable<Treelet>{
 	
 	public ColorNode root;
-	public int size;
-	public int num;
+	public int size ,num, beta;
 	public ArrayList<Integer> subtree = new ArrayList<Integer>();
 
+	//Cosruttore vuoto
 	public Treelet() {
 		root=new ColorNode();
 		size=0;
@@ -19,40 +19,44 @@ public class Treelet implements Comparable<Treelet>{
 
 	}
 
+	//Costruttore per un albero composto da un unico nodo
 	public Treelet(ColorNode root) {
 		this.root= root;
-		size=1;
-		num=0;
+		this.size=1;
+		this.num=0;
 
 	}
 
+	//costruttore di un albero composto da più nodi
 	public Treelet (ArrayList<Treelet> treelet , ColorNode root ){
 		this.root = root;
 		this.size=1;
+
 		Collections.sort(treelet);
 		for (Treelet t : treelet){
 			this.subtree.add(t.num);
 			this.root.addChild(t.root);
 			this.size += t.size;
 		}
+		ArrayList<Integer> binaryNum= new ArrayList<Integer>(16);
+		if(this.root.hasChild()) {
+			binaryNum = Visit(this.root, binaryNum);
+		}
 
-			ArrayList<Integer> binaryNum= new ArrayList<Integer>(16);
-			if(this.root.hasChild()) {
-				binaryNum = Visit(this.root, binaryNum);
-			}
-			while ( binaryNum.size() <16){
-				binaryNum.add(0);
-			}
+		while ( binaryNum.size() <16){
+			binaryNum.add(0);
+		}
 
-			String binary = new String() ;
-			for (int i = 0 ; i<16 ; i++) {
-
-				String s = String.valueOf(binaryNum.get(i));
+		String binary = new String() ;
+		for (int i = 0 ; i<16 ; i++) {
+			String s = String.valueOf(binaryNum.get(i));
 				binary += s;
 			}
+
 			this.num = Integer.parseInt(binary, 2);
 	}
 
+	//metodo ricorsivo utilizzato per la visita dell'albero che mi permette di generare il numero che caratterizza ogni albero
 	public ArrayList<Integer> Visit(ColorNode x, ArrayList<Integer> array) {
 		if (x.hasChild()) {
 			for (ColorNode c : x.child) {
@@ -65,35 +69,11 @@ public class Treelet implements Comparable<Treelet>{
 	}
 
 
-	public int getRoot() {
-		return root.getData();
-	}
 	
 	public boolean isEmpty() {
 		return this.root==null;
 	}
 	
-	public Iterator<ColorNode> iteratorLevelOrder(){
-		ArrayList<ColorNode> templist= new ArrayList<ColorNode>();
-		levelorder(this.root, templist);
-		return templist.iterator();
-	}
-	
-	public void levelorder(ColorNode node, ArrayList<ColorNode> templist) {
-		Queue<ColorNode> queueOfnodes = new LinkedList<ColorNode>();
-		ColorNode current;
-		queueOfnodes.add(node);
-		while(! queueOfnodes.isEmpty()) {
-			current= queueOfnodes.remove();
-			templist.add(current);
-			if(current.hasChild()) {
-				for (int i=0; i<current.child.size();i++) {
-					queueOfnodes.add(current.child.get(i));
-				}
-			}
-		}
-		
-	}
 
 
 
@@ -105,25 +85,19 @@ public class Treelet implements Comparable<Treelet>{
 	}
 }
 
-/*  per convertire da numero binario a numero decimale
-public void given_binaryNumber_then_ConvertToDecimalNumber() {
-    assertEquals(8, Integer.parseInt("1000", 2));
-    assertEquals(20, Integer.parseInt("10100", 2));
-}
- */
+		/*
+		Iteratore che posso usare per scorrere la lista dei treelet arrivare all'ultimo e fare nuna qualche operazione
 
-/*
-public Treelet(ArrayList<Treelet> subtrees, ColorNode root) {
-		this.root= root;
-		this.size =1;
-		this.subtree= new ArrayList<Treelet>();
-		if (!subtrees.isEmpty()) {
-			for (Treelet x : subtrees) {
-				this.root.addChild(x.root);
-				subtree.add(x);
-				size=size+x.size;
-			}
-		}
+		Iterator<Treelet> itr = treelet.iterator() ;
 
-	}
- */
+
+		while(itr.hasNext()){
+
+
+			Treelet current = itr.next();
+			this.subtree.add(current.num);
+			this.root.addChild(current.root);
+			this.size += current.size;
+
+			if(!itr.hasNext()) this.beta=current.beta;
+		}*/
