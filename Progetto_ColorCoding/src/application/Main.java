@@ -61,9 +61,17 @@ public class Main {
 		subtree2.add(t4);
 		Treelet t5 = new Treelet(subtree2, c1);
 
+		Treelet t6 = new Treelet();
+		t6=t6.mergeTreelets(t4,t1);
+
+		//for(Integer x : t4.subtree)
+		//System.out.println(x);
+
+		System.out.println(t6.num);
+		System.out.println(t6.beta);
 
 
-				System.out.println(t5.beta);
+
 	}
 }
 
