@@ -12,12 +12,7 @@ public class Treelet implements Comparable<Treelet>{
 	public LinkedList<Integer> subtree = new LinkedList<Integer>();
 
 	//Cosruttore vuoto
-	public Treelet() {
-		this.root=new ColorNode();
-		this.size=0;
-		this.num=0;
-
-	}
+	public Treelet() { }
 
 	//Costruttore per un albero composto da un unico nodo
 	public Treelet(ColorNode root) {
@@ -54,6 +49,7 @@ public class Treelet implements Comparable<Treelet>{
 		return array;
 	}
 
+	//metodo per ottenere la stringa binaria chepoi caratterizza l'albero nella forma
 	public String binaryVisit (Treelet t){
 		ArrayList<Integer> binaryNum= new ArrayList<Integer>(16);
 		if(t.root.hasChild()) {
@@ -71,11 +67,13 @@ public class Treelet implements Comparable<Treelet>{
 		}
 		return binary;
 	}
-	
+
+	//metodo per determinare se l'albero ha elementi
 	public boolean isEmpty() {
 		return this.root==null;
 	}
-	
+
+	//metodo che mi restituisce l'insieme dei colori che caratterizza l'albero
 	public HashSet<Integer> colorSet(ColorNode x, HashSet<Integer> color){
 		color.add(x.color);
 		if(x.hasChild())
@@ -90,34 +88,36 @@ public class Treelet implements Comparable<Treelet>{
 	public Treelet mergeTreelets(Treelet t1, Treelet t2){
 		HashSet<Integer> color1 = new HashSet<Integer>();
 		HashSet<Integer> color2 = new HashSet<Integer>();
-		Treelet merge =t1;
+		Treelet merge = new Treelet();
 		color1 = colorSet(t1.root,color1);
 		color2 = colorSet(t2.root,color2);
 		HashSet<Integer> interColor = new HashSet<Integer>(color1);
 		interColor.retainAll(color2);
-		if( !interColor.isEmpty() ) System.out.println("I due alberi non possono essere uniti perchè hanno almeno un colore uguale");
-		else {
+		if( interColor.isEmpty() ) {
 			if (!t1.subtree.isEmpty()) {
 				if (t2.num >= t1.subtree.getLast()) {
+					merge=t1;
 					merge.root.addChild(t2.root);
 					merge.subtree.addLast(t2.num);
 					String binary = binaryVisit(merge);
 					merge.num = Integer.parseInt(binary, 2);
 					if (t1.subtree.getLast() == t2.num) merge.beta += 1;
-				}else System.out.println("errore la forma del secondo albero non permette di unirlo al primo");
+				}
 			} else {
 				if (t2.subtree.isEmpty()) {
+					merge=t1;
 					merge.root.addChild(t2.root);
 					merge.subtree.addLast(t2.num);
 					String binary = binaryVisit(merge);
 					merge.num = Integer.parseInt(binary, 2);
-				}else System.out.println("errore la forma del secondo albero non permette di unirlo al primo");
+				}
 
 			}
 		}
 		return merge;
 	}
 
+	//metodo per confrontare due alberi in base ai numeri
 	@Override
 	public int compareTo(Treelet treelet) {
 		String num1 = String.valueOf(this.num);

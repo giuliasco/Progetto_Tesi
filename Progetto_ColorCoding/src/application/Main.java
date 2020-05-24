@@ -3,12 +3,11 @@ import java.util.*;
 
 //import java.util.ArrayList;
 import application.building.*;
-import sun.reflect.generics.tree.Tree;
 
 public class Main {
 
 	public static void main(String[] args) {
-		/*int k = 2;
+		int k = 2;
 		ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>(6);
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
 		ArrayList<Integer> a2 = new ArrayList<Integer>();
@@ -39,10 +38,10 @@ public class Main {
 		adj.add(a5);
 		adj.add(a6);
 		Graph g2 = new Graph(adj);
-		g2.printAdjacencyList();*/
 
 
-		ColorNode c1= new ColorNode(1, 1);
+
+		/*ColorNode c1= new ColorNode(1, 1);
 		ColorNode c2= new ColorNode(2, 2);
 		ColorNode c3= new ColorNode(3, 3);
 		ColorNode c4= new ColorNode(4, 4);
@@ -62,14 +61,24 @@ public class Main {
 		Treelet t5 = new Treelet(subtree2, c1);
 
 		Treelet t6 = new Treelet();
-		t6=t6.mergeTreelets(t4,t1);
-
+		t6=t6.mergeTreelets(t5,t2);
+		/*if(!t6.isEmpty()){
+			System.out.println("l'unione ha avuto effetto");
+		}else System.out.println("l'albero è vuoto");*/
 		//for(Integer x : t4.subtree)
 		//System.out.println(x);
 
-		System.out.println(t6.num);
-		System.out.println(t6.beta);
+		//System.out.println(t6.root);
+		//System.out.println(t6.beta);
 
+		BuildClass build = new BuildClass();
+
+		build.optGraph(g2, k);
+
+		for (int v=0; v< g2.adj.size(); v++){
+
+			System.out.println(build.occVector.get(v));
+		}
 
 
 	}
