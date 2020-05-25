@@ -3,40 +3,103 @@ import java.util.*;
 
 //import java.util.ArrayList;
 import application.building.*;
+import sun.reflect.generics.tree.Tree;
 
 public class Main {
 
 	public static void main(String[] args) {
-		int k = 2;
+		int k = 4;
 		ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>(6);
+		ArrayList<Integer> a0 = new ArrayList<Integer>();
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
 		ArrayList<Integer> a2 = new ArrayList<Integer>();
 		ArrayList<Integer> a3 = new ArrayList<Integer>();
 		ArrayList<Integer> a4 = new ArrayList<Integer>();
 		ArrayList<Integer> a5 = new ArrayList<Integer>();
 		ArrayList<Integer> a6 = new ArrayList<Integer>();
-		a1.add(1);
+		ArrayList<Integer> a7 = new ArrayList<Integer>();
+		ArrayList<Integer> a8 = new ArrayList<Integer>();
+		a0.add(1);
+		a0.add(2);
+		a0.add(3);
+		a0.add(4);
+		a0.add(5);
+		a0.add(6);
+		a0.add(7);
+		a0.add(8);
+		a1.add(0);
+		a1.add(2);
+		a1.add(3);
+		a1.add(4);
 		a1.add(5);
+		a1.add(6);
+		a1.add(7);
+		a1.add(8);
+		a2.add(1);
 		a2.add(0);
-		a2.add(2);
+		a2.add(3);
+		a2.add(4);
 		a2.add(5);
+		a2.add(6);
+		a2.add(7);
+		a2.add(8);
 		a3.add(1);
-		a3.add(3);
+		a3.add(2);
+		a3.add(0);
 		a3.add(4);
+		a3.add(5);
+		a3.add(6);
+		a3.add(7);
+		a3.add(8);
+		a4.add(1);
 		a4.add(2);
-		a4.add(4);
+		a4.add(3);
+		a4.add(0);
+		a4.add(5);
+		a4.add(6);
+		a4.add(7);
+		a4.add(8);
+		a5.add(1);
 		a5.add(2);
 		a5.add(3);
-		a5.add(5);
-		a6.add(0);
+		a5.add(4);
+		a5.add(0);
+		a5.add(6);
+		a5.add(7);
+		a5.add(8);
 		a6.add(1);
+		a6.add(2);
+		a6.add(3);
+		a6.add(4);
 		a6.add(5);
+		a6.add(0);
+		a6.add(7);
+		a6.add(8);
+		a7.add(1);
+		a7.add(2);
+		a7.add(3);
+		a7.add(4);
+		a7.add(5);
+		a7.add(6);
+		a7.add(0);
+		a7.add(8);
+		a8.add(1);
+		a8.add(2);
+		a8.add(3);
+		a8.add(4);
+		a8.add(5);
+		a8.add(6);
+		a8.add(7);
+		a8.add(0);
+		adj.add(a0);
 		adj.add(a1);
 		adj.add(a2);
 		adj.add(a3);
 		adj.add(a4);
 		adj.add(a5);
 		adj.add(a6);
+		adj.add(a7);
+		adj.add(a8);
 		Graph g2 = new Graph(adj);
 
 
@@ -61,26 +124,26 @@ public class Main {
 		Treelet t5 = new Treelet(subtree2, c1);
 
 		Treelet t6 = new Treelet();
-		t6=t6.mergeTreelets(t5,t2);
+		t6=t6.mergeTreelets(t1,t2);
+		System.out.println(t1.num);
 		/*if(!t6.isEmpty()){
 			System.out.println("l'unione ha avuto effetto");
+			System.out.println(t1.num);
+			System.out.println(t6.num);
 		}else System.out.println("l'albero è vuoto");*/
 		//for(Integer x : t4.subtree)
 		//System.out.println(x);
 
 		//System.out.println(t6.root);
-		//System.out.println(t6.beta);
+		//System.out.println(t6.beta);*/
 
-		BuildClass build = new BuildClass();
 
-		build.optGraph(g2, k);
-
-		for (int v=0; v< g2.adj.size(); v++){
-
-			System.out.println(build.occVector.get(v));
+		//g2.printAdjacencyList();
+		LinkedList<LinkedList<Treelet>> prova = g2.optGraph(k);
+		for(int i =0; i<prova.size(); i++){
+			for (Treelet t: prova.get(i))
+				System.out.println(t.beta);
 		}
-
-
 	}
 }
 

@@ -43,9 +43,73 @@ public class Graph {
 			c[i] = (int) (Math.random() * k + 1);
 		return c;
 	}
-	//vedere se può essere utile un metodo che mi aggiunge un vertice
+
+	//stampare la lista di adiacenza
+	public void printAdjacencyList()
+	{
+		for (int i = 0; i < adj.size(); i++) {
+			System.out.println("Adjacency list of " + i);
+			for (int j = 0; j < adj.get(i).size(); j++) {
+				System.out.print(adj.get(i).get(j) + " ");
+			}
+			System.out.println();
+		}
+	}
 
 
+
+
+	public LinkedList<LinkedList <Treelet>> optGraph( int k) {
+		int occ;
+		int h=2;
+		LinkedList<HashMap<Integer, Integer>> occVector = new LinkedList<HashMap<Integer, Integer>>();
+		LinkedList<LinkedList<Treelet>> vectorTree = new LinkedList<LinkedList<Treelet>>();
+		LinkedList<LinkedList<Double>> betaOcc = new LinkedList<LinkedList<Double>>();
+		int[] color = this.colorGraph(k);
+		//per ogni vertice creiamo l'albero composto dal solo nodo con occorrenza 1;
+		for (int v = 0; v < this.V; v++) {
+			ColorNode node = new ColorNode(v, color[v]);
+			Treelet tree = new Treelet(node);
+			HashMap<Integer, Integer> opt = new HashMap<Integer, Integer>();
+			LinkedList<Treelet> treeSet= new LinkedList<Treelet>();
+			treeSet.add(tree);
+			vectorTree.add(treeSet);
+			occ=1;
+			opt.put(tree.num, occ);
+			occVector.add(opt);
+		}
+
+		//Parte dinamica
+		while(h <= k ) {
+			for (int v = 0; v < adj.size(); v++) {
+				LinkedList<Treelet> tmp = new LinkedList<Treelet>();
+				for (int u = 0; u < adj.get(v).size(); u++) {
+					int w = adj.get(v).get(u);
+					for (Treelet x : vectorTree.get(v)) {
+						for (Treelet y : vectorTree.get(w)) {
+							Treelet z = new Treelet();
+							if (x.size < h && y.size == (h - x.size))
+							z = z.mergeTreelets(x, y);
+							if (!z.isEmpty()) {
+								int occ1 = (occVector.get(v).get(x.num)) * (occVector.get(w).get(y.num));
+								occVector.get(v).put(z.num,+occ1);
+								tmp.add(z);
+							}
+						}
+						}
+				}
+				if(!tmp.isEmpty()){
+					for (Treelet let : tmp)
+						vectorTree.get(v).add(let);
+				}
+			}
+			h++;
+		}
+
+
+
+		return vectorTree;
+	}
 
 
 }
