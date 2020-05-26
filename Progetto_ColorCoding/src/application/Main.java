@@ -139,11 +139,12 @@ public class Main {
 
 
 		//g2.printAdjacencyList();
-		LinkedList<LinkedList<Treelet>> prova = g2.optGraph(k);
-		for(int i =0; i<prova.size(); i++){
-			for (Treelet t: prova.get(i))
-				System.out.println(t.beta);
-		}
+		LinkedList<HashMap<Integer, Long>> prova = g2.optGraph(k);
+
+		System.out.println(prova);
+
 	}
-}
+
+	}
+
 

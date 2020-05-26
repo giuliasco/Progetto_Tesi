@@ -96,19 +96,23 @@ public class Treelet implements Comparable<Treelet>{
 		if( interColor.isEmpty() ) {
 			if (!t1.subtree.isEmpty()) {
 				if (t2.num >= t1.subtree.getLast()) {
-					merge.root = t1.root;
+					ColorNode mergeRoot = new ColorNode(t1.root.data,t1.root.color);
+					merge.root = mergeRoot;
 					merge.root.addChild(t2.root);
-					merge.subtree = t1.subtree;
+					merge.subtree = new LinkedList<Integer>();
+					for(int i = 0 ; i<t1.subtree.size() ; i++) merge.subtree.addLast(t1.subtree.get(i));
 					merge.subtree.addLast(t2.num);
 					merge.size = t1.size + t2.size;
 					String binary = binaryVisit(merge);
 					merge.num = Integer.parseInt(binary, 2);
-					if (t1.subtree.getLast() == t2.num) merge.beta += t1.beta + 1;
+					if (t1.subtree.getLast() == t2.num) merge.beta = t1.beta + 1;
+					else merge.beta=t1.beta;
 				}
 			} else {
-					merge.root = t1.root;
+					ColorNode mergeRoot = new ColorNode(t1.root.data,t1.root.color);
+					merge.root = mergeRoot;
 					merge.root.addChild(t2.root);
-					merge.subtree = t1.subtree;
+					merge.subtree = new LinkedList<Integer>();
 					merge.subtree.addLast(t2.num);
 					merge.size = t1.size + t2.size;
 					String binary = binaryVisit(merge);

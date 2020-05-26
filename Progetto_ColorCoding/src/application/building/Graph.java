@@ -59,8 +59,7 @@ public class Graph {
 
 
 
-	public LinkedList<LinkedList <Treelet>> optGraph( int k) {
-		int occ;
+	public LinkedList<HashMap<Integer, Integer>> optGraph( int k) {
 		int h=2;
 		LinkedList<HashMap<Integer, Integer>> occVector = new LinkedList<HashMap<Integer, Integer>>();
 		LinkedList<LinkedList<Treelet>> vectorTree = new LinkedList<LinkedList<Treelet>>();
@@ -74,7 +73,7 @@ public class Graph {
 			LinkedList<Treelet> treeSet= new LinkedList<Treelet>();
 			treeSet.add(tree);
 			vectorTree.add(treeSet);
-			occ=1;
+			int occ=1;
 			opt.put(tree.num, occ);
 			occVector.add(opt);
 		}
@@ -83,16 +82,20 @@ public class Graph {
 		while(h <= k ) {
 			for (int v = 0; v < adj.size(); v++) {
 				LinkedList<Treelet> tmp = new LinkedList<Treelet>();
-				for (int u = 0; u < adj.get(v).size(); u++) {
+				for (Treelet x : vectorTree.get(v)) {
+					for (int u = 0; u < adj.get(v).size(); u++) {
 					int w = adj.get(v).get(u);
-					for (Treelet x : vectorTree.get(v)) {
 						for (Treelet y : vectorTree.get(w)) {
 							Treelet z = new Treelet();
 							if (x.size < h && y.size == (h - x.size))
 							z = z.mergeTreelets(x, y);
 							if (!z.isEmpty()) {
-								int occ1 = (occVector.get(v).get(x.num)) * (occVector.get(w).get(y.num));
-								occVector.get(v).put(z.num,+occ1);
+								int occ = (occVector.get(v).get(x.num)) * (occVector.get(w).get(y.num));
+								if(occVector.get(v).containsKey(z.num)) {
+									int occ1=occ + occVector.get(v).get(z.num);
+									occVector.get(v).put(z.num,occ1);
+								}else occVector.get(v).put(z.num,occ);
+
 								tmp.add(z);
 							}
 						}
@@ -106,9 +109,22 @@ public class Graph {
 			h++;
 		}
 
+		/*for(int v = 0; v<this.V ; v++) {
+			Double opt;
+			for (Treelet tree : vectorTree.get(v)){
+				if(tree.size == k){
+					String s1= String.valueOf(tree.beta);
+					Double beta= Double.valueOf(s1) ;
+					int occ1 =occVector.get(v).get(tree.num);
+					opt= occ1/beta;
+					System.out.println("Le occorrenze sul nodo " + v +" del treelet " + tree + "sono :   "  + opt  );
+				}
+			}
+		}*/
 
 
-		return vectorTree;
+
+		return occVector;
 	}
 
 
