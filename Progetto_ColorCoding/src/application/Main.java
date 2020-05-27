@@ -8,7 +8,7 @@ import sun.reflect.generics.tree.Tree;
 public class Main {
 
 	public static void main(String[] args) {
-		int k = 4;
+		int k = 5;
 		ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>(6);
 		ArrayList<Integer> a0 = new ArrayList<Integer>();
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
@@ -124,8 +124,8 @@ public class Main {
 		Treelet t5 = new Treelet(subtree2, c1);
 
 		Treelet t6 = new Treelet();
-		t6=t6.mergeTreelets(t1,t2);
-		System.out.println(t1.num);
+		t6=t6.mergeTreelets(t1,t4);
+		System.out.println(t6.color);
 		/*if(!t6.isEmpty()){
 			System.out.println("l'unione ha avuto effetto");
 			System.out.println(t1.num);
@@ -139,7 +139,7 @@ public class Main {
 
 
 		//g2.printAdjacencyList();
-		LinkedList<HashMap<Integer, Long>> prova = g2.optGraph(k);
+		LinkedList<HashMap<HashMap<Integer,HashSet<Integer>>, Integer>> prova = g2.optGraph(k);
 
 		System.out.println(prova);
 

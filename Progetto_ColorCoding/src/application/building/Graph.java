@@ -59,22 +59,24 @@ public class Graph {
 
 
 
-	public LinkedList<HashMap<Integer, Integer>> optGraph( int k) {
+	public LinkedList<HashMap<HashMap<Integer,HashSet<Integer>>, Integer>> optGraph( int k) {
 		int h=2;
-		LinkedList<HashMap<Integer, Integer>> occVector = new LinkedList<HashMap<Integer, Integer>>();
+		LinkedList<HashMap<HashMap<Integer,HashSet<Integer>>, Integer>> occVector = new LinkedList<HashMap<HashMap<Integer,HashSet<Integer>>, Integer>>();
 		LinkedList<LinkedList<Treelet>> vectorTree = new LinkedList<LinkedList<Treelet>>();
-		LinkedList<LinkedList<Double>> betaOcc = new LinkedList<LinkedList<Double>>();
+		//LinkedList<LinkedList<Double>> betaOcc = new LinkedList<LinkedList<Double>>();
 		int[] color = this.colorGraph(k);
 		//per ogni vertice creiamo l'albero composto dal solo nodo con occorrenza 1;
 		for (int v = 0; v < this.V; v++) {
 			ColorNode node = new ColorNode(v, color[v]);
 			Treelet tree = new Treelet(node);
-			HashMap<Integer, Integer> opt = new HashMap<Integer, Integer>();
+			HashMap<HashMap<Integer,HashSet<Integer>>, Integer> opt= new HashMap<HashMap<Integer,HashSet<Integer>>, Integer>();
+			HashMap<Integer,HashSet<Integer>> colorTree = new HashMap<Integer, HashSet<Integer>>();
 			LinkedList<Treelet> treeSet= new LinkedList<Treelet>();
 			treeSet.add(tree);
+			colorTree.put(tree.num, tree.color);
 			vectorTree.add(treeSet);
 			int occ=1;
-			opt.put(tree.num, occ);
+			opt.put(colorTree, occ);
 			occVector.add(opt);
 		}
 
@@ -87,16 +89,26 @@ public class Graph {
 					int w = adj.get(v).get(u);
 						for (Treelet y : vectorTree.get(w)) {
 							Treelet z = new Treelet();
-							if (x.size < h && y.size == (h - x.size))
-							z = z.mergeTreelets(x, y);
-							if (!z.isEmpty()) {
-								int occ = (occVector.get(v).get(x.num)) * (occVector.get(w).get(y.num));
-								if(occVector.get(v).containsKey(z.num)) {
-									int occ1=occ + occVector.get(v).get(z.num);
-									occVector.get(v).put(z.num,occ1);
-								}else occVector.get(v).put(z.num,occ);
-
-								tmp.add(z);
+							if (x.size < h && y.size == (h - x.size)) {
+								HashSet<Integer> interColor = new HashSet<Integer>(x.color);
+								interColor.retainAll(y.color);
+								if (interColor.isEmpty()) {
+									z = z.mergeTreelets(x, y);
+									if (!z.isEmpty()) {
+										HashMap<Integer, HashSet<Integer>> map1 = new HashMap<Integer, HashSet<Integer>>();
+										HashMap<Integer, HashSet<Integer>> map2 = new HashMap<Integer, HashSet<Integer>>();
+										HashMap<Integer, HashSet<Integer>> map3 = new HashMap<Integer, HashSet<Integer>>();
+										map1.put(z.num, z.color);
+										map2.put(x.num, x.color);
+										map3.put(y.num, y.color);
+										int occ = (occVector.get(v).get(map2)) * (occVector.get(w).get(map3));
+										if (occVector.get(v).containsKey(map1)) {
+											occ += occ;
+										}
+										occVector.get(v).put(map1, occ);
+										tmp.add(z);
+									}
+								}
 							}
 						}
 						}

@@ -10,7 +10,7 @@ public class Treelet implements Comparable<Treelet>{
 	public ColorNode root;
 	public int size ,num, beta;
 	public LinkedList<Integer> subtree = new LinkedList<Integer>();
-
+	public HashSet<Integer> color= new HashSet<Integer>();
 	//Cosruttore vuoto
 	public Treelet() { }
 
@@ -20,6 +20,7 @@ public class Treelet implements Comparable<Treelet>{
 		this.size=1;
 		this.num=0;
 		this.beta=1;
+		this.color=colorSet(root, color);
 	}
 
 	//costruttore di un albero composto da più nodi
@@ -35,6 +36,7 @@ public class Treelet implements Comparable<Treelet>{
 		}
 			String binary = binaryVisit(this);
 			this.num = Integer.parseInt(binary, 2);
+			this.color=colorSet(root, color);
 	}
 
 	//metodo ricorsivo utilizzato per la visita dell'albero che mi permette di generare il numero che caratterizza ogni albero
@@ -86,13 +88,10 @@ public class Treelet implements Comparable<Treelet>{
 
 	//metodo che mi permette di unire due alberi secondo le giuste proprietà
 	public Treelet mergeTreelets(Treelet t1, Treelet t2){
-		HashSet<Integer> color1 = new HashSet<Integer>();
-		HashSet<Integer> color2 = new HashSet<Integer>();
+
 		Treelet merge = new Treelet();
-		color1 = colorSet(t1.root,color1);
-		color2 = colorSet(t2.root,color2);
-		HashSet<Integer> interColor = new HashSet<Integer>(color1);
-		interColor.retainAll(color2);
+		HashSet<Integer> interColor = new HashSet<Integer>(t1.color);
+		interColor.retainAll(t2.color);
 		if( interColor.isEmpty() ) {
 			if (!t1.subtree.isEmpty()) {
 				if (t2.num >= t1.subtree.getLast()) {
@@ -103,6 +102,7 @@ public class Treelet implements Comparable<Treelet>{
 					for(int i = 0 ; i<t1.subtree.size() ; i++) merge.subtree.addLast(t1.subtree.get(i));
 					merge.subtree.addLast(t2.num);
 					merge.size = t1.size + t2.size;
+					merge.color=colorSet(merge.root, merge.color);
 					String binary = binaryVisit(merge);
 					merge.num = Integer.parseInt(binary, 2);
 					if (t1.subtree.getLast() == t2.num) merge.beta = t1.beta + 1;
@@ -115,6 +115,7 @@ public class Treelet implements Comparable<Treelet>{
 					merge.subtree = new LinkedList<Integer>();
 					merge.subtree.addLast(t2.num);
 					merge.size = t1.size + t2.size;
+					merge.color=colorSet(merge.root, merge.color);
 					String binary = binaryVisit(merge);
 					merge.num = Integer.parseInt(binary, 2);
 					merge.beta = t1.beta;
@@ -132,6 +133,8 @@ public class Treelet implements Comparable<Treelet>{
 		String num2 = String.valueOf(treelet.num);
 		return num1.compareTo(num2);
 	}
+
+
 }
 
 		/*
