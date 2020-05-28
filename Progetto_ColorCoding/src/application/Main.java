@@ -139,9 +139,16 @@ public class Main {
 
 
 		//g2.printAdjacencyList();
-		LinkedList<HashMap<HashMap<Integer,HashSet<Integer>>, Integer>> prova = g2.optGraph(k);
+		//LinkedList<HashMap<HashMap<Integer,HashSet<Integer>>, Integer>> prova = g2.optGraph(k);
+		Building b=new Building();
+		b.optGraph(g2,k);
+		b.setBetaTable();
+		for(int i=0 ; i<g2.V ; i++) {
+			System.out.println("La tabella per il nodo   " + i + "  è   " + b.betaTable.get(i));
 
-		System.out.println(prova);
+		}
+
+
 
 	}
 

@@ -88,41 +88,27 @@ public class Treelet implements Comparable<Treelet>{
 
 	//metodo che mi permette di unire due alberi secondo le giuste proprietà
 	public Treelet mergeTreelets(Treelet t1, Treelet t2){
-
 		Treelet merge = new Treelet();
-		HashSet<Integer> interColor = new HashSet<Integer>(t1.color);
-		interColor.retainAll(t2.color);
-		if( interColor.isEmpty() ) {
-			if (!t1.subtree.isEmpty()) {
-				if (t2.num >= t1.subtree.getLast()) {
 					ColorNode mergeRoot = new ColorNode(t1.root.data,t1.root.color);
 					merge.root = mergeRoot;
+					if(!t1.root.child.isEmpty()) {
+						for (int j = 0; j<t1.root.child.size() ; j++)
+						merge.root.child.add(t1.root.child.get(j));
+					}
 					merge.root.addChild(t2.root);
+					int size1 = t1.size;
+					int size2 = t2.size;
+					merge.size = size1 + size2;
 					merge.subtree = new LinkedList<Integer>();
-					for(int i = 0 ; i<t1.subtree.size() ; i++) merge.subtree.addLast(t1.subtree.get(i));
+					if (!t1.subtree.isEmpty()) {
+					for(int i = 0 ; i<t1.subtree.size() ; i++) merge.subtree.addLast(t1.subtree.get(i));}
 					merge.subtree.addLast(t2.num);
-					merge.size = t1.size + t2.size;
 					merge.color=colorSet(merge.root, merge.color);
 					String binary = binaryVisit(merge);
 					merge.num = Integer.parseInt(binary, 2);
-					if (t1.subtree.getLast() == t2.num) merge.beta = t1.beta + 1;
-					else merge.beta=t1.beta;
-				}
-			} else {
-					ColorNode mergeRoot = new ColorNode(t1.root.data,t1.root.color);
-					merge.root = mergeRoot;
-					merge.root.addChild(t2.root);
-					merge.subtree = new LinkedList<Integer>();
-					merge.subtree.addLast(t2.num);
-					merge.size = t1.size + t2.size;
-					merge.color=colorSet(merge.root, merge.color);
-					String binary = binaryVisit(merge);
-					merge.num = Integer.parseInt(binary, 2);
-					merge.beta = t1.beta;
-				}
-
-			}
-
+					int beta = t1.beta;
+					if (!t1.subtree.isEmpty() && t1.subtree.getLast() == t2.num) merge.beta = beta + 1;
+					else merge.beta=beta;
 		return merge;
 	}
 
