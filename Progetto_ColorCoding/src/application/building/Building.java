@@ -74,8 +74,8 @@ public class Building {
             }
             h++;
         }
-        //Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
-        //System.out.println("fine programmazione dinamica " + timestamp1);
+        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
+        System.out.println("fine programmazione dinamica " + timestamp1);
     }
    /* public void setBetaTable(){
         for (int v=0;v<vectorTree.size() ; v++){

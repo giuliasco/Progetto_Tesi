@@ -39,30 +39,29 @@ public class Treelet{
 	}
 
 	//metodo ricorsivo utilizzato per la visita dell'albero che mi permette di generare il numero che caratterizza ogni albero
-	public ArrayList<Integer> Visit(ColorNode x, ArrayList<Integer> array) {
+	public LinkedList<Integer> Visit(ColorNode x, LinkedList<Integer> list) {
 		if (x.hasChild()) {
 			for (ColorNode c : x.child) {
-				array.add(1);
-				Visit(c, array);
+				list.addLast(1);
+				Visit(c, list);
 			}
+
 		}
-		array.add(0);
-		return array;
+		list.addLast(0);
+		return list;
 	}
 
 	//metodo per ottenere la stringa binaria chepoi caratterizza l'albero nella forma
 	public String binaryVisit (Treelet t){
-		ArrayList<Integer> binaryNum= new ArrayList<Integer>(31);
+		LinkedList<Integer> binaryNum= new LinkedList<Integer>();
 		if(t.root.hasChild()) {
 			binaryNum = Visit(t.root, binaryNum);
 		}
 
-		while ( binaryNum.size() <31){
-			binaryNum.add(0);
-		}
+
 
 		String binary = new String() ;
-		for (int i = 0 ; i<31 ; i++) {
+		for (int i = 0 ; i< binaryNum.size()-1 ; i++) {
 			String s = String.valueOf(binaryNum.get(i));
 			binary += s;
 		}

@@ -8,7 +8,7 @@ import sun.reflect.generics.tree.Tree;
 public class Main {
 
 	public static void main(String[] args) {
-		int k = 9;
+		/*int k = 7;
 		ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>(6);
 		ArrayList<Integer> a0 = new ArrayList<Integer>();
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
@@ -100,11 +100,11 @@ public class Main {
 		adj.add(a6);
 		adj.add(a7);
 		adj.add(a8);
-		Graph g2 = new Graph(adj);
+		Graph g2 = new Graph(adj);*/
 
 
 
-		/*ColorNode c1= new ColorNode(1, 1);
+		ColorNode c1= new ColorNode(1, 1);
 		ColorNode c2= new ColorNode(2, 2);
 		ColorNode c3= new ColorNode(3, 3);
 		ColorNode c4= new ColorNode(3, 4);
@@ -120,11 +120,11 @@ public class Main {
 		subtree2.add(t1);
 		subtree2.add(t4);
 		Treelet t5 = new Treelet(subtree2, c1);
-
-		System.out.println("L'hash code di t1 è  "+t1.hashCode());
+		System.out.println(t5.num);
+		/*System.out.println("L'hash code di t1 è  "+t1.hashCode());
 		System.out.println("L'hash code di t2 è  "+t2.hashCode());
 		System.out.println("L'hash code di t3 è  "+t3.hashCode());
-		System.out.println(t5.hashCode());
+		System.out.println(t5.hashCode());*/
 		/*System.out.println("L'hash code di t5 è  "+t6.hashCode());
 		System.out.println("Colori code di t5 è  "+t5.color.hashCode());
 		System.out.println("L'hash code di t6 è  "+t6.hashCode());
@@ -143,13 +143,13 @@ public class Main {
 
 		//g2.printAdjacencyList();
 		//LinkedList<HashMap<HashMap<Integer,HashSet<Integer>>, Integer>> prova = g2.optGraph(k);
-		Building b=new Building();
+		/*Building b=new Building();
 		b.optGraph(g2,k);
 
 		for(int i=0 ; i<g2.V ; i++) {
 			System.out.println("La tabella per il nodo   " + i + "  è   " + b.table.get(i));
 
-		}
+		}*/
 
 
 

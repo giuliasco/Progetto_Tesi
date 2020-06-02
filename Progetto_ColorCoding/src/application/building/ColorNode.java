@@ -35,7 +35,7 @@ public class ColorNode {
 
 	//metodo che mi permette di vedere se il grafo figli
 	public boolean hasChild() {
-		return this.child!=null;
+		return this.child.size()>0;
 	}
 	
 	
