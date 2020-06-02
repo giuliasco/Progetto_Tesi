@@ -8,7 +8,7 @@ import sun.reflect.generics.tree.Tree;
 public class Main {
 
 	public static void main(String[] args) {
-		int k = 5;
+		int k = 9;
 		ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>(6);
 		ArrayList<Integer> a0 = new ArrayList<Integer>();
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
@@ -107,8 +107,8 @@ public class Main {
 		/*ColorNode c1= new ColorNode(1, 1);
 		ColorNode c2= new ColorNode(2, 2);
 		ColorNode c3= new ColorNode(3, 3);
-		ColorNode c4= new ColorNode(4, 4);
-		ColorNode c5= new ColorNode(5, 5);
+		ColorNode c4= new ColorNode(3, 4);
+		ColorNode c5= new ColorNode(3, 5);
 		Treelet t1=new Treelet(c5);
 		Treelet t2= new Treelet(c3);
 		Treelet t3= new Treelet(c4);
@@ -117,15 +117,18 @@ public class Main {
 		subtree1.add(t2);
 		subtree1.add(t3);
 		Treelet t4 = new Treelet(subtree1, c2);
-
-
 		subtree2.add(t1);
 		subtree2.add(t4);
 		Treelet t5 = new Treelet(subtree2, c1);
 
-		Treelet t6 = new Treelet();
-		t6=t6.mergeTreelets(t1,t4);
-		System.out.println(t6.color);
+		System.out.println("L'hash code di t1 è  "+t1.hashCode());
+		System.out.println("L'hash code di t2 è  "+t2.hashCode());
+		System.out.println("L'hash code di t3 è  "+t3.hashCode());
+		System.out.println(t5.hashCode());
+		/*System.out.println("L'hash code di t5 è  "+t6.hashCode());
+		System.out.println("Colori code di t5 è  "+t5.color.hashCode());
+		System.out.println("L'hash code di t6 è  "+t6.hashCode());
+		System.out.println("Colori di t6 è  "+t6.color.hashCode());*/
 		/*if(!t6.isEmpty()){
 			System.out.println("l'unione ha avuto effetto");
 			System.out.println(t1.num);
@@ -142,9 +145,9 @@ public class Main {
 		//LinkedList<HashMap<HashMap<Integer,HashSet<Integer>>, Integer>> prova = g2.optGraph(k);
 		Building b=new Building();
 		b.optGraph(g2,k);
-		b.setBetaTable();
+
 		for(int i=0 ; i<g2.V ; i++) {
-			System.out.println("La tabella per il nodo   " + i + "  è   " + b.betaTable.get(i));
+			System.out.println("La tabella per il nodo   " + i + "  è   " + b.table.get(i));
 
 		}
 
