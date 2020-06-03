@@ -8,7 +8,38 @@ import sun.reflect.generics.tree.Tree;
 public class Main {
 
 	public static void main(String[] args) {
-		/*int k = 7;
+		int k = 5;
+		ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>(6);
+		ArrayList<Integer> a0 = new ArrayList<Integer>();
+		ArrayList<Integer> a1 = new ArrayList<Integer>();
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		ArrayList<Integer> a3 = new ArrayList<Integer>();
+		ArrayList<Integer> a4 = new ArrayList<Integer>();
+		ArrayList<Integer> a5 = new ArrayList<Integer>();
+		a0.add(1);
+		a0.add(5);
+		a1.add(0);
+		a1.add(2);
+		a1.add(5);
+		a2.add(1);
+		a2.add(3);
+		a2.add(4);
+		a3.add(4);
+		a4.add(2);
+		a4.add(3);
+		a4.add(5);
+		a5.add(1);
+		a5.add(4);
+		a5.add(0);
+		adj.add(a0);
+		adj.add(a1);
+		adj.add(a2);
+		adj.add(a3);
+		adj.add(a4);
+		adj.add(a5);
+		Graph g2 = new Graph(adj);
+
+		/*int k = 10;
 		ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>(6);
 		ArrayList<Integer> a0 = new ArrayList<Integer>();
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
@@ -102,25 +133,44 @@ public class Main {
 		adj.add(a8);
 		Graph g2 = new Graph(adj);*/
 
-
-
-		ColorNode c1= new ColorNode(1, 1);
+		/*ColorNode c1= new ColorNode(1, 1);
 		ColorNode c2= new ColorNode(2, 2);
 		ColorNode c3= new ColorNode(3, 3);
-		ColorNode c4= new ColorNode(3, 4);
-		ColorNode c5= new ColorNode(3, 5);
-		Treelet t1=new Treelet(c5);
-		Treelet t2= new Treelet(c3);
-		Treelet t3= new Treelet(c4);
-		ArrayList<Treelet> subtree1 = new ArrayList<Treelet>();
-		ArrayList<Treelet> subtree2 = new ArrayList<Treelet>();
-		subtree1.add(t2);
-		subtree1.add(t3);
-		Treelet t4 = new Treelet(subtree1, c2);
-		subtree2.add(t1);
-		subtree2.add(t4);
-		Treelet t5 = new Treelet(subtree2, c1);
-		System.out.println(t5.num);
+		ColorNode c4= new ColorNode(4, 4);
+		ColorNode c5= new ColorNode(5, 5);
+		Treelet t1=new Treelet(c1);
+		Treelet t2= new Treelet(c2);
+		Treelet t3= new Treelet(c3);
+		Treelet t4 = new Treelet(c4);
+		Treelet t5 = new Treelet(c5);
+		t2= t2.mergeTreelets(t2,t3);
+		t2=t2.mergeTreelets(t2,t4);
+		t1=t1.mergeTreelets(t1,t5);
+		t1=t1.mergeTreelets(t1,t2);
+
+
+		ColorNode c6= new ColorNode(1, 1);
+		ColorNode c7= new ColorNode(7, 2);
+		ColorNode c8= new ColorNode(8, 4);
+		ColorNode c9= new ColorNode(9, 3);
+		ColorNode c10= new ColorNode(6, 5);
+		Treelet t6=new Treelet(c6);
+		Treelet t7= new Treelet(c7);
+		Treelet t8= new Treelet(c8);
+		Treelet t9 = new Treelet(c9);
+		Treelet t10 = new Treelet(c10);
+		t7= t7.mergeTreelets(t7,t8);
+		t7=t7.mergeTreelets(t7,t9);
+		t6=t6.mergeTreelets(t6,t10);
+		t6=t6.mergeTreelets(t6,t7);
+		System.out.println("  t1  " +t1.hashCode());
+		System.out.println("  t6  "+t6.hashCode());*/
+
+
+		//Treelet t4 = new Treelet(subtree1, c2);
+
+		//Treelet t5 = new Treelet(subtree2, c1);
+		//System.out.println(t5.num);
 		/*System.out.println("L'hash code di t1 è  "+t1.hashCode());
 		System.out.println("L'hash code di t2 è  "+t2.hashCode());
 		System.out.println("L'hash code di t3 è  "+t3.hashCode());
@@ -143,13 +193,13 @@ public class Main {
 
 		//g2.printAdjacencyList();
 		//LinkedList<HashMap<HashMap<Integer,HashSet<Integer>>, Integer>> prova = g2.optGraph(k);
-		/*Building b=new Building();
+		Building b=new Building();
 		b.optGraph(g2,k);
 
 		for(int i=0 ; i<g2.V ; i++) {
 			System.out.println("La tabella per il nodo   " + i + "  è   " + b.table.get(i));
 
-		}*/
+		}
 
 
 

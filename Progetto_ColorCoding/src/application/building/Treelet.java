@@ -23,20 +23,7 @@ public class Treelet{
 		this.color=colorSet(root, color);
 	}
 
-	//costruttore di un albero composto da più nodi
-	public Treelet (ArrayList<Treelet> treelet , ColorNode root ){
-		this.root = root;
-		this.size=1;
-		this.beta=1;
-		for (Treelet t : treelet){
-			this.subtree.addLast(t.num);
-			this.root.addChild(t.root);
-			this.size += t.size;
-		}
-			String binary = binaryVisit(this);
-			this.num = Integer.parseInt(binary, 2);
-			this.color=colorSet(root, color);
-	}
+
 
 	//metodo ricorsivo utilizzato per la visita dell'albero che mi permette di generare il numero che caratterizza ogni albero
 	public LinkedList<Integer> Visit(ColorNode x, LinkedList<Integer> list) {
@@ -68,10 +55,6 @@ public class Treelet{
 		return binary;
 	}
 
-	//metodo per determinare se l'albero ha elementi
-	public boolean isEmpty() {
-		return this.root==null;
-	}
 
 	//metodo che mi restituisce l'insieme dei colori che caratterizza l'albero
 	public HashSet<Integer> colorSet(ColorNode x, HashSet<Integer> color){
@@ -103,8 +86,6 @@ public class Treelet{
 					merge.subtree.addLast(t2.num);
 					merge.color=colorSet(merge.root, merge.color);
 					String binary = binaryVisit(merge);
-
-
 					merge.num = Integer.parseInt(binary, 2);
 					int beta = t1.beta;
 					if (!t1.subtree.isEmpty() && t1.subtree.getLast() == t2.num) merge.beta = beta + 1;
@@ -112,11 +93,23 @@ public class Treelet{
 		return merge;
 	}
 
+	@Override
+	public String toString() {
+		String s = String.valueOf(hashCode());
+		return s;
+	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o==null) return false;
+		if(!(o instanceof Treelet)) return false;
+		Treelet t= (Treelet) o;
+		return this.toString().equals(t.toString());
+	}
 
 	@Override
 	public int hashCode() {
-		return this.num+this.color.hashCode();
+		return this.num + this.color.hashCode();
 	}
 }
 

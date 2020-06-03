@@ -50,16 +50,18 @@ public class Building {
                                         if (x.subtree.isEmpty() || x.subtree.getLast() <= y.num) {
                                             Treelet z = new Treelet();
                                             z = z.mergeTreelets(x, y);
-                                            int occ;
-                                            if (!table.get(u).containsKey(z.hashCode())) {
-                                                occ = 1;
-                                            }else {
-                                                occ = table.get(u).get(z.hashCode());
-                                                occ += 1;
-                                            }
 
-                                            table.get(u).put(z.hashCode(), occ);
-                                            tmp.add(z);
+                                                int occ;
+                                                if (!table.get(u).containsKey(z.hashCode())) {
+                                                    occ = table.get(u).get(x.hashCode()) * table.get(v).get(y.hashCode());
+                                                } else {
+                                                    occ = table.get(u).get(z.hashCode());
+                                                    occ += table.get(u).get(x.hashCode()) * table.get(v).get(y.hashCode());
+                                                }
+                                                table.get(u).put(z.hashCode(), occ);
+                                            if (!tmp.contains(z)) {
+                                                tmp.add(z);
+                                            }
                                         }
                                     }
                                 }
@@ -77,18 +79,6 @@ public class Building {
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
         System.out.println("fine programmazione dinamica " + timestamp1);
     }
-   /* public void setBetaTable(){
-        for (int v=0;v<vectorTree.size() ; v++){
-            HashMap<HashMap<Integer,HashSet<Integer>>,Double> betaMap = new HashMap<HashMap<Integer, HashSet<Integer>>, Double>();
-            for ( Treelet t : vectorTree.get(v)){
-                Double d ;
-                HashMap<Integer,HashSet<Integer>> map = new HashMap<Integer, HashSet<Integer>>();
-                map.put(t.num,t.color);
-                d = Double.valueOf(table.get(v).get(map))/Double.valueOf(t.beta);
-                betaMap.put(map,d);
-               // betaTable.add(betaMap);
-            }
-        }
-    }*/
+
 
 }
