@@ -6,17 +6,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-public class Building {
+public class Table {
     public ArrayList<HashMap<Integer, Integer>> table = new ArrayList<HashMap<Integer, Integer>>();
     public ArrayList<ArrayList<Treelet>> vectorTree = new ArrayList<ArrayList<Treelet>>();
     public ArrayList<HashMap<Integer,Double>> betaTable = new ArrayList<HashMap<Integer, Double>>();
-    public Building(){};
+    public Table(){};
 
     public void optGraph(Graph graph, int k) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         System.out.println("inizio programmazione dinamica " + timestamp);
         int h = 2;
-        int[] color = graph.colorGraph(k);
+        int[] color = {2,1,3,1,2,2};//graph.colorGraph(k);
         //inizializzazione della table con i treelet di un solo nodo
         for (int v = 0; v < graph.V; v++) {
             ColorNode node = new ColorNode(v, color[v]);
@@ -78,6 +78,24 @@ public class Building {
         }
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
         System.out.println("fine programmazione dinamica " + timestamp1);
+
+        Timestamp timestamp2 = new Timestamp(System.currentTimeMillis());
+        System.out.println("creazione tabella normalizzata " + timestamp2);
+
+        for(int v=0;v<table.size();v++){
+            HashMap <Integer,Double> norm = new HashMap<Integer, Double>();
+            for(Integer x : table.get(v).keySet()){
+                for(Treelet t : vectorTree.get(v)){
+                    if(t.hashCode() == x){
+                        Double d= Double.valueOf(table.get(v).get(x))/Double.valueOf(t.beta) ;
+                        norm.put(x,d);
+
+                    }
+                }
+            }
+            betaTable.add(norm);
+        }
+
     }
 
 

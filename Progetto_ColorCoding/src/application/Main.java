@@ -3,7 +3,6 @@ import java.util.*;
 
 //import java.util.ArrayList;
 import application.building.*;
-import sun.reflect.generics.tree.Tree;
 
 public class Main {
 
@@ -193,18 +192,25 @@ public class Main {
 
 		//g2.printAdjacencyList();
 		//LinkedList<HashMap<HashMap<Integer,HashSet<Integer>>, Integer>> prova = g2.optGraph(k);
-		Building b=new Building();
+		Table b=new Table();
 		b.optGraph(g2,k);
 
-		for(int i=0 ; i<g2.V ; i++) {
-			System.out.println("La tabella per il nodo   " + i + "  è   " + b.table.get(i));
 
+			System.out.println("La tabella per il nodo   " + 2 + "  è   " + b.table.get(2));
+			for (Treelet t : b.vectorTree.get(2))
+				System.out.println("il beta per l'albero " + t.hashCode() + " è " + t.beta);
+
+			System.out.println("La tabella normalizzata per il nodo   " + 2 + "  è   " + b.betaTable.get(2));
+			/*Double d = 3.0;
+			Double c= 6.0;
+			Double h= d/c;
+			System.out.println(h);*/
 		}
 
 
 
 	}
 
-	}
+
 
 
