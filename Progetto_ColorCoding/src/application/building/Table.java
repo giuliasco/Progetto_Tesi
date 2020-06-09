@@ -16,7 +16,7 @@ public class Table {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         System.out.println("inizio programmazione dinamica " + timestamp);
         int h = 2;
-        int[] color = {2,1,3,1,2,2};//graph.colorGraph(k);
+        int[] color = graph.colorGraph(k);
         //inizializzazione della table con i treelet di un solo nodo
         for (int v = 0; v < graph.V; v++) {
             ColorNode node = new ColorNode(v, color[v]);

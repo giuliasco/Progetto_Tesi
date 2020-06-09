@@ -2,6 +2,9 @@ package application.building;
 
 import sun.reflect.generics.tree.Tree;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class Graph {
@@ -10,7 +13,7 @@ public class Graph {
 
 	//costruttore vuoto
 	public Graph() {
-		adj = null;
+		adj = new ArrayList<ArrayList<Integer>>();
 		V = 0;
 	}
 
@@ -33,6 +36,25 @@ public class Graph {
 	public void addEdge(int u, int v) {
 		adj.get(u).add(v);
 		adj.get(v).add(u);
+	}
+
+	public void graphByFile(String s ){
+		String line = "";
+		String splitBy = ",";
+		try (BufferedReader br = new BufferedReader(new FileReader(s))){
+			while((line=br.readLine()) != null){
+				String[] edge = line.split(splitBy);
+
+				if (edge[0] != null && !edge[0].isEmpty() && edge[1] != null && !edge[1].isEmpty() ){
+					int u = Integer.parseInt(edge[0]);
+					int w = Integer.parseInt(edge[1]);
+					this.addEdge(u,w);
+				}
+			}
+		}catch(IOException e) {
+			e.printStackTrace();
+      	}
+
 	}
 
 	//metodo per colorare il grafo
