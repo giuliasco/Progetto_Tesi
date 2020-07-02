@@ -12,11 +12,11 @@ public class Table {
     public ArrayList<HashMap<Integer,Double>> betaTable = new ArrayList<HashMap<Integer, Double>>();
     public Table(){};
 
-    public void optGraph(Graph graph, int k) {
+    public void optGraph(Graph graph,int c, int k) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         System.out.println("inizio programmazione dinamica " + timestamp);
         int h = 2;
-        int[] color = graph.colorGraph(k);
+        int[] color = graph.colorGraph(c);
         //inizializzazione della table con i treelet di un solo nodo
         for (int v = 0; v < graph.V; v++) {
             ColorNode node = new ColorNode(v, color[v]);
