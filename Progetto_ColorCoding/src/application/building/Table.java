@@ -16,7 +16,8 @@ public class Table {
             HashMap<Treelet,Integer> occ = new HashMap<Treelet,Integer>();  //da rivedere perchè deve partire dall'uno per la dimensione non dallo zero trovare una soluzione
             occ.put(tree,1);
             Vector<HashMap<Treelet,Integer>> vectorTree = new Vector<HashMap<Treelet, Integer>>(k);
-            vectorTree.add(occ);
+            vectorTree.add(null);
+            vectorTree.add(1,occ);
             table.add(vectorTree);
         }
 
@@ -37,8 +38,11 @@ public class Table {
                                        int H = 0 ;
                                        H += table.get(u).get(j).get(t1) * table.get(v).get(h-j).get(t2);
                                        HashMap<Treelet, Integer> map = new HashMap<Treelet, Integer>();
-                                       table.get(u).get(h).put(t3,H);
-
+                                       map.put(t3,H);
+                                       if(!table.get(u).get(h).isEmpty()){
+                                           table.get(u).add(h,map);
+                                       }
+                                       table.get(u).add(map);
                                        }
                                    }
                                }

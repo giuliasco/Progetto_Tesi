@@ -40,18 +40,18 @@ public class Main {
 			HashMap<Integer, Integer> culo = new HashMap<Integer, Integer>();
 			culo.put(i,i);
 			Vector<HashMap<Integer,Integer>> cazzi = new Vector<HashMap<Integer, Integer>>(4);
+			cazzi.add(null);
 			cazzi.add(1,culo);
 			prova.add(cazzi);
 		}
-		/*HashMap<Integer,Integer> cazzini = new HashMap<Integer, Integer>();
+		HashMap<Integer,Integer> cazzini = new HashMap<Integer, Integer>();
 		cazzini.put(2,2);
 
-		prova.get(h).add(cazzini);*/
+		prova.get(1).add(h,cazzini);
 
-		System.out.println(prova.get(3).get(1));
+		System.out.println(prova.get(1).get(h));
 
 	}
-
 	}
 
 
