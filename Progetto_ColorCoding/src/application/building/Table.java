@@ -1,13 +1,54 @@
 package application.building;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Table {
-    public ArrayList<HashMap<Integer, Integer>> table = new ArrayList<HashMap<Integer, Integer>>();
+
+    Vector<Vector<HashMap<Treelet, Integer>>> table = new Vector<Vector<HashMap<Treelet, Integer>>>();
+    public Table(){};
+    public void optGraph (Graph graph, int c, int k){
+        int h=2;
+        int[] color = graph.colorGraph(c);
+        for (int v=0; v<graph.V; v++){
+            ColorNode node = new ColorNode(v,color[v]);
+            Treelet tree = new Treelet(node);
+            HashMap<Treelet,Integer> occ = new HashMap<Treelet,Integer>();  //da rivedere perchè deve partire dall'uno per la dimensione non dallo zero trovare una soluzione
+            occ.put(tree,1);
+            Vector<HashMap<Treelet,Integer>> vectorTree = new Vector<HashMap<Treelet, Integer>>(k);
+            vectorTree.add(occ);
+            table.add(vectorTree);
+        }
+
+        while (h<=k){
+            //prendo l'arco uv
+            for (int u = 0; u < graph.V; u++) {
+                for (int i = 0; i < graph.adj.get(u).size(); i++) {
+                    int v = graph.adj.get(u).get(i);
+                   for (int j=1 ; j<k ; j++){
+                       for (Treelet t1 : table.get(u).get(j).keySet()){
+                           for(Treelet t2 : table.get(v).get(h-j).keySet()){
+                               HashSet<Integer> interColor = new HashSet<Integer>(t1.color);
+                               interColor.retainAll(t2.color);
+                               if(interColor.isEmpty()){
+                                   if (t1.subtree.isEmpty() || t1.subtree.getLast() <= t2.num) {
+                                       Treelet t3 = new Treelet();
+                                       t3 = t3.mergeTreelets(t1, t2);
+                                       int H = 0 ;
+                                       H += table.get(u).get(j).get(t1) * table.get(v).get(h-j).get(t2);
+                                       HashMap<Treelet, Integer> map = new HashMap<Treelet, Integer>();
+                                       table.get(u).get(h).put(t3,H);
+
+                                       }
+                                   }
+                               }
+                           }
+                       }
+                   }
+                }
+        }
+    }
+    /*public ArrayList<HashMap<Integer, Integer>> table = new ArrayList<HashMap<Integer, Integer>>();
     public ArrayList<ArrayList<Treelet>> vectorTree = new ArrayList<ArrayList<Treelet>>();
     public ArrayList<HashMap<Integer,Double>> betaTable = new ArrayList<HashMap<Integer, Double>>();
     public Table(){};
@@ -47,7 +88,7 @@ public class Table {
                                         però per poter effettuare l'unione devo controllare che la forma dell'ultimo figlio di x sia "minore o uguale"
                                         alla forma di y
                                          */
-                                        if (x.subtree.isEmpty() || x.subtree.getLast() <= y.num) {
+                                      /*  if (x.subtree.isEmpty() || x.subtree.getLast() <= y.num) {
                                             Treelet z = new Treelet();
                                             z = z.mergeTreelets(x, y);
 
@@ -96,7 +137,7 @@ public class Table {
             betaTable.add(norm);
         }
 
-    }
+    }*/
 
 
 }

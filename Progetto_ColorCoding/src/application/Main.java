@@ -8,14 +8,14 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Scanner scanner = new Scanner(System.in);
+		/*Scanner scanner = new Scanner(System.in);
 
 
-		/*System.out.print("inserisci il tuo file csv, con il proprio percorso : ");
+		System.out.print("inserisci il tuo file csv, con il proprio percorso : ");
 		String csvFile = scanner.next();
 
 		System.out.print("inserisci il numero di nodi del grafo: ");
-		int v = scanner.nextInt();*/
+		int v = scanner.nextInt();
 
 		System.out.print("inserisci il numero di colori che deve avere il grafo: ");
 		int c = scanner.nextInt();
@@ -28,23 +28,27 @@ public class Main {
 			int k1 = scanner.nextInt();
 			k=k1;
 		}
-		System.out.println(k);
-		/*Graph graph = new Graph(v);
+
+		Graph graph = new Graph(v);
 		graph.graphByFile(csvFile);
 		Table b=new Table();
 		b.optGraph(graph,c,k);*/
 
-		/*int k = 8;
+		Vector<Vector<HashMap<Integer,Integer>>> prova = new Vector<Vector<HashMap<Integer, Integer>>>();
+		int h=2;
+		for (int i=0; i<10;i++) {
+			HashMap<Integer, Integer> culo = new HashMap<Integer, Integer>();
+			culo.put(i,i);
+			Vector<HashMap<Integer,Integer>> cazzi = new Vector<HashMap<Integer, Integer>>(4);
+			cazzi.add(1,culo);
+			prova.add(cazzi);
+		}
+		/*HashMap<Integer,Integer> cazzini = new HashMap<Integer, Integer>();
+		cazzini.put(2,2);
 
-		String csvFIle = "/home/giulia/Scrivania/Progetto_Tesi/lastfm_asia_edges.csv";
-		int v = 7624;
-		Graph graph = new Graph(v);
-		graph.graphByFile(csvFIle);
-		Table b=new Table();
-		b.optGraph(graph,k);*/
+		prova.get(h).add(cazzini);*/
 
-
-
+		System.out.println(prova.get(3).get(1));
 
 	}
 
