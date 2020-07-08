@@ -18,6 +18,7 @@ public class Table {
             Vector<HashMap<Treelet,Integer>> vectorTree = new Vector<HashMap<Treelet, Integer>>(k);
             vectorTree.add(null);
             vectorTree.add(1,occ);
+            vectorTree.add(h,null);
             table.add(vectorTree);
         }
 
