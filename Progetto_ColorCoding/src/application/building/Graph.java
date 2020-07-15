@@ -58,14 +58,19 @@ public class Graph {
 	}
 
 	//metodo per colorare il grafo
-	public int[] colorGraph(int k) {
-		int c[];
-		c = new int[V];
+	public int[] colorGraphRandom(int k) {
+		int c[] = new int[V];
 		for (int i = 0; i < V; i++)
 			c[i] = (int) (Math.random() * k + 1);
 		return c;
 	}
 
+	public int[] colorGraph(int k){
+		int c[] = new int[V];
+		 for ( int i=0; i<V; i++)
+		 	c[i]= i%k;
+		return c;
+	}
 	//stampare la lista di adiacenza
 	public void printAdjacencyList()
 	{

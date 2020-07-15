@@ -1,36 +1,37 @@
 package application.building;
 
-import java.sql.Timestamp;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.*;
 
 public class Table {
 
-    Vector<Vector<HashMap<Treelet, Integer>>> table = new Vector<Vector<HashMap<Treelet, Integer>>>();
+    public ArrayList<ArrayList<HashMap<Treelet, Integer>>> table = new ArrayList<ArrayList<HashMap<Treelet, Integer>>>();
     public Table(){};
     public void optGraph (Graph graph, int c, int k){
         int h=2;
-        int[] color = graph.colorGraph(c);
+        int[] color = {2,1,3,1,2,2};
         for (int v=0; v<graph.V; v++){
             ColorNode node = new ColorNode(v,color[v]);
             Treelet tree = new Treelet(node);
             HashMap<Treelet,Integer> occ = new HashMap<Treelet,Integer>();  //da rivedere perchè deve partire dall'uno per la dimensione non dallo zero trovare una soluzione
             occ.put(tree,1);
-            Vector<HashMap<Treelet,Integer>> vectorTree = new Vector<HashMap<Treelet, Integer>>(k);
+            ArrayList<HashMap<Treelet,Integer>> vectorTree = new ArrayList<HashMap<Treelet, Integer>>();
             vectorTree.add(null);
-            vectorTree.add(1,occ);
-            vectorTree.add(h,null);
+            vectorTree.add(occ);
             table.add(vectorTree);
         }
 
+        Boolean flag = true;
         while (h<=k){
             //prendo l'arco uv
             for (int u = 0; u < graph.V; u++) {
                 for (int i = 0; i < graph.adj.get(u).size(); i++) {
                     int v = graph.adj.get(u).get(i);
-                   for (int j=1 ; j<k ; j++){
+                   for (int j=1 ; j<h ; j++){
                        for (Treelet t1 : table.get(u).get(j).keySet()){
                            for(Treelet t2 : table.get(v).get(h-j).keySet()){
-                               HashSet<Integer> interColor = new HashSet<Integer>(t1.color);
+                               ArrayList<Integer> interColor = new ArrayList<Integer>(t1.color);
                                interColor.retainAll(t2.color);
                                if(interColor.isEmpty()){
                                    if (t1.subtree.isEmpty() || t1.subtree.getLast() <= t2.num) {
@@ -40,17 +41,30 @@ public class Table {
                                        H += table.get(u).get(j).get(t1) * table.get(v).get(h-j).get(t2);
                                        HashMap<Treelet, Integer> map = new HashMap<Treelet, Integer>();
                                        map.put(t3,H);
-                                       if(!table.get(u).get(h).isEmpty()){
-                                           table.get(u).add(h,map);
-                                       }
-                                       table.get(u).add(map);
+                                       if(flag){
+                                           table.get(u).add(map);
+                                           flag=false;
+                                      }else{
+
+                                         table.get(u).get(h).put(t3,H);
                                        }
                                    }
                                }
                            }
                        }
+
+                       /*for (Treelet tree : table.get(u).get(h).keySet()){
+                           int norm = table.get(u).get(h).get(tree) / tree.beta;
+                           table.get(u).get(h).put(tree,norm);
+                       }*/
+
                    }
                 }
+                flag=true;
+            }
+
+            h++;
+
         }
     }
     /*public ArrayList<HashMap<Integer, Integer>> table = new ArrayList<HashMap<Integer, Integer>>();
