@@ -75,42 +75,19 @@ public class Main {
 		//graph.graphByFile(csvFile);
 		Table b=new Table();
 		b.optGraph(g2,c,k);
-		System.out.println(b.table);
-		/*Vector<Vector<HashMap<Integer,Integer>>> prova = new Vector<Vector<HashMap<Integer, Integer>>>();
+		for (int i=0 ; i<b.table.size(); i++) {
+			for(int j=0; j<b.table.get(i).size(); j++){
+				if (b.table.get(i).get(j)!= null){
+					for(Treelet t : b.table.get(i).get(j).keySet()){
+						System.out.println( "l'albero del nodo " + i + "   son con forma   " + t.num + "   " + b.table.get(i).get(j).get(t));
+					}
+				}
 
-		int h=2;
-		for (int i=1 ; i<10 ;i++) {
-			HashMap<Integer, Integer> culo = new HashMap<Integer, Integer>();
+			}
 
-			Vector<HashMap<Integer,Integer>> cazzi = new Vector<HashMap<Integer, Integer>>(5);
-			culo.put(i,i);
-			cazzi.add(null);
-			cazzi.add(1,culo);
-			cazzi.add(h,null);
-			prova.add(cazzi);
 
 		}
 
-		HashMap<Integer,Integer> map = new HashMap<Integer, Integer>();
-		map.put(9,9);
-		/*prova.get(1).add(map);
-		HashMap<Integer,Integer> map1 = new HashMap<Integer, Integer>();
-		map1.put(5,5);
-
-		if(prova.get(1).get(h)==null) {
-			prova.get(1).add(h,map);
-			//System.out.println(prova);
-		}
-		else System.out.println("PIENO");
-
-		if(prova.get(1).get(h)==null) {
-			prova.get(1).add(h,map);
-			System.out.println(prova);
-		}
-		else {
-			prova.get(1).get(h).put(5,5);
-			System.out.println(prova);
-		};*/
 
 	}
 	}

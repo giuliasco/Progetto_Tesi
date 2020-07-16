@@ -23,48 +23,62 @@ public class Table {
         }
 
         Boolean flag = true;
+
         while (h<=k){
             //prendo l'arco uv
             for (int u = 0; u < graph.V; u++) {
                 for (int i = 0; i < graph.adj.get(u).size(); i++) {
                     int v = graph.adj.get(u).get(i);
-                   for (int j=1 ; j<h ; j++){
-                       for (Treelet t1 : table.get(u).get(j).keySet()){
-                           for(Treelet t2 : table.get(v).get(h-j).keySet()){
-                               ArrayList<Integer> interColor = new ArrayList<Integer>(t1.color);
-                               interColor.retainAll(t2.color);
-                               if(interColor.isEmpty()){
-                                   if (t1.subtree.isEmpty() || t1.subtree.getLast() <= t2.num) {
-                                       Treelet t3 = new Treelet();
-                                       t3 = t3.mergeTreelets(t1, t2);
-                                       int H = 0 ;
-                                       H += table.get(u).get(j).get(t1) * table.get(v).get(h-j).get(t2);
-                                       HashMap<Treelet, Integer> map = new HashMap<Treelet, Integer>();
-                                       map.put(t3,H);
-                                       if(flag){
-                                           table.get(u).add(map);
-                                           flag=false;
-                                      }else{
+                    for (int j = 1; j < h; j++) {
+                            for (Treelet t1 : table.get(u).get(j).keySet()) {
+                                    for (Treelet t2 : table.get(v).get(h - j).keySet()) {
+                                        ArrayList<Integer> interColor = new ArrayList<Integer>(t1.color);
+                                        interColor.retainAll(t2.color);
+                                        if (interColor.isEmpty()) {
+                                            if (t1.subtree.isEmpty() || t1.subtree.getLast() <= t2.num) {
+                                                Treelet t3 = new Treelet();
+                                                t3 = t3.mergeTreelets(t1, t2);
+                                                int H;
+                                                /*
+                                                 int occ;
+                                                if (!table.get(u).containsKey(z.hashCode())) {
+                                                    occ = table.get(u).get(x.hashCode()) * table.get(v).get(y.hashCode());
+                                                } else {
+                                                    occ = table.get(u).get(z.hashCode());
+                                                    occ += table.get(u).get(x.hashCode()) * table.get(v).get(y.hashCode());
+                                                }
 
-                                         table.get(u).get(h).put(t3,H);
-                                       }
-                                   }
-                               }
-                           }
-                       }
+                                                H += table.get(u).get(j).get(t1) * table.get(v).get(h - j).get(t2);
+                                                HashMap<Treelet, Integer> map = new HashMap<Treelet, Integer>();
+                                                map.put(t3, H);*/
+                                                if (flag) {
+                                                    H = table.get(u).get(j).get(t1) * table.get(v).get(h - j).get(t2);
+                                                    HashMap<Treelet, Integer> map = new HashMap<Treelet, Integer>();
+                                                    map.put(t3, H);
+                                                    table.get(u).add(map);
+                                                    flag = false;
+                                                } else {
+                                                    if(table.get(u).get(h).containsKey(t3)){  //DA RIVEDERE
+                                                        H=table.get(u).get(h).get(t3);
+                                                        H+=table.get(u).get(j).get(t1) * table.get(v).get(h - j).get(t2);
+                                                        table.get(u).get(h).put(t3, H);
+                                                    }
 
+                                                }
+                                            }
+                                        }
+                                    }
+                            }
                        /*for (Treelet tree : table.get(u).get(h).keySet()){
                            int norm = table.get(u).get(h).get(tree) / tree.beta;
                            table.get(u).get(h).put(tree,norm);
                        }*/
 
-                   }
+                    }
                 }
                 flag=true;
             }
-
             h++;
-
         }
     }
     /*public ArrayList<HashMap<Integer, Integer>> table = new ArrayList<HashMap<Integer, Integer>>();
@@ -111,13 +125,7 @@ public class Table {
                                             Treelet z = new Treelet();
                                             z = z.mergeTreelets(x, y);
 
-                                                int occ;
-                                                if (!table.get(u).containsKey(z.hashCode())) {
-                                                    occ = table.get(u).get(x.hashCode()) * table.get(v).get(y.hashCode());
-                                                } else {
-                                                    occ = table.get(u).get(z.hashCode());
-                                                    occ += table.get(u).get(x.hashCode()) * table.get(v).get(y.hashCode());
-                                                }
+
                                                 table.get(u).put(z.hashCode(), occ);
                                             if (!tmp.contains(z)) {
                                                 tmp.add(z);
@@ -160,3 +168,9 @@ public class Table {
 
 
 }
+/*
+DA FARE
+Mi occorre vedere bene come non salvare 70000 volte gli stessi alberi
+e un modo per stamparli in maniera efficiente
+
+ */
