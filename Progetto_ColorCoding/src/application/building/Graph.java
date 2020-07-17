@@ -31,16 +31,11 @@ public class Graph {
 			adj.add(new ArrayList<Integer>());
 	}
 
-
-	//metodo per aggiungere un arco
-	public void addEdge(int u, int v) {
-		adj.get(u).add(v);
-		adj.get(v).add(u);
-	}
-
-	public void graphByFile(String s ){
+	public Graph(String s ){
 		String line = "";
 		String splitBy = ",";
+		HashSet<Integer> vertex = new HashSet<Integer>();
+		//inserisco i vertici e creo la lista di adiacenza
 		try (BufferedReader br = new BufferedReader(new FileReader(s))){
 			while((line=br.readLine()) != null){
 				String[] edge = line.split(splitBy);
@@ -48,14 +43,42 @@ public class Graph {
 				if (edge[0] != null && !edge[0].isEmpty() && edge[1] != null && !edge[1].isEmpty() ){
 					int u = Integer.parseInt(edge[0]);
 					int w = Integer.parseInt(edge[1]);
-					this.addEdge(u,w);
+					vertex.add(u);
+					vertex.add(w);
+				}
+			}
+			V = vertex.size();
+			adj = new ArrayList<ArrayList<Integer>>();
+			for (int i = 0; i < V; i++)
+				adj.add(new ArrayList<Integer>());
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		try (BufferedReader br = new BufferedReader(new FileReader(s))){
+			while((line=br.readLine()) != null){
+				String[] edge = line.split(splitBy);
+				if (edge[0] != null && !edge[0].isEmpty() && edge[1] != null && !edge[1].isEmpty() ){
+					int u = Integer.parseInt(edge[0]);
+					int w = Integer.parseInt(edge[1]);
+					adj.get(u).add(w);
+					adj.get(w).add(u);
 				}
 			}
 		}catch(IOException e) {
 			e.printStackTrace();
-      	}
-
+		}
 	}
+
+
+
+
+
+	//metodo per aggiungere un arco
+	public void addEdge(int u, int v) {
+			adj.get(u).add(v);
+			adj.get(v).add(u);
+	}
+
 
 	//metodo per colorare il grafo
 	public int[] colorGraphRandom(int k) {

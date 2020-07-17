@@ -10,7 +10,7 @@ public class Table {
     public Table(){};
     public void optGraph (Graph graph, int c, int k){
         int h=2;
-        int[] color = {2,1,3,1,2,2};
+        int[] color = graph.colorGraph(c);
         for (int v=0; v<graph.V; v++){
             ColorNode node = new ColorNode(v,color[v]);
             Treelet tree = new Treelet(node);
@@ -58,9 +58,9 @@ public class Table {
                                                     table.get(u).add(map);
                                                     flag = false;
                                                 } else {
-                                                    if(table.get(u).get(h).containsKey(t3)){  //DA RIVEDERE
-                                                        H=table.get(u).get(h).get(t3);
-                                                        H+=table.get(u).get(j).get(t1) * table.get(v).get(h - j).get(t2);
+                                                    if (table.get(u).get(h).containsKey(t3)) {  //DA RIVEDERE
+                                                        H = table.get(u).get(h).get(t3);
+                                                        H += table.get(u).get(j).get(t1) * table.get(v).get(h - j).get(t2);
                                                         table.get(u).get(h).put(t3, H);
                                                     }
 
@@ -68,6 +68,7 @@ public class Table {
                                             }
                                         }
                                     }
+
                             }
                        /*for (Treelet tree : table.get(u).get(h).keySet()){
                            int norm = table.get(u).get(h).get(tree) / tree.beta;

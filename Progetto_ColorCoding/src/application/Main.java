@@ -11,19 +11,10 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 
 
-		/*System.out.print("inserisci il tuo file csv, con il proprio percorso : ");
+		System.out.print("inserisci il tuo file csv, con il proprio percorso : ");
 		String csvFile = scanner.next();
 
-		System.out.print("inserisci il numero di nodi del grafo: ");
-		String vertix = scanner.next();
-		String s = "";
-		for (int i=0; i<vertix.length(); i++){
-			char c = vertix.charAt(i);
-			if(Character.isDigit(c))
-				s+=c;
-		}
-		int v = Integer.parseInt(s);*/
-		ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>(6);
+		/*ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>(6);
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
 		ArrayList<Integer> a2 = new ArrayList<Integer>();
 		ArrayList<Integer> a3 = new ArrayList<Integer>();
@@ -52,7 +43,7 @@ public class Main {
 		adj.add(a4);
 		adj.add(a5);
 		adj.add(a6);
-		Graph g2 = new Graph(adj);
+		Graph g2 = new Graph(adj);*/
 
 		System.out.print("inserisci il numero di colori che deve avere il grafo: ");
 		String color = scanner.next();
@@ -71,24 +62,21 @@ public class Main {
 		}
 
 
-		//Graph graph = new Graph(v);
-		//graph.graphByFile(csvFile);
+		Graph graph = new Graph(csvFile);
 		Table b=new Table();
-		b.optGraph(g2,c,k);
-		for (int i=0 ; i<b.table.size(); i++) {
+		b. optGraph(graph,c,k);
+		System.out.println(b.table);
+		/*for (int i =0; i<graph.adj.size(); i ++)
+		System.out.println("La lista di adiacenza per il nodo  "+ i + "  è  " + graph.adj.get(i));*/
+		/*for (int i=0 ; i<b.table.size(); i++) {
 			for(int j=0; j<b.table.get(i).size(); j++){
 				if (b.table.get(i).get(j)!= null){
 					for(Treelet t : b.table.get(i).get(j).keySet()){
 						System.out.println( "l'albero del nodo " + i + "   son con forma   " + t.num + "   " + b.table.get(i).get(j).get(t));
 					}
 				}
-
 			}
-
-
-		}
-
-
+		}*/
 	}
 	}
 
