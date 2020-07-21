@@ -11,10 +11,10 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 
 
-		System.out.print("inserisci il tuo file csv, con il proprio percorso : ");
-		String csvFile = scanner.next();
+		//System.out.print("inserisci il tuo file csv, con il proprio percorso : ");
+		//String csvFile = scanner.next();
 
-		/*ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>(6);
+		ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>(6);
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
 		ArrayList<Integer> a2 = new ArrayList<Integer>();
 		ArrayList<Integer> a3 = new ArrayList<Integer>();
@@ -43,9 +43,9 @@ public class Main {
 		adj.add(a4);
 		adj.add(a5);
 		adj.add(a6);
-		Graph g2 = new Graph(adj);*/
+		Graph g2 = new Graph(adj);
 
-		System.out.print("inserisci il numero di colori che deve avere il grafo: ");
+		/*System.out.print("inserisci il numero di colori che deve avere il grafo: ");
 		String color = scanner.next();
 		int c = Integer.parseInt(color);
 
@@ -62,9 +62,9 @@ public class Main {
 		}
 
 
-		Graph graph = new Graph(csvFile);
+		Graph graph = new Graph(csvFile);*/
 		Table b=new Table();
-		b. optGraph(graph,c,k);
+		b. optGraph(g2,4,4);
 		System.out.println(b.table);
 		/*for (int i =0; i<graph.adj.size(); i ++)
 		System.out.println("La lista di adiacenza per il nodo  "+ i + "  è  " + graph.adj.get(i));*/

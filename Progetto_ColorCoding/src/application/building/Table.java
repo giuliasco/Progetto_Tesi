@@ -1,36 +1,83 @@
 package application.building;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import sun.reflect.generics.tree.Tree;
 
 import java.util.*;
 
 public class Table {
 
-    public ArrayList<ArrayList<HashMap<Treelet, Integer>>> table = new ArrayList<ArrayList<HashMap<Treelet, Integer>>>();
-    public Table(){};
-    public void optGraph (Graph graph, int c, int k){
-        int h=2;
+    public ArrayList<ArrayList<HashMap<Treelet, Integer>>> table;
+
+    public Table() {
+    }
+
+    ;
+
+    public void optGraph(Graph graph, int c, int k) {
+        table = new ArrayList<ArrayList<HashMap<Treelet, Integer>>>(Collections.nCopies(k, new ArrayList<HashMap<Treelet, Integer>>()));
+        int h = 2;
         int[] color = graph.colorGraph(c);
-        for (int v=0; v<graph.V; v++){
-            ColorNode node = new ColorNode(v,color[v]);
+        ArrayList<HashMap<Treelet, Integer>> vectorTree = new ArrayList<HashMap<Treelet, Integer>>(Collections.nCopies(graph.V, new HashMap<Treelet, Integer>()));
+        for (int v = 0; v < graph.V; v++) {
+            ColorNode node = new ColorNode(v, color[v]);
             Treelet tree = new Treelet(node);
-            HashMap<Treelet,Integer> occ = new HashMap<Treelet,Integer>();  //da rivedere perchè deve partire dall'uno per la dimensione non dallo zero trovare una soluzione
-            occ.put(tree,1);
-            ArrayList<HashMap<Treelet,Integer>> vectorTree = new ArrayList<HashMap<Treelet, Integer>>();
-            vectorTree.add(null);
-            vectorTree.add(occ);
-            table.add(vectorTree);
+            HashMap<Treelet, Integer> occ = new HashMap<Treelet, Integer>();  //da rivedere perchè deve partire dall'uno per la dimensione non dallo zero trovare una soluzione
+            occ.put(tree, 1);
+            vectorTree.set(v, occ);
         }
+        table.set(1, vectorTree);
 
-        Boolean flag = true;
-
-        while (h<=k){
+        while (h <= k) {
+            ArrayList<HashMap<Treelet, Integer>> vector = new ArrayList<HashMap<Treelet, Integer>>(Collections.nCopies(graph.V, new HashMap<Treelet, Integer>()));
+            //prendo gli archi uv del grafo
+            for (int u = 0; u < graph.V; u++) {
+                for (int i = 0; i < graph.adj.get(u).size(); i++) {
+                    int v = graph.adj.get(u).get(i);
+                    for (int j = 1; j == h - 1; j++) {
+                        if (!table.get(j).get(u).isEmpty()) {
+                            for (Treelet t1 : table.get(j).get(u).keySet()) {
+                                if (!table.get(h - j).get(v).isEmpty()) {
+                                    for (Treelet t2 : table.get(h - j).get(v).keySet()) {
+                                        ArrayList<Integer> interColor = new ArrayList<Integer>(t1.color);
+                                        interColor.retainAll(t2.color);
+                                        if (interColor.isEmpty()) {
+                                            if (t1.subtree.isEmpty() || t1.subtree.getLast() <= t2.num) {
+                                                Treelet t3 = new Treelet();
+                                                t3 = t3.mergeTreelets(t1, t2);
+                                                int occ;
+                                                if(!table.get(h).get(u).isEmpty() && table.get(h).get(u).containsKey(t3)){
+                                                    occ = table.get(h).get(u).get(t3);
+                                                    occ += table.get(j).get(u).get(t1) * table.get(h-j).get(v).get(t2);
+                                                }else{
+                                                    occ = table.get(j).get(u).get(t1) * table.get(h-j).get(v).get(t2);
+                                                }
+                                                vector.get(u).put(t3,occ);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            table.set(h,vector);
+            h++;
+        }
+    }
+}
+        /*boolean flag = true;
+        while (h<=k) {
             //prendo l'arco uv
+            ArrayList<HashMap<Treelet,Integer>> vector = new ArrayList<HashMap<Treelet, Integer>>();
             for (int u = 0; u < graph.V; u++) {
                 for (int i = 0; i < graph.adj.get(u).size(); i++) {
                     int v = graph.adj.get(u).get(i);
                     for (int j = 1; j < h; j++) {
+                        if (!table.get(u).get(j).isEmpty()) {
                             for (Treelet t1 : table.get(u).get(j).keySet()) {
+                                if (!table.get(v).get(h - j).isEmpty())
                                     for (Treelet t2 : table.get(v).get(h - j).keySet()) {
                                         ArrayList<Integer> interColor = new ArrayList<Integer>(t1.color);
                                         interColor.retainAll(t2.color);
@@ -51,7 +98,7 @@ public class Table {
                                                 H += table.get(u).get(j).get(t1) * table.get(v).get(h - j).get(t2);
                                                 HashMap<Treelet, Integer> map = new HashMap<Treelet, Integer>();
                                                 map.put(t3, H);*/
-                                                if (flag) {
+                                               /* if (flag) {
                                                     H = table.get(u).get(j).get(t1) * table.get(v).get(h - j).get(t2);
                                                     HashMap<Treelet, Integer> map = new HashMap<Treelet, Integer>();
                                                     map.put(t3, H);
@@ -67,21 +114,24 @@ public class Table {
                                                 }
                                             }
                                         }
-                                    }
 
+                                    }
                             }
+                        }
+                    }
                        /*for (Treelet tree : table.get(u).get(h).keySet()){
                            int norm = table.get(u).get(h).get(tree) / tree.beta;
                            table.get(u).get(h).put(tree,norm);
                        }*/
 
-                    }
-                }
-                flag=true;
+               /* }
             }
+
             h++;
+            flag = true;
+
         }
-    }
+}*/
     /*public ArrayList<HashMap<Integer, Integer>> table = new ArrayList<HashMap<Integer, Integer>>();
     public ArrayList<ArrayList<Treelet>> vectorTree = new ArrayList<ArrayList<Treelet>>();
     public ArrayList<HashMap<Integer,Double>> betaTable = new ArrayList<HashMap<Integer, Double>>();
@@ -168,7 +218,7 @@ public class Table {
     }*/
 
 
-}
+
 /*
 DA FARE
 Mi occorre vedere bene come non salvare 70000 volte gli stessi alberi
