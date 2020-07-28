@@ -7,13 +7,7 @@ import application.building.*;
 public class Main {
 
 	public static void main(String[] args) {
-
-		Scanner scanner = new Scanner(System.in);
-
-
-		//System.out.print("inserisci il tuo file csv, con il proprio percorso : ");
-		//String csvFile = scanner.next();
-
+		/*
 		ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>(6);
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
 		ArrayList<Integer> a2 = new ArrayList<Integer>();
@@ -44,27 +38,24 @@ public class Main {
 		adj.add(a5);
 		adj.add(a6);
 		Graph g2 = new Graph(adj);
+		 */
+		Scanner scanner = new Scanner(System.in);
 
-		/*System.out.print("inserisci il numero di colori che deve avere il grafo: ");
+
+		System.out.print("inserisci il tuo file csv, con il proprio percorso : ");
+		String csvFile = scanner.next();
+
+		System.out.print("inserisci il numero di colori che deve avere il grafo: ");
 		String color = scanner.next();
 		int c = Integer.parseInt(color);
-
 
 		System.out.print("inserisci la dimensione desiderata del treelet k  : ");
 		String dim = scanner.next();
 		int k = Integer.parseInt(dim);
-		if (k<c) {
-			System.out.println("inserisci una dimensione del treelet maggiore o uguale al numero di colori");
-			System.out.print("inserisci la nuova dimensione : ");
-			String dim1 = scanner.next();
-			int k1 = Integer.parseInt(dim1);
-			k=k1;
-		}
 
-
-		Graph graph = new Graph(csvFile);*/
+		Graph graph = new Graph(csvFile);
 		Table b=new Table();
-		b. optGraph(g2,4,4);
+		b. optGraph(graph,c,k);
 		System.out.println(b.table);
 		/*for (int i =0; i<graph.adj.size(); i ++)
 		System.out.println("La lista di adiacenza per il nodo  "+ i + "  è  " + graph.adj.get(i));*/
