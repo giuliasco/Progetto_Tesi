@@ -54,20 +54,10 @@ public class Main {
 		int k = Integer.parseInt(dim);
 
 		Graph graph = new Graph(csvFile);
-		Table b=new Table();
-		b. optGraph(graph,c,k);
-		System.out.println(b.table);
-		/*for (int i =0; i<graph.adj.size(); i ++)
-		System.out.println("La lista di adiacenza per il nodo  "+ i + "  è  " + graph.adj.get(i));*/
-		/*for (int i=0 ; i<b.table.size(); i++) {
-			for(int j=0; j<b.table.get(i).size(); j++){
-				if (b.table.get(i).get(j)!= null){
-					for(Treelet t : b.table.get(i).get(j).keySet()){
-						System.out.println( "l'albero del nodo " + i + "   son con forma   " + t.num + "   " + b.table.get(i).get(j).get(t));
-					}
-				}
-			}
-		}*/
+		Table b = new Table();
+		b.optGraph(graph,c,k);
+		b.writeToCsvFile(b.table);
+
 	}
 	}
 
