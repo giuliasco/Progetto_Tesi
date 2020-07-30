@@ -33,12 +33,11 @@ public class Graph {
 
 	public Graph(String s ){
 		String line = "";
-		String splitBy = ",";
 		HashSet<Integer> vertex = new HashSet<Integer>();
 		//inserisco i vertici e creo la lista di adiacenza
 		try (BufferedReader br = new BufferedReader(new FileReader(s))){
 			while((line=br.readLine()) != null){
-				String[] edge = line.split(splitBy);
+				String[] edge = line.split(",|\\ ");
 
 				if (edge[0] != null && !edge[0].isEmpty() && edge[1] != null && !edge[1].isEmpty() ){
 					int u = Integer.parseInt(edge[0]);
@@ -56,7 +55,7 @@ public class Graph {
 		}
 		try (BufferedReader br = new BufferedReader(new FileReader(s))){
 			while((line=br.readLine()) != null){
-				String[] edge = line.split(splitBy);
+				String[] edge = line.split(",|\\ ");
 				if (edge[0] != null && !edge[0].isEmpty() && edge[1] != null && !edge[1].isEmpty() ){
 					int u = Integer.parseInt(edge[0]);
 					int w = Integer.parseInt(edge[1]);
