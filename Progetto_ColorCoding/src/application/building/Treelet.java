@@ -10,7 +10,7 @@ public class Treelet{
 	public ColorNode root;
 	public int size ,num, beta;
 	public LinkedList<Integer> subtree = new LinkedList<Integer>();
-	public ArrayList<Integer> color= new ArrayList<Integer>();
+	public HashSet<Integer> color= new HashSet<Integer>();
 	//Cosruttore vuoto
 	public Treelet() { }
 
@@ -57,7 +57,7 @@ public class Treelet{
 
 
 	//metodo che mi restituisce l'insieme dei colori che caratterizza l'albero
-	public ArrayList<Integer> colorSet(ColorNode x, ArrayList<Integer> color){
+	public HashSet<Integer> colorSet(ColorNode x, HashSet<Integer> color){
 		color.add(x.color);
 		if(x.hasChild())
 		{

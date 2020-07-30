@@ -1,6 +1,8 @@
 package application.building;
 
 
+import sun.reflect.generics.tree.Tree;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,7 +16,7 @@ public class Table {
     public Table() {
     }
 
-    ;
+    //METODO PER LA CREAZIONE DELLA TABELLA
 
     public void optGraph(Graph graph, int c, int k) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -37,7 +39,6 @@ public class Table {
             Timestamp timestamp2 = new Timestamp(System.currentTimeMillis());
             System.out.println("AVVIO CREAZIONE TABELLA PER H =  " + h +" ALLE " +  timestamp2);
             ArrayList<HashMap<Treelet, Integer>> vector = new ArrayList<HashMap<Treelet, Integer>>(Collections.nCopies(graph.V, new HashMap<Treelet, Integer>()));
-            //prendo gli archi uv del grafo
             for (int u = 0; u < graph.V; u++) {
                 HashMap<Treelet,Integer> map = new HashMap<Treelet,Integer>();
                 for (int i = 0; i < graph.adj.get(u).size(); i++) {
@@ -47,22 +48,20 @@ public class Table {
                             for (Treelet t1 : table.get(j).get(u).keySet()) {
                                 if (!table.get(h - j).get(v).isEmpty()) {
                                     for (Treelet t2 : table.get(h - j).get(v).keySet()) {
-                                        ArrayList<Integer> interColor = new ArrayList<Integer>(t1.color);
+                                        HashSet<Integer> interColor = new HashSet<Integer>(t1.color);
                                         interColor.retainAll(t2.color);
                                         if (interColor.isEmpty()) {
                                             if (t1.subtree.isEmpty() || t1.subtree.getLast() <= t2.num) {
                                                 Treelet t3 = new Treelet();
                                                 t3 = t3.mergeTreelets(t1, t2);
-                                                int occ;
                                                 if (map.containsKey(t3)){
-                                                    occ = map.get(t3);
+                                                   int occ = map.get(t3);
                                                     occ += table.get(j).get(u).get(t1) * table.get(h-j).get(v).get(t2);
+                                                    map.put(t3,occ);
                                                 }else {
-                                                    occ = table.get(j).get(u).get(t1) * table.get(h-j).get(v).get(t2);
+                                                   int occ = table.get(j).get(u).get(t1) * table.get(h-j).get(v).get(t2);
+                                                    map.put(t3,occ);
                                                 }
-
-                                                map.put(t3,occ);
-
                                             }
                                         }
                                     }
@@ -75,22 +74,29 @@ public class Table {
             }
            ArrayList<HashMap<Treelet, Integer>> normVector = new ArrayList<HashMap<Treelet, Integer>>(Collections.nCopies(graph.V, new HashMap<Treelet, Integer>()));
             for (int m=0 ; m<vector.size(); m++){
+                HashMap<Treelet,Integer> normMap=new HashMap<Treelet,Integer>();
                 for (Treelet t : vector.get(m).keySet()){
                     int norm = vector.get(m).get(t)/ t.beta;
-                    normVector.get(m).put(t,norm);
+                    normMap.put(t,norm);
                 }
+                normVector.set(m,normMap);
             }
-            table.set(h,vector);
-            h++;
+            table.set(h,normVector);
             Timestamp timestamp3 = new Timestamp(System.currentTimeMillis());
-            System.out.println("CONCLUSIONE CREAZIONE TABELLA PER H = " + h + " ALLE " + timestamp1);
+            System.out.println("CONCLUSIONE CREAZIONE TABELLA PER H = " + h + " ALLE " + timestamp3);
+            h++;
+
         }
         Timestamp timestamp4 = new Timestamp(System.currentTimeMillis());
-        System.out.println("FINE METODO Opt E CREAZIONE DELLA TABELLA  " + timestamp1);
+        System.out.println("FINE METODO Opt E CREAZIONE DELLA TABELLA  " + timestamp4);
     }
 
+
+   //METODO PER SCRITTURA SU FILE
+
     public void writeToCsvFile(ArrayList<ArrayList<HashMap<Treelet, Integer>>> test){
-        String fileName = "/home/giulia/prova.txt";
+        String fileName = "/home/giulia/treelet.csv";
+        String fileName1 = "/home/giulia/totale.txt";
         String separator=" , ";
         try {
             File file = new File(fileName);
@@ -102,7 +108,14 @@ public class Table {
                 System.out.println("Il file " + fileName + " non può essere creato");
 
             FileWriter fw = new FileWriter(file);
-            fw.write("Dimensione,Nodo,Treelet,occorrenze_normalizzate");
+
+            fw.append("dimensione");
+            fw.append(separator);
+            fw.append("Nodo");
+            fw.append(separator);
+            fw.append("Treelet");
+            fw.append(separator);
+            fw.append("occorrenze normalizzate");
             fw.append(System.lineSeparator());
             for (int i = 1 ; i < test.size(); i++){
                 for (int j = 0 ; j<test.get(i).size() ; j++){
@@ -124,6 +137,40 @@ public class Table {
             }
             fw.flush();
             fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            File file1 = new File(fileName1);
+            if (file1.exists())
+                System.out.println("Il file " + fileName1 + " esiste");
+            else if (file1.createNewFile())
+                System.out.println("Il file " + fileName1 + " è stato creato");
+            else
+                System.out.println("Il file " + fileName1 + " non può essere creato");
+
+            FileWriter fw1 = new FileWriter(file1);
+
+            for (int i = 1 ; i < test.size(); i++){
+                int count=0;
+                String dim = Integer.toString(i);
+                for (int j=0;j<test.get(i).size();j++){
+                    count += test.get(i).get(j).size();
+                    String countNode= Integer.toString(test.get(i).get(j).size());
+                    String nodo = Integer.toString(j);
+                    fw1.append("per il nodo " + nodo + " nella dimensione "+dim + " ho un numero di "+countNode + " Treelets");
+                    fw1.append(System.lineSeparator());
+                }
+
+                String totalTree= Integer.toString(count);
+                fw1.append("per la domensione  " + dim + " ho un totale di : " + totalTree + " treelets " );
+                fw1.append(System.lineSeparator());
+
+            }
+
+            fw1.flush();
+            fw1.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
