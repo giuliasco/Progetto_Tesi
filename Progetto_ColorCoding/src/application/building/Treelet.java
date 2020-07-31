@@ -104,12 +104,14 @@ public class Treelet{
 		if (o==null) return false;
 		if(!(o instanceof Treelet)) return false;
 		Treelet t= (Treelet) o;
-		return this.toString().equals(t.toString());
+		if(this.color.equals(t.color)) {
+			return this.toString().equals(t.toString());
+		}else return false;
 	}
 
 	@Override
 	public int hashCode() {
-		return this.num + this.color.hashCode();
+		return this.num;
 	}
 }
 

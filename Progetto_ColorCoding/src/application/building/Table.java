@@ -95,8 +95,12 @@ public class Table {
    //METODO PER SCRITTURA SU FILE
 
     public void writeToCsvFile(ArrayList<ArrayList<HashMap<Treelet, Integer>>> test){
-        String fileName = "/home/giulia/treelet.csv";
-        String fileName1 = "/home/giulia/totale.txt";
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("scrivi il path di dove vuoi vengano salvati i file con i risultati : ");
+        String path = scanner.next();
+        String fileName = path+"/treelet.csv";
+        String fileName1 = path+"/totale.txt";
         String separator=" , ";
         try {
             File file = new File(fileName);
@@ -109,13 +113,7 @@ public class Table {
 
             FileWriter fw = new FileWriter(file);
 
-            fw.append("dimensione");
-            fw.append(separator);
-            fw.append("Nodo");
-            fw.append(separator);
-            fw.append("Treelet");
-            fw.append(separator);
-            fw.append("occorrenze normalizzate");
+           fw.append("DIMENSIONE , NODO , TREELET , OCCORRENZE ");
             fw.append(System.lineSeparator());
             for (int i = 1 ; i < test.size(); i++){
                 for (int j = 0 ; j<test.get(i).size() ; j++){
@@ -174,18 +172,5 @@ public class Table {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /*try (FileWriter writer = new FileWriter(fileName)){
-            for (String[] strings : thingsToWrite) {
-                for (int i = 0; i < strings.length; i++) {
-                    writer.append(strings[i]);
-                    if(i < (strings.length-1))
-                        writer.append(separator);
-                }
-                writer.append(System.lineSeparator());
-            }
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 }

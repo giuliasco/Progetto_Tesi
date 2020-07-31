@@ -10,12 +10,11 @@ public class Main {
 
 		Scanner scanner = new Scanner(System.in);
 
-		System.out.print("inserisci il tuo file csv, con il proprio percorso : ");
-		String csvFile = scanner.next();
+		System.out.print("inserisci il tuo file, con il proprio percorso : ");
+		String file = scanner.next();
 
-		Graph graph = new Graph(csvFile);
-		graph.printAdjacencyList();
-		/*System.out.print("inserisci il numero di colori che deve avere il grafo: ");
+
+		System.out.print("inserisci il numero di colori che deve avere il grafo: ");
 		String color = scanner.next();
 		int c = Integer.parseInt(color);
 
@@ -23,11 +22,11 @@ public class Main {
 		String dim = scanner.next();
 		int k = Integer.parseInt(dim);
 
-		Graph graph = new Graph(csvFile);
-		graph.printAdjacencyList();
+		Graph graph = new Graph(file);
+
 		Table b = new Table();
 		b.optGraph(graph,c,k);
-		b.writeToCsvFile(b.table);*/
+		b.writeToCsvFile(b.table);
 
 	}
 	}
