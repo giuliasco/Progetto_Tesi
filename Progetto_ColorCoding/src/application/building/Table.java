@@ -1,7 +1,6 @@
 package application.building;
 
 
-import sun.reflect.generics.tree.Tree;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -23,7 +22,7 @@ public class Table {
         System.out.println("AVVIO METODO optGraph  " + timestamp);
         table = new ArrayList<ArrayList<HashMap<Treelet, Integer>>>(Collections.nCopies(k+1, new ArrayList<HashMap<Treelet, Integer>>()));
         int h = 2;
-        int[] color = graph.colorGraph(c);
+        int[] color = graph.colorGraphRandom(c);
         ArrayList<HashMap<Treelet, Integer>> vectorTree = new ArrayList<HashMap<Treelet, Integer>>(Collections.nCopies(graph.V, new HashMap<Treelet, Integer>()));
         for (int v = 0; v < graph.V; v++) {
             ColorNode node = new ColorNode(v, color[v]);
@@ -89,18 +88,19 @@ public class Table {
         }
         Timestamp timestamp4 = new Timestamp(System.currentTimeMillis());
         System.out.println("FINE METODO Opt E CREAZIONE DELLA TABELLA  " + timestamp4);
+
     }
 
 
    //METODO PER SCRITTURA SU FILE
 
     public void writeToCsvFile(ArrayList<ArrayList<HashMap<Treelet, Integer>>> test){
-        Scanner scanner = new Scanner(System.in);
+       Scanner scanner = new Scanner(System.in);
 
         System.out.print("scrivi il path di dove vuoi vengano salvati i file con i risultati : ");
         String path = scanner.next();
-        String fileName = path+"/treelet.csv";
-        String fileName1 = path+"/totale.txt";
+        String fileName = path + "/treelet.csv";
+        String fileName1 = path + "/totale.txt";
         String separator=" , ";
         try {
             File file = new File(fileName);
@@ -113,7 +113,7 @@ public class Table {
 
             FileWriter fw = new FileWriter(file);
 
-           fw.append("DIMENSIONE , NODO , TREELET , OCCORRENZE ");
+           fw.append("DIMENSIONE,NODO,TREELET,OCCORRENZE ");
             fw.append(System.lineSeparator());
             for (int i = 1 ; i < test.size(); i++){
                 for (int j = 0 ; j<test.get(i).size() ; j++){
@@ -131,7 +131,9 @@ public class Table {
                         fw.append(s4);
                         fw.append(System.lineSeparator());
                     }
+                    fw.append(System.lineSeparator());
                 }
+                fw.append(System.lineSeparator());
             }
             fw.flush();
             fw.close();
@@ -162,7 +164,7 @@ public class Table {
                 }
 
                 String totalTree= Integer.toString(count);
-                fw1.append("per la domensione  " + dim + " ho un totale di : " + totalTree + " treelets " );
+                fw1.append("per la dimensione  " + dim + " ho un totale di : " + totalTree + " treelets " );
                 fw1.append(System.lineSeparator());
 
             }
