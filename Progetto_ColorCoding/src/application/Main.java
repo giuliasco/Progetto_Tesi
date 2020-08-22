@@ -12,9 +12,8 @@ public class Main {
 
 		System.out.print("inserisci il tuo file, con il proprio percorso : ");
 		String file = scanner.next();
-		Graph graph = new Graph(file);
-		graph.printAdjacencyList();
-		/*System.out.print("inserisci il numero di colori che deve avere il grafo: ");
+
+		System.out.print("inserisci il numero di colori che deve avere il grafo: ");
 		String color = scanner.next();
 		int c = Integer.parseInt(color);
 
@@ -26,7 +25,7 @@ public class Main {
 
 		Table b = new Table();
 		b.optGraph(graph,c,k);
-		//b.writeToCsvFile(b.table);*/
+		//b.writeToCsvFile(b.table);
 
 	}
 	}

@@ -10,6 +10,7 @@ import java.util.*;
 public class Graph {
 	public ArrayList<ArrayList<Integer>> adj;
 	public int V;
+	private int added=0;
 
 	//costruttore vuoto
 	public Graph() {
@@ -37,7 +38,7 @@ public class Graph {
 		//inserisco i vertici e creo la lista di adiacenza
 		try (BufferedReader br = new BufferedReader(new FileReader(s))){
 			while((line=br.readLine()) != null){
-				String[] edge = line.split(",|\\ ");
+				String[] edge = line.split(",|\t|\\ ");
 
 				if (edge[0] != null && !edge[0].isEmpty() && edge[1] != null && !edge[1].isEmpty() ){
 					int u = Integer.parseInt(edge[0]);
@@ -47,6 +48,7 @@ public class Graph {
 				}
 			}
 			V = vertex.size();
+			if(!vertex.contains(0)) added=-1;
 			adj = new ArrayList<ArrayList<Integer>>();
 			for (int i = 0; i < V; i++)
 				adj.add(new ArrayList<Integer>());
@@ -55,10 +57,10 @@ public class Graph {
 		}
 		try (BufferedReader br = new BufferedReader(new FileReader(s))){
 			while((line=br.readLine()) != null){
-				String[] edge = line.split(",|\\ ");
+				String[] edge = line.split(",|\t|\\ ");
 				if (edge[0] != null && !edge[0].isEmpty() && edge[1] != null && !edge[1].isEmpty() ){
-					int u = Integer.parseInt(edge[0]);
-					int w = Integer.parseInt(edge[1]);
+					int u = Integer.parseInt(edge[0]) + added;
+					int w = Integer.parseInt(edge[1]) + added;
 					adj.get(u).add(w);
 					adj.get(w).add(u);
 				}
