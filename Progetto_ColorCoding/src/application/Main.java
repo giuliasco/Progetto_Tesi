@@ -25,7 +25,7 @@ public class Main {
 
 		Table b = new Table();
 		b.optGraph(graph,c,k);
-		//b.writeToCsvFile(b.table);
+		b.writeToCsvFile(b.table);
 
 	}
 	}
