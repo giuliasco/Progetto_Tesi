@@ -99,7 +99,7 @@ public class Table {
 
         System.out.print("scrivi il path di dove vuoi vengano salvati i file con i risultati : ");
         String path = scanner.next();
-        String fileName = path + "/treelet.csv";
+        String fileName = path + "/treelet.txt";
         String fileName1 = path + "/totale.txt";
         String separator=" , ";
         try {
@@ -113,7 +113,7 @@ public class Table {
 
             FileWriter fw = new FileWriter(file);
 
-           fw.append("DIMENSIONE,NODO,TREELET,OCCORRENZE ");
+           fw.append("DIMENSIONE,NODO,TREELET,,COLORI,OCCORRENZE ");
             fw.append(System.lineSeparator());
             for (int i = 1 ; i < test.size(); i++){
                 for (int j = 0 ; j<test.get(i).size() ; j++){
@@ -121,7 +121,8 @@ public class Table {
                         String s1 = Integer.toString(i);
                         String s2 = Integer.toString(j);
                         String s3 = Integer.toString(t.num);
-                        String s4 = Integer.toString(table.get(i).get(j).get(t));
+                        String s4= t.color.toString();
+                        String s5 = Integer.toString(table.get(i).get(j).get(t));
                         fw.append(s1);
                         fw.append(separator);
                         fw.append(s2);
@@ -129,6 +130,8 @@ public class Table {
                         fw.append(s3);
                         fw.append(separator);
                         fw.append(s4);
+                        fw.append(separator);
+                        fw.append(s5);
                         fw.append(System.lineSeparator());
                     }
                     fw.append(System.lineSeparator());
