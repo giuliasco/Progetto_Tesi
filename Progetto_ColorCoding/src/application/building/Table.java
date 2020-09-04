@@ -69,7 +69,22 @@ public class Table
     {
         log("AVVIO CREAZIONE TABELLA PER H = 1");
 
-        int[] color = graph.colorGraph(colors);
+        int[] color= new int[graph.V];
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("inserisci il metodo desiderato per la colorazione del grafo :");
+        System.out.println("1) Random");
+        System.out.println("2) Round Robin");
+        System.out.print("Digita il numero corrispondente al metodo desiderato :");
+        String answer = scanner.next();
+        if ( answer.equals("1") )
+        {
+            color = graph.colorGraphRandom(colors);
+        }else if ( answer.equals("2") )
+        {
+            color = graph.colorGraph(colors);
+        }
+
+
         for (int v = 0; v < graph.V; v++)
         {
             ArrayList<Entry> l = new ArrayList<Entry>(1);
@@ -146,7 +161,7 @@ public class Table
 
             FileWriter fw = new FileWriter(file);
 
-            fw.append("DIMENSIONE,NODO,TREELET,,COLORI,OCCORRENZE ");
+            fw.append("DIMENSIONE,NODO,TREELET,OCCORRENZE ");
             fw.append(System.lineSeparator());
             for (int i = 1 ; i < table.size(); i++){
                 for (int j = 0 ; j<table.get(i).size() ; j++){
@@ -154,14 +169,14 @@ public class Table
                         String s1 = Integer.toString(i);
                         String s2 = Integer.toString(j);
                         String s3 = Long.toString(e.treelet);
-                        String s5 = Long.toString(e.count);
+                        String s4 = Long.toString(e.count);
                         fw.append(s1);
                         fw.append(separator);
                         fw.append(s2);
                         fw.append(separator);
                         fw.append(s3);
                         fw.append(separator);
-                        fw.append(s5);
+                        fw.append(s4);
                         fw.append(System.lineSeparator());
                     }
                     fw.append(System.lineSeparator());
