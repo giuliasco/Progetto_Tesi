@@ -1,133 +1,52 @@
 package application.building;
 
-import java.util.*;
+public class Treelet
+{
+    //bits 0-3: size of the tree, excluding the root
+    //bits 4-7: size of the subtree rooted in the last child
+    //bits 8-11: number of copies of the subtree rooted in the last child
+    //bits 12-27: color's bitmask
+    //bits 28-59: DFS visit of the tree
 
+    public static long singleton(int color)
+    {
+        return  1L<<(12+color);
+    }
 
+    public static long merge(long t1, long t2)
+    {
+        long size1 = t1 & 0xFL;
+        long size2 = t2 & 0xFL;
 
+        long structure1 = (t1>>28) & 0xFFFFFFFFL;
+        long structure2 = (t2>>28) & 0xFFFFFFFFL;
 
-public class Treelet{
+        long ncopies = 1;
+        if(size1!=0)
+        {
+            int size_last1 = (int)((t1 >> 4) & 0xF);
+            long mask = (1<<(2*size_last1-2))-1;
+            long subtree1 = (structure1>>1) & mask;
 
-	public ColorNode root;
-	public int size ,num, beta;
-	public LinkedList<Integer> subtree = new LinkedList<Integer>();
-	public HashSet<Integer> color= new HashSet<Integer>();
-	//Cosruttore vuoto
-	public Treelet() { }
+            if(structure2 > subtree1) //ma me lo fai al contrario così da essere gia nell'ordine giusto poi nel calcolo dele decomposizioni bilanciate??
+                return -2;
 
-	//Costruttore per un albero composto da un unico nodo
-	public Treelet(ColorNode root) {
-		this.root= root;
-		this.size=1;
-		this.num=0;
-		this.beta=1;
-		this.color=colorSet(root, color);
-	}
+            if(structure2 == subtree1)
+                ncopies = ((t1>>8) & 0xFL)+1;
+        }
 
+        if( (t1 & t2 & 0xFFFF000L)!=0 ) //se i due alberi hanno qualche colore uguale
+            return -1;
 
+        long structure = (structure1 << (2*size2+2)) | (1<<(2*size2+1)) | (structure2<<1);
+        long t = (size1+size2+1) | ((size2+1)<<4) | (ncopies<<8) | ((t1 | t2) & 0xFFFF000L) | (structure<<28);
+        assert(t<=0x0FFFFFFFFFFFFFFFL);
+        return t;
+    }
 
-	//metodo ricorsivo utilizzato per la visita dell'albero che mi permette di generare il numero che caratterizza ogni albero
-	public LinkedList<Integer> Visit(ColorNode x, LinkedList<Integer> list) {
-		if (x.hasChild()) {
-			for (ColorNode c : x.child) {
-				list.addLast(1);
-				Visit(c, list);
-			}
-
-		}
-		list.addLast(0);
-		return list;
-	}
-
-	//metodo per ottenere la stringa binaria chepoi caratterizza l'albero nella forma
-	public String binaryVisit (Treelet t){
-		LinkedList<Integer> binaryNum= new LinkedList<Integer>();
-		if(t.root.hasChild()) {
-			binaryNum = Visit(t.root, binaryNum);
-		}
-
-
-
-		String binary = new String() ;
-		for (int i = 0 ; i< binaryNum.size()-1 ; i++) {
-			String s = String.valueOf(binaryNum.get(i));
-			binary += s;
-		}
-		return binary;
-	}
-
-
-	//metodo che mi restituisce l'insieme dei colori che caratterizza l'albero
-	public HashSet<Integer> colorSet(ColorNode x, HashSet<Integer> color){
-		color.add(x.color);
-		if(x.hasChild())
-		{
-			for (ColorNode y : x.child)
-				colorSet(y,color);
-		}
-		return color;
-	}
-
-	//metodo che mi permette di unire due alberi secondo le giuste proprietà
-	public Treelet mergeTreelets(Treelet t1, Treelet t2){
-		Treelet merge = new Treelet();
-					ColorNode mergeRoot = new ColorNode(t1.root.data,t1.root.color);
-					merge.root = mergeRoot;
-					if(!t1.root.child.isEmpty()) {
-						for (int j = 0; j<t1.root.child.size() ; j++)
-						merge.root.child.add(t1.root.child.get(j));
-					}
-					merge.root.addChild(t2.root);
-					int size1 = t1.size;
-					int size2 = t2.size;
-					merge.size = size1 + size2;
-					merge.subtree = new LinkedList<Integer>();
-					if (!t1.subtree.isEmpty()) {
-					for(int i = 0 ; i<t1.subtree.size() ; i++) merge.subtree.addLast(t1.subtree.get(i));}
-					merge.subtree.addLast(t2.num);
-					merge.color=colorSet(merge.root, merge.color);
-					String binary = binaryVisit(merge);
-					merge.num = Integer.parseInt(binary, 2);
-					int beta = t1.beta;
-					if (!t1.subtree.isEmpty() && t1.subtree.getLast() == t2.num) merge.beta = beta + 1;
-					else merge.beta=beta;
-		return merge;
-	}
-
-	@Override
-	public String toString() {
-		String s = String.valueOf(hashCode());
-		return s;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (o==null) return false;
-		if(!(o instanceof Treelet)) return false;
-		Treelet t= (Treelet) o;
-		if(this.color.equals(t.color)) {
-			return this.toString().equals(t.toString());
-		}else return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return this.num;
-	}
+    public static int normalization_factor(long t)
+    {
+        return (int)((t>>8) & 0xFL);
+    }
 }
 
-		/*
-		Iteratore che posso usare per scorrere la lista dei treelet arrivare all'ultimo e fare nuna qualche operazione
-
-		Iterator<Treelet> itr = treelet.iterator() ;
-
-
-		while(itr.hasNext()){
-
-
-			Treelet current = itr.next();
-			this.subtree.add(current.num);
-			this.root.addChild(current.root);
-			this.size += current.size;
-
-			if(!itr.hasNext()) this.beta=current.beta;
-		}*/

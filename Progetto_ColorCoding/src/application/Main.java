@@ -8,7 +8,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Scanner scanner = new Scanner(System.in);
+		/*Scanner scanner = new Scanner(System.in);
 
 		System.out.print("inserisci il tuo file, con il proprio percorso : ");
 		String file = scanner.next();
@@ -23,10 +23,13 @@ public class Main {
 
 		Graph graph = new Graph(file);
 
-		Table b = new Table();
-		b.optGraph(graph,c,k);
-		b.writeToCsvFile(b.table);
+		Table b = new Table(graph,c,k);
+		b.build();
+		b.writeToCsvFile();*/
 
+
+		long prova = 100001L & 110001L;
+		System.out.println(prova);
 	}
 	}
 
