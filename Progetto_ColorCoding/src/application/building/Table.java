@@ -65,25 +65,12 @@ public class Table
             do_build(i);
     }
 
+
     private void do_build1()
     {
+        int[] color= graph.colorGraph(colors);
+
         log("AVVIO CREAZIONE TABELLA PER H = 1");
-
-        int[] color= new int[graph.V];
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("inserisci il metodo desiderato per la colorazione del grafo :");
-        System.out.println("1) Random");
-        System.out.println("2) Round Robin");
-        System.out.print("Digita il numero corrispondente al metodo desiderato :");
-        String answer = scanner.next();
-        if ( answer.equals("1") )
-        {
-            color = graph.colorGraphRandom(colors);
-        }else if ( answer.equals("2") )
-        {
-            color = graph.colorGraph(colors);
-        }
-
 
         for (int v = 0; v < graph.V; v++)
         {
@@ -163,9 +150,12 @@ public class Table
 
             fw.append("DIMENSIONE,NODO,TREELET,OCCORRENZE ");
             fw.append(System.lineSeparator());
-            for (int i = 1 ; i < table.size(); i++){
-                for (int j = 0 ; j<table.get(i).size() ; j++){
-                    for (Entry e : table.get(i).get(j)){
+            for (int i = 1 ; i < table.size(); i++)
+            {
+                for (int j = 0 ; j<table.get(i).size() ; j++)
+                {
+                    for (Entry e : table.get(i).get(j))
+                    {
                         String s1 = Integer.toString(i);
                         String s2 = Integer.toString(j);
                         String s3 = Long.toString(e.treelet);
@@ -185,11 +175,14 @@ public class Table
             }
             fw.flush();
             fw.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
 
-        try {
+        try
+        {
             File file1 = new File(fileName1);
             if (file1.exists())
                 System.out.println("Il file " + fileName1 + " esiste");
@@ -200,10 +193,12 @@ public class Table
 
             FileWriter fw1 = new FileWriter(file1);
 
-            for (int i = 1 ; i < table.size(); i++){
+            for (int i = 1 ; i < table.size(); i++)
+            {
                 int count=0;
                 String dim = Integer.toString(i);
-                for (int j=0;j<table.get(i).size();j++){
+                for (int j=0;j<table.get(i).size();j++)
+                {
                     count += table.get(i).get(j).size();
                     String countNode= Integer.toString(table.get(i).get(j).size());
                     String nodo = Integer.toString(j);
@@ -219,7 +214,9 @@ public class Table
 
             fw1.flush();
             fw1.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
