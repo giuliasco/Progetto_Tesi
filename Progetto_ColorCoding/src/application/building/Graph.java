@@ -81,7 +81,7 @@ public class Graph {
 		System.out.println("inserisci il metodo desiderato per la colorazione del grafo :");
 		System.out.println("1) Random");
 		System.out.println("2) Round Robin");
-		System.out.print("Digita il numero corrispondente al metodo desiderato :");
+		System.out.print("Digita il numero corrispondente al metodo desiderato :   ");
 		String answer = scanner.next();
 		if (answer.equals("1"))
 		{

@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import it.unimi.dsi.fastutil.longs.*;
 
 public class Table
@@ -35,10 +37,15 @@ public class Table
         }
     }
 
-    private ArrayList< ArrayList<ArrayList<Entry>> > table; //size, vertex, list of treelets with counts
+
+
+
+    public ArrayList< ArrayList<ArrayList<Entry>> > table; //size, vertex, list of treelets with counts
     private Graph graph;
     private int colors;
     private int k;
+
+
 
     public Table(Graph graph, int c, int k)
     {
@@ -46,10 +53,10 @@ public class Table
         this.colors = c;
         this.k = k;
 
-        table = new ArrayList<ArrayList<ArrayList<Entry>>>(k+1);
+        table = new ArrayList<ArrayList<ArrayList<Entry>>>(Collections.nCopies(k+1,new ArrayList<ArrayList<Entry>>()));
         table.add(null);
         for(int i=1; i<=k; i++)
-            table.add(new ArrayList<ArrayList<Entry>>(graph.V));
+            table.set(i, new ArrayList<ArrayList<Entry>>(Collections.nCopies(graph.V, new ArrayList<Entry>())));
     }
 
     private void log(String s)
@@ -57,12 +64,37 @@ public class Table
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         System.out.println( "["+timestamp+"] " + s);
     }
+    
+
+	
 
     public void build()
     {
+        int threadNumb = threadNumber();
         do_build1();
         for(int i=2; i<=k; i++)
-            do_build(i);
+        {
+            AtomicInteger counter = new AtomicInteger(0);
+
+            for (int j = 0; j < threadNumb; j++) {
+                int finalI = i;
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while (counter.getAndIncrement() < graph.V)
+
+                            do_build(finalI, counter, threadNumb);
+
+                    }
+                });
+                t.start();
+                try {
+                    t.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 
@@ -70,36 +102,51 @@ public class Table
     {
         int[] color= graph.colorGraph(colors);
 
+
         log("AVVIO CREAZIONE TABELLA PER H = 1");
 
         for (int v = 0; v < graph.V; v++)
         {
             ArrayList<Entry> l = new ArrayList<Entry>(1);
             l.add(new Entry(Treelet.singleton(color[v]), 1L));
-            table.get(1).add(l);
+            table.get(1).set(v,l);
         }
 
         log("FINE CREAZIONE TABELLA");
     }
+    
 
-    private void do_build(int h)
+    private int threadNumber()
+    {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("inserisci il numero di procssori presenti sul tuo pc (inserire valore numerico) :   ");
+        int number = Integer.parseInt(scanner.next()) - 1  ;
+        return number;
+    }
+
+
+	
+    private synchronized void do_build(int h, AtomicInteger vertex, int threadNumb)
     {
         Timestamp ts = new Timestamp(System.currentTimeMillis());
         log("AVVIO CREAZIONE TABELLA PER H = " + h);
 
-        for (int u = 0; u < graph.V; u++)
+        int u = vertex.get() - 1;
+        Long2LongMap map = new Long2LongOpenHashMap();
+        for( int v : graph.adj.get(u) )
+            process_edge(h, u, v, map);
+        table.get(h).set(u ,normalize(map));
+
+       /*for (int u = 0; u < graph.V; u++)
         {
-            Long2LongMap map = new Long2LongOpenHashMap();
-            for( int v : graph.adj.get(u) )
-                process_edge(h, u, v, map);
 
-            table.get(h).add(normalize(map));
-        }
-
+        }*/
         log("FINE CREAZIONE TABELLA");
     }
 
-    private void process_edge(int h, int u, int v, Map<Long,Long> map)
+
+	
+    private synchronized void process_edge(int h, int u, int v, Map<Long,Long> map)
     {
         for (int j=1; j<=h-1; j++)
         {
@@ -117,7 +164,7 @@ public class Table
         }
     }
 
-    private ArrayList<Entry> normalize(Map<Long,Long> map)
+    private synchronized ArrayList<Entry> normalize(Map<Long,Long> map)
     {
         ArrayList<Entry> l = new ArrayList<Entry>(map.size());
         for(Map.Entry<Long, Long> e : map.entrySet())
@@ -128,16 +175,29 @@ public class Table
     }
 
 
+    public void stampaTable (){
+        for(int i=0; i<table.size(); i++)
+        {
+            for (int j=0; j<table.get(i).size();j++)
+            {
+                System.out.println(this.table.get(i).get(j).size());
+            }
+        }
+
+    }
+
+
+
     public void writeToCsvFile()
     {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("scrivi il path di dove vuoi vengano salvati i file con i risultati : ");
         String path = scanner.next();
-        String fileName = path + "/treelet.txt";
+       // String fileName = path + "/treelet.txt";
         String fileName1 = path + "/totale.txt";
         String separator=" , ";
-        try {
+      /*  try {
             File file = new File(fileName);
             if (file.exists())
                 System.out.println("Il file " + fileName + " esiste");
@@ -179,9 +239,9 @@ public class Table
         catch (IOException e)
         {
             e.printStackTrace();
-        }
+        }*/
 
-        try
+       try
         {
             File file1 = new File(fileName1);
             if (file1.exists())
@@ -220,6 +280,10 @@ public class Table
             e.printStackTrace();
         }
     }
+
+
+
+
 }
 
 

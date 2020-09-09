@@ -25,7 +25,7 @@ public class Main {
 
 		Table b = new Table(graph,c,k);
 		b.build();
-		b.writeToCsvFile();
+		b.stampaTable();
 
 
 	}
