@@ -23,9 +23,13 @@ public class Main {
 
 		Graph graph = new Graph(file);
 
-		Table b = new Table(graph,c,k);
-		b.build();
-		b.stampaTable();
+		Table b = new Table(graph,c,k,3);
+		try {
+			b.build();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		b.writeToCsvFile();
 
 
 	}

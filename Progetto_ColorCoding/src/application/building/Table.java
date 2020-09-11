@@ -45,18 +45,20 @@ public class Table
     private int colors;
     private int k;
 
+    private int nthreads;
+    private AtomicInteger next_vertex = new AtomicInteger(0);;
 
-
-    public Table(Graph graph, int c, int k)
+    public Table(Graph graph, int c, int k, int nthreads)
     {
         this.graph = graph;
         this.colors = c;
         this.k = k;
+        this.nthreads = nthreads;
 
-        table = new ArrayList<ArrayList<ArrayList<Entry>>>(Collections.nCopies(k+1,new ArrayList<ArrayList<Entry>>()));
+        table = new ArrayList<ArrayList<ArrayList<Entry>>>();
         table.add(null);
         for(int i=1; i<=k; i++)
-            table.set(i, new ArrayList<ArrayList<Entry>>(Collections.nCopies(graph.V, new ArrayList<Entry>())));
+            table.add(new ArrayList<ArrayList<Entry>>(Collections.nCopies(graph.V, new ArrayList<Entry>())));
     }
 
     private void log(String s)
@@ -64,36 +66,40 @@ public class Table
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         System.out.println( "["+timestamp+"] " + s);
     }
-    
 
-	
 
-    public void build()
+
+    public void build() throws InterruptedException
     {
-        int threadNumb = threadNumber();
         do_build1();
+
         for(int i=2; i<=k; i++)
         {
-            AtomicInteger counter = new AtomicInteger(0);
 
-            for (int j = 0; j < threadNumb; j++) {
-                int finalI = i;
-                Thread t = new Thread(new Runnable() {
+            final int size = i;
+            next_vertex.set(0);
+
+            Timestamp ts = new Timestamp(System.currentTimeMillis());
+            log("AVVIO CREAZIONE TABELLA PER H = " + i);
+
+            ArrayList<Thread> threads = new ArrayList<Thread>();
+            for(int j = 0; j < nthreads; j++)
+            {
+                threads.add(new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        while (counter.getAndIncrement() < graph.V)
-
-                            do_build(finalI, counter, threadNumb);
-
+                        do_build(size);
                     }
-                });
-                t.start();
-                try {
-                    t.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                }));
             }
+
+            for(Thread t : threads)
+                t.start();
+
+            for(Thread t : threads)
+                t.join();
+
+            log("FINE CREAZIONE TABELLA");
         }
     }
 
@@ -114,39 +120,31 @@ public class Table
 
         log("FINE CREAZIONE TABELLA");
     }
-    
 
-    private int threadNumber()
+
+    private void do_build(int h)
     {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("inserisci il numero di procssori presenti sul tuo pc (inserire valore numerico) :   ");
-        int number = Integer.parseInt(scanner.next()) - 1  ;
-        return number;
-    }
 
-
-	
-    private synchronized void do_build(int h, AtomicInteger vertex, int threadNumb)
-    {
-        Timestamp ts = new Timestamp(System.currentTimeMillis());
-        log("AVVIO CREAZIONE TABELLA PER H = " + h);
-
-        int u = vertex.get() - 1;
-        Long2LongMap map = new Long2LongOpenHashMap();
-        for( int v : graph.adj.get(u) )
-            process_edge(h, u, v, map);
-        table.get(h).set(u ,normalize(map));
-
-       /*for (int u = 0; u < graph.V; u++)
+        while(true)
         {
+            int u = next_vertex.getAndIncrement();
+            if(u >= graph.V)
+                break;
 
-        }*/
-        log("FINE CREAZIONE TABELLA");
+
+            Long2LongMap map = new Long2LongOpenHashMap();
+            for( int v : graph.adj.get(u) )
+                process_edge(h, u, v, map);
+
+            table.get(h).set(u ,normalize(map));
+        }
+
+
     }
 
 
-	
-    private synchronized void process_edge(int h, int u, int v, Map<Long,Long> map)
+
+    private void process_edge(int h, int u, int v, Map<Long,Long> map)
     {
         for (int j=1; j<=h-1; j++)
         {
@@ -164,7 +162,7 @@ public class Table
         }
     }
 
-    private synchronized ArrayList<Entry> normalize(Map<Long,Long> map)
+    private ArrayList<Entry> normalize(Map<Long,Long> map)
     {
         ArrayList<Entry> l = new ArrayList<Entry>(map.size());
         for(Map.Entry<Long, Long> e : map.entrySet())
@@ -175,17 +173,6 @@ public class Table
     }
 
 
-    public void stampaTable (){
-        for(int i=0; i<table.size(); i++)
-        {
-            for (int j=0; j<table.get(i).size();j++)
-            {
-                System.out.println(this.table.get(i).get(j).size());
-            }
-        }
-
-    }
-
 
 
     public void writeToCsvFile()
@@ -194,10 +181,10 @@ public class Table
 
         System.out.print("scrivi il path di dove vuoi vengano salvati i file con i risultati : ");
         String path = scanner.next();
-       // String fileName = path + "/treelet.txt";
+        String fileName = path + "/treelet.txt";
         String fileName1 = path + "/totale.txt";
         String separator=" , ";
-      /*  try {
+        try {
             File file = new File(fileName);
             if (file.exists())
                 System.out.println("Il file " + fileName + " esiste");
@@ -210,9 +197,9 @@ public class Table
 
             fw.append("DIMENSIONE,NODO,TREELET,OCCORRENZE ");
             fw.append(System.lineSeparator());
-            for (int i = 1 ; i < table.size(); i++)
+            for (int i = 1 ; i < k; i++)
             {
-                for (int j = 0 ; j<table.get(i).size() ; j++)
+                for (int j = 0 ; j < graph.V ; j++)
                 {
                     for (Entry e : table.get(i).get(j))
                     {
@@ -239,9 +226,9 @@ public class Table
         catch (IOException e)
         {
             e.printStackTrace();
-        }*/
+        }
 
-       try
+        try
         {
             File file1 = new File(fileName1);
             if (file1.exists())
@@ -253,11 +240,11 @@ public class Table
 
             FileWriter fw1 = new FileWriter(file1);
 
-            for (int i = 1 ; i < table.size(); i++)
+            for (int i = 1 ; i <= k; i++)
             {
                 int count=0;
                 String dim = Integer.toString(i);
-                for (int j=0;j<table.get(i).size();j++)
+                for (int j=0; j<graph.V; j++)
                 {
                     count += table.get(i).get(j).size();
                     String countNode= Integer.toString(table.get(i).get(j).size());
@@ -285,7 +272,6 @@ public class Table
 
 
 }
-
 
 
 

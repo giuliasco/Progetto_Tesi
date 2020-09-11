@@ -1,0 +1,41 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ left=38mm,
+ right=22mm,
+ top=28mm,
+ bottom=28mm,
+ }
+
+\usepackage[italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage[font=small]{caption}
+\usepackage{color}
+\usepackage{listings}
+\usepackage[Glenn]{fncychap}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{chngcntr}
+\usepackage[babel]{csquotes}
+\usepackage[table]{xcolor}
+\usepackage{multirow}
+\usepackage{gensymb}
+\usepackage{pdflscape}
+\usepackage{url}
+\usepackage[toc,page]{appendix}
+\linespread{1.5}
+\counterwithout{equation}{chapter} 
+\usepackage{array, booktabs}
+
+\begin{document}
+\author{Giulia Scoccia}
+
+\input{frontespizio/frontespizio.tex}
+\tableofcontents
+\input{capitolo1/capitolo1.tex}
+\bibliography{bibliography}
+\bibliographystyle{unsrt}
+\end{document}

@@ -1,0 +1,27 @@
+\begin{thebibliography}{1}
+
+\bibitem{bressan2018motif}
+Marco Bressan, Flavio Chierichetti, Ravi Kumar, Stefano Leucci, and Alessandro
+  Panconesi.
+\newblock Motif counting beyond five nodes.
+\newblock {\em ACM Transactions on Knowledge Discovery from Data (TKDD)},
+  12(4):1--25, 2018.
+
+\bibitem{alon1995color}
+Noga Alon, Raphael Yuster, and Uri Zwick.
+\newblock Color-coding.
+\newblock {\em Journal of the ACM (JACM)}, 42(4):844--856, 1995.
+
+\bibitem{bressan2019motivo}
+Marco Bressan, Stefano Leucci, and Alessandro Panconesi.
+\newblock Motivo: fast motif counting via succinct color coding and adaptive
+  sampling.
+\newblock {\em Proceedings of the VLDB Endowment}, 12(11):1651--1663, 2019.
+
+\bibitem{alon2008biomolecular}
+Noga Alon, Phuong Dao, Iman Hajirasouliha, Fereydoun Hormozdiari, and S~Cenk
+  Sahinalp.
+\newblock Biomolecular network motif counting and discovery by color coding.
+\newblock {\em Bioinformatics}, 24(13):i241--i249, 2008.
+
+\end{thebibliography}

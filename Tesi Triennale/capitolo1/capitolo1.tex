@@ -1,0 +1,50 @@
+\chapter{Introduzione}
+
+I Motif, anche chiamati Graphlet o Pattern, sono piccoli sottografi indotti di un grafo, la conta dei motif \`e un problema ben noto del graph mining e dell'analisi dei social network.
+Dato un grafo in input, il problema richiede di contare la frequenza di tutti i graphlet di una certa taglia. 
+Comprendere la distribuzione dei motif permette di avere una chiave della conoscenza delle interazioni tra le propriet\`a strutturali e i nodi del grafo.
+Fa luce sul tipo di strutture locali presenti nel grafo, che possono essere usate per una miriade di analisi.
+Poich\`e il conteggio dei graphlet pu\`o risultare computazionalmente impegnativo, di solito ci si accontenta di obiettivi meno ambiziosi.
+Uno di questi \`e la stima della frequenza: per ogni sottografo vogliamo stimare, nel modo pi\`u accurato possibile, la sua frequenza relativa rispetto a tutti i sottografi della stessa dimensione.
+Ancora meno ambiziosamente, visto che il numero di sottografi di una data dimensione cresce in modo esponenziale, si limita l'attenzione al problema della stima della frequenza relativa solo ai sottografi pi\`u ripetuti, ossia quelli che compaiono almeno una certa frazione di tempo.
+Ci sono due approcci per ottenere tali stime.
+Il primo \`e l'uso delle catene di Markov Monte Carlo, mentre il secondo \`e quello dell'uso del Color Coding, studi recenti mettono in luce e studiano le differenze tra i due approcci \cite{bressan2018motif}.
+In questa tesi andremo a vedere il Color Coding, un'elegante tecnica randomizzata introdotta in \cite{alon1995color}, per determinare in maniera probabilistica percorsi e alberi in un grafo e pi\`u nel dettaglio una sua estensione molto interessante, l'algoritmo CC.
+Questo algoritmo fornisce garanzie statistiche, forti e dimostrabili, per il problema dell'approssimazione dei conteggi esatti di graphlet, da cui le frequenze possono essere facilmente derivate, il suo utilizzo \`e molto utile applicato su grandi reti sociali \cite{bressan2018motif,bressan2019motivo}
+CC si basa su due osservazioni chiave.
+La prima \`e che il Color Coding pu\`o essere usato per costruire "un'urna" astratta che contiene una sotto-popolazione di tutti i k-alberi di G.
+La seconda osservazione \`e che il compito di campionare k-graphlet, ossia graphlet con k nodi, pu\`o essere ridotto, con un overhead minimale, a campionare k-alberi, alberi con k nodi, dall'urna.
+Si pu\`o cos\`i stimare la conta dei motif in due step: la "fase costruttiva", in cui si crea l'urna da G e la "fase di campionamento", dove si campionano i graphlet dall'urna.
+
+
+\section{Contributo della tesi}
+
+In questo lavoro di tesi, l'attenzione \`e stata concentrata sulla ricerca della frequenza di k-treelet all'interno di grafi pi\`u o meno grandi.
+Per k-treelet , si intendono alberi indotti in un grafo con non k nodi.
+Per effettuare tale ricerca \`e stato necessario concentrarsi sulla fase costruttiva dell'algoritmo CC.
+Infatti, \`e stato visto in uno studio su una rete PPI (Protein-Protein Interaction) l'efficacia di questa fase per la ricerca della frequenza di particolari strutture biomolecolari (unicellulari e pluricelluri)\cite{alon2008biomolecular}.
+La fase costruttiva, \`e descritta mediante una programmazione dinamica di tipo "top-down", \`e un processo inevitabile, che per\`o richiede un grande impiego di tempo e spazio.
+Il lavoro svolto ha portato, per prima cosa ad un'implementazione, in Java.
+Il programma permette la ricerca delle occorrenze dei diversi k-treelet colorati, all'interno del grafo.
+Ogni albero con k nodi \`e rappresentato con una stringa binaria nella quale sono incluse tutte le informazioni, tra cui: colorazione, forma e fattore di bilanciamento ($\beta$).
+I colori devono essere necessariamente k colori differenti.
+Ogni albero \`e costruito in modo tale che i figli del nodo radice siano disposti in ordine non crescente.
+Il fattore di bilanciamento, $\beta$, garantisce l'unicit\`a degli alberi.
+Il programma mantiene tutti questi k-treelet all'interno di una tabella, insieme alle proprie occorrenze.
+L'approccio alla costruzione della tabella dei treelet, a differenza dell'algoritmo originarale, \`e di tipo "bottom-up".
+Per rendere pi\`u efficiente il codice si \`e ricorsi all'utilizzo di Thread.
+In un secondo momento si \`e cercato di ottimizzare l'approccio utilizzato e viene introdotto il concetto di decomposizioni bilanciate di un albero.
+Sfruttando queste decomposizioni si \`e riscritto il codice ottimizzato.
+Anche in questo caso, in fase implementativa viene adottato un approccio "bottom-up", contrariamente a quello "top-down" adottato in fase teorica.
+
+
+
+
+\section{Organizzazione del testo}
+
+La descrizione del lavoro \`e strutturata nel seguente modo.
+Nel capitolo 2 viene descritta la tecnica del color coding e il suo utilizzo per il conteggio degli alberi.
+Si vedr\`a l'algoritmo CC e la sua formulazione "top-down". Si discuterà la scelta di adottare un approccio "bottom-up" per l'implementazione e i suoi vantaggi.
+Nel capitolo 3 si vedranno le decomposizioni bilanciate e perch\`e aiutano per rendere l'algoritmo CC pi\`u efficiente. Anche in questo caso si discuterà sulle scelte effettuate in fase implementativa.
+Nel capitolo 4 si osserveranno i dati ottenuti dalle sperimentazioni dei diversi codici.
+Mentre il capitolo 5, tratter\`a le conclusione e i possibili approcci futuri.
