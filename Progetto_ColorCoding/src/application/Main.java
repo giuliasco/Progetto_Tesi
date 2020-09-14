@@ -1,14 +1,13 @@
 package application;
 import java.util.*;
-
-//import java.util.ArrayList;
 import application.building.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
 
 	public static void main(String[] args) {
 
-		Scanner scanner = new Scanner(System.in);
+		/*Scanner scanner = new Scanner(System.in);
 
 		System.out.print("inserisci il tuo file, con il proprio percorso : ");
 		String file = scanner.next();
@@ -29,8 +28,14 @@ public class Main {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		b.writeToCsvFile();
+		b.writeToCsvFile();*/
 
+		int prova[] = {1,2,3,4,0,5,6};
+
+		for (int i=0 ;i<prova.length;i++){
+			if (prova[i] == 0) break;
+			System.out.println(prova[i]);
+		}
 
 	}
 	}

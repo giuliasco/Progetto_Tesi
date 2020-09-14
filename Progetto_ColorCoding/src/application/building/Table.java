@@ -100,6 +100,7 @@ public class Table
                 t.join();
 
             log("FINE CREAZIONE TABELLA");
+
         }
     }
 
@@ -197,15 +198,16 @@ public class Table
 
             fw.append("DIMENSIONE,NODO,TREELET,OCCORRENZE ");
             fw.append(System.lineSeparator());
-            for (int i = 1 ; i < k; i++)
+            for (int i = 1 ; i <= k; i++)
             {
                 for (int j = 0 ; j < graph.V ; j++)
                 {
                     for (Entry e : table.get(i).get(j))
                     {
+                        long prova = (e.treelet>>28) & 0xFFFFFFFFL;
                         String s1 = Integer.toString(i);
                         String s2 = Integer.toString(j);
-                        String s3 = Long.toString(e.treelet);
+                        String s3 = Long.toString(prova);
                         String s4 = Long.toString(e.count);
                         fw.append(s1);
                         fw.append(separator);

@@ -77,22 +77,22 @@ public class Graph {
 	public int[] colorGraph (int c) {
 		int color[] = new int[V];
 
-		Scanner scanner = new Scanner(System.in);
+		/*Scanner scanner = new Scanner(System.in);
 		System.out.println("inserisci il metodo desiderato per la colorazione del grafo :");
 		System.out.println("1) Random");
 		System.out.println("2) Round Robin");
 		System.out.print("Digita il numero corrispondente al metodo desiderato :   ");
 		String answer = scanner.next();
 		if (answer.equals("1"))
-		{
+		{*/
 			for (int i = 0; i < V; i++)
 				color[i] = (int) (Math.random() * c + 1);
-		}
+		/*}
 		else if (answer.equals("2"))
 		{
 			for (int i = 0; i < V; i++)
 				color[i] = i % c;
-		}
+		}*/
 		return color;
 	}
 
