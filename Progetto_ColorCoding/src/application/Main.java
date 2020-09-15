@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args ) {
 
 		/*Scanner scanner = new Scanner(System.in);
 
@@ -20,23 +20,32 @@ public class Main {
 		String dim = scanner.next();
 		int k = Integer.parseInt(dim);
 
+		String file = new String();
+
+
+		 */
+		String file = args[0];
 		Graph graph = new Graph(file);
 
-		Table b = new Table(graph,c,k,3);
+		int c = Integer.valueOf(args[1]);
+
+		int k = Integer.valueOf(args[2]);
+
+		int thread = Integer.valueOf(args[3]);
+
+
+		int coloration = Integer.valueOf(args[4]); // 1 per colorazione random , mentre 2 per round robin
+
+		String path = args[5];
+
+
+		Table b = new Table(graph,c,k,thread,coloration);
 		try {
 			b.build();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		b.writeToCsvFile();*/
-
-		int prova[] = {1,2,3,4,0,5,6};
-
-		for (int i=0 ;i<prova.length;i++){
-			if (prova[i] == 0) break;
-			System.out.println(prova[i]);
-		}
-
+		b.writeToCsvFile(path);
 	}
 	}
 

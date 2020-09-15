@@ -44,16 +44,18 @@ public class Table
     private Graph graph;
     private int colors;
     private int k;
+    public int coloration;
 
     private int nthreads;
     private AtomicInteger next_vertex = new AtomicInteger(0);;
 
-    public Table(Graph graph, int c, int k, int nthreads)
+    public Table(Graph graph, int c, int k, int nthreads , int coloration)
     {
         this.graph = graph;
         this.colors = c;
         this.k = k;
         this.nthreads = nthreads;
+        this.coloration = coloration;
 
         table = new ArrayList<ArrayList<ArrayList<Entry>>>();
         table.add(null);
@@ -107,7 +109,7 @@ public class Table
 
     private void do_build1()
     {
-        int[] color= graph.colorGraph(colors);
+        int[] color= graph.colorGraph(colors , coloration);
 
 
         log("AVVIO CREAZIONE TABELLA PER H = 1");
@@ -176,12 +178,8 @@ public class Table
 
 
 
-    public void writeToCsvFile()
+    public void writeToCsvFile(String path)
     {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("scrivi il path di dove vuoi vengano salvati i file con i risultati : ");
-        String path = scanner.next();
         String fileName = path + "/treelet.txt";
         String fileName1 = path + "/totale.txt";
         String separator=" , ";
