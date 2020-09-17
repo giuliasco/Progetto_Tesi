@@ -62,16 +62,20 @@ public class Treelet
 
         int size = (int) (t & 0xFL) ;
         long structure = (t>>28) & 0xFFFFFFFFL;
-        ArrayList<ArrayList<Integer>> node_counter = new ArrayList<ArrayList<Integer>>(Collections.nCopies(size+1, new ArrayList<Integer>()));
-
+        ArrayList<ArrayList<Integer>> node_counter = new ArrayList<ArrayList<Integer>>(size+1);
+        while(node_counter.size()<size+1) node_counter.add(new ArrayList<Integer>());
         int root[] = new int[size+1];
         int counter = 0;
         int current_value = counter;
         int previous_value = -1;
-        for ( int i= 0 ; i <= size ; i++)
+        root[0]=previous_value;
+        for ( int i= 0 ; i < 2*size ; i++)
         {
 
-            if ((structure >> (2*size - i)) ==  1)
+            long mask=1L;
+            int structure_bit = (int) (structure >> (2*size - 1 - i) & mask);
+
+            if (structure_bit ==  1)
             {
                 previous_value = current_value;
                 counter++;
@@ -79,11 +83,11 @@ public class Treelet
                 root[current_value] = previous_value;
                 node_counter.get(previous_value).add(current_value);
 
+            } else
+            {
+                current_value = previous_value;
+                previous_value = root[current_value];
             }
-
-            current_value = previous_value;
-            previous_value = root[current_value];
-
         }
 
         return node_counter;
@@ -92,7 +96,7 @@ public class Treelet
 
 
 
-        public static int search_centroid(long t)
+       /* public static int search_centroid(long t)
         {
             ArrayList<ArrayList<Integer>> nodeList = nodes_structure(t) ;
             int size = (int)(t * 0xFL) + 1 ;
@@ -137,7 +141,7 @@ public class Treelet
 
             return counter;
 
-        }
+        }*/
 
 }
 

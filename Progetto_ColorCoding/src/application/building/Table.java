@@ -60,7 +60,11 @@ public class Table
         table = new ArrayList<ArrayList<ArrayList<Entry>>>();
         table.add(null);
         for(int i=1; i<=k; i++)
-            table.add(new ArrayList<ArrayList<Entry>>(Collections.nCopies(graph.V, new ArrayList<Entry>())));
+        {
+            table.add(new ArrayList<ArrayList<Entry>>(graph.V));
+            while( table.get(i).size()< graph.V ) table.get(i).add(new ArrayList<Entry>());
+        }
+
     }
 
     private void log(String s)
