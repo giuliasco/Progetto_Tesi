@@ -3,3 +3,5 @@
 \contentsline {chapter}{\numberline {1}Introduzione}{2}
 \contentsline {section}{\numberline {1.1}Contributo della tesi}{3}
 \contentsline {section}{\numberline {1.2}Organizzazione del testo}{4}
+\contentsline {chapter}{\numberline {2}Color Coding}{5}
+\contentsline {chapter}{\numberline {3}Decomposizioni bilanciate}{6}

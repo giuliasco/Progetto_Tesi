@@ -62,13 +62,16 @@ public class Treelet
 
         int size = (int) (t & 0xFL) ;
         long structure = (t>>28) & 0xFFFFFFFFL;
+
         ArrayList<ArrayList<Integer>> node_counter = new ArrayList<ArrayList<Integer>>(size+1);
         while(node_counter.size()<size+1) node_counter.add(new ArrayList<Integer>());
+
         int root[] = new int[size+1];
         int counter = 0;
         int current_value = counter;
         int previous_value = -1;
         root[0]=previous_value;
+
         for ( int i= 0 ; i < 2*size ; i++)
         {
 
@@ -96,52 +99,28 @@ public class Treelet
 
 
 
-       /* public static int search_centroid(long t)
+       /*public static int search_centroid(long t)
         {
             ArrayList<ArrayList<Integer>> nodeList = nodes_structure(t) ;
             int size = (int)(t * 0xFL) + 1 ;
             int medium_value = size / 2 ;
-            List<Integer> centroidList = new ArrayList<Integer>() ;
+            int alfa[] = new int[size];
             int centroid=0 ;
 
-            for (int i=0; i<size ; i++)
+            for (int i=0 ; i< size ; i++)
             {
-                int dimension = 0;
-                dimension += count_child(nodeList, i) ;
 
-                int delta_node = size - dimension ;
-
-                if (delta_node <= medium_value) centroidList.add(i) ;
+               alfa[i] = seach_centroid1(nodeList,i);
 
             }
 
-            if(centroidList.size() == 1 |centroidList.size()==2)
-            {
-                centroid = centroidList.get(0);
-            }
-
-            if (centroidList.size()>2 | centroidList.size() == 0 ) System.out.println("errore");
 
             return centroid;
 
         }
 
 
-        private static int count_child(ArrayList<ArrayList<Integer>> nodeList, int i)
-        {
-            int counter = 1 ;
-            if (!nodeList.get(i).isEmpty())
-            {
-                counter += nodeList.get(i).size();
-                for (int j=0 ; j<nodeList.get(i).size() ; j++ )
-                {
-                    counter += count_child(nodeList, nodeList.get(i).get(j));
-                }
-            }
-
-            return counter;
-
-        }*/
+        private static int seach_centroid1(ArrayList<Integer[]>)*/
 
 }
 

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Graph {
-	public ArrayList<ArrayList<Integer>> adj;
+	public ArrayList<HashSet<Integer>> adj;
 	public int V;
 	private int added=0;
 
@@ -35,9 +35,9 @@ public class Graph {
 			}
 			V = vertex.size();
 			if(!vertex.contains(0)) added=-1;
-			adj = new ArrayList<ArrayList<Integer>>();
+			adj = new ArrayList<HashSet<Integer>>();
 			for (int i = 0; i < V; i++)
-				adj.add(new ArrayList<Integer>());
+				adj.add(new HashSet<Integer>());
 		}
 		catch(IOException e)
 		{
@@ -98,9 +98,9 @@ public class Graph {
 	{
 		for (int i = 0; i < adj.size(); i++) {
 			System.out.println("Adjacency list of " + i);
-			for (int j = 0; j < adj.get(i).size(); j++) {
-				System.out.print(adj.get(i).get(j) + " ");
-			}
+
+				System.out.println(adj.get(i)+ " ");
+
 			System.out.println();
 		}
 	}
