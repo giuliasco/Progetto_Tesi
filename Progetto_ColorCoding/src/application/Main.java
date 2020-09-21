@@ -24,7 +24,7 @@ public class Main {
 
 
 		 */
-		String file = args[0];
+		/*String file = args[0];
 		Graph graph = new Graph(file);
 
 		int c = Integer.valueOf(args[1]);
@@ -45,7 +45,7 @@ public class Main {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		b.writeToCsvFile(path);
+		b.writeToCsvFile(path);*/
 
 
 
