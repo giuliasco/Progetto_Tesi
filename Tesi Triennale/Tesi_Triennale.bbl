@@ -1,16 +1,16 @@
 \begin{thebibliography}{1}
 
+\bibitem{alon1995color}
+Noga Alon, Raphael Yuster, and Uri Zwick.
+\newblock Color-coding.
+\newblock {\em Journal of the ACM (JACM)}, 42(4):844--856, 1995.
+
 \bibitem{bressan2018motif}
 Marco Bressan, Flavio Chierichetti, Ravi Kumar, Stefano Leucci, and Alessandro
   Panconesi.
 \newblock Motif counting beyond five nodes.
 \newblock {\em ACM Transactions on Knowledge Discovery from Data (TKDD)},
   12(4):1--25, 2018.
-
-\bibitem{alon1995color}
-Noga Alon, Raphael Yuster, and Uri Zwick.
-\newblock Color-coding.
-\newblock {\em Journal of the ACM (JACM)}, 42(4):844--856, 1995.
 
 \bibitem{bressan2019motivo}
 Marco Bressan, Stefano Leucci, and Alessandro Panconesi.

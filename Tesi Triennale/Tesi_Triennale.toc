@@ -5,4 +5,4 @@
 \contentsline {section}{\numberline {1.2}Organizzazione del testo}{4}
 \contentsline {chapter}{\numberline {2}Color Coding}{5}
 \contentsline {section}{\numberline {2.1}Tecnica del Color Coding}{5}
-\contentsline {chapter}{\numberline {3}Decomposizioni bilanciate}{8}
+\contentsline {chapter}{\numberline {3}Decomposizioni bilanciate}{9}

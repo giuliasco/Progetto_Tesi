@@ -16,6 +16,7 @@ Dato un grafo $G=(V,E)$ (diretto o non) e un numero $k$, $G$ pu\`o contenere un 
 Sia $G=(V,E)$ un grafo diretto o indiretto. Si consideri il problema di trovare un percorso semplice (diretto o no) di lunghezza $k-1$ in $G$. Data una colorazione dei vertici di $G$ con $k$ colori. Un percorso in $G$ \`e detto $colorato$ se ogni suo vertice \`e colorato da un colore distinto. Un percorso colorato \`e chiaramente semplice. Ogni percorso semplice di lunghezza $k-1$, d'altro canto, ha una possibilit\`a di diventare colorato di $k!/k^k>e^{-k}$. Si noti che questa quantit\`a \`e solo esponenzialmente piccola in $k$. Quello che si andr\`a per\`o a vedere, \`e il tempo  necessario per trovare un percorso colorato di lunghezza $k-1$ in $G$, se esiste, o tutte le coppie di vertici connesse da percorsi colorati di lunghezza $k-1$ in $G$.
 
 \newtheorem{lemma}{Lemma}[section]
+\newtheorem{teorema}[lemma]{Teorema}
 \begin{lemma}
 	\label{lemma1}
 	Sia $G=(V,E)$ un grafo diretto o indiretto e sia $c:V\rightarrow\{1,......,k\}$ una colorazione dei suoi vertici con $k$ colori. Un percorso colorato in $G$, se esiste, pu\`o essere trovato, nel caso peggiore, in $2^{O(k)} \cdot E$
@@ -42,5 +43,37 @@ Sia $G=(V,E)$ un grafo diretto o indiretto. Si consideri il problema di trovare 
 \begin{proof}[\textbf{Dimostrazione}]
 	L'algoritmo con complessit\`a $2^{O(k)} \cdot{VE}$  \ 
 	\`e ottenuto dalla semplice esecuzione dell'algoritmo descritto nella prova del Lemma \ref{lemma1}, un numero $|V|$ di volte, una volta per ogni vertice iniziale.
+	\newline
+	Per ottenere l'algoritmo con complessit\`a $2^{O(k)}\cdot {V^{\omega}}$, invece, si usa il seguente approccio.
+	Si enumerano tutte le partizioni dell'insieme dei colori $\{1,2,....,k\}$ in due sottoinsiemi $C_1$ e $C_2$ di taglia $k/2$ ciascuno.
+	Ci sono solo $\binom{k}{k/2}<2^k$ di queste partizioni.
+	Per ognuna delle partizioni $C_1$ e $C_2$, siano $V_1$ l'insieme dei vertici di $G$ colorati da colori di $C_1$ e $V_2$ l'insieme dei vertici colorati da colori di $C_2$.
+	Siano $G_1$ e $G_2$ i sottografi di $G$ indotti da $V_1$ e $V_2$ rispettivamente.
+	Ricorsivamente si trovano tutte le coppie di vertici di $ G_1 $ e $ G_2 $ connesse da percorsi colorati di lunghezza $ k/2-1 $.
+	Tutte le informazioni vengono poi raccolte in due matrici booleane $ A_1 $ e $ A_2 $.
+	Sia $ B $ una matrice booleana che le relazioni di adiacenza tra i vertici di $ V_1 $ e quelli di $ V_2 $.
+	Il prodotto booleano $ A_1 B A_2 $ restituisce tutte le coppie di $ V $ che sono connesse da percorsi colorati di lunghezza esattamente $ k-1 $, dove i primi $ k/2 $ vertici del percorso sono colorati da colori di $ C_1 $ e i rimanenti da colori di $ C_2 $.
+	Dall'unione (OR) delle matrici ottenute per tutte le possibili partizioni si ottiene il risultato desiderato.
+	\`E facile da verificare che la complessit\`a di questo approccio \`e infatti $2^{O(k)}\cdot {V^{\omega}}$, come il numero di moltiplicazione di matrice utilizzato, $ t(k) $, soddisfa la ricorrenza $ t(k) \le 2^{k}t(k/2) $.
 \end{proof}
+
+Usando i precedenti Lemma si ottengono i seguenti risultati.
+
+\begin{teorema}
+	\label{teorema1}
+	Un percorso semplice diretto o indiretto di lunghezza $ k-1 $ in un grafo (diretto o indiretto) $ G =(V,E) $ che contiene tale percorso pu\`o essere trovato in un tempo atteso di $ 2^{O(k)} \cdot V $ nel caso indiretto e in $ 2^{O(k)} \cdot E $ nel caso diretto.
+\end{teorema}
+
+\begin{teorema}
+	\label{teorema2}
+	Un ciclo semplice diretto o indiretto di taglia $ k $ in un grafo $ G=(V,E) $ (diretto o indiretto) pu\`o essere trovato in un tempo atteso di $2^{O(k)} \cdot{VE}$ o $2^{O(k)}\cdot {V^{\omega}}$.
+\end{teorema}
+
+Il metodo di color-coding pu\`o essere usato in maniera efficiente non solo per trovare cicli o percorsi colorati, ma ogni sottografo con una larghezza dell'albero delimitata.
+
+
+
+
+
+
 	
