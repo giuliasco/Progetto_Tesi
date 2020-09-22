@@ -182,7 +182,7 @@ public class Table
 
 
 
-    public void writeToCsvFile(String path)
+   /* public void writeToCsvFile(String path)
     {
         String fileName = path + "/treelet.txt";
         String fileName1 = path + "/totale.txt";
@@ -271,7 +271,7 @@ public class Table
             e.printStackTrace();
         }
     }
-
+*/
 
 
 

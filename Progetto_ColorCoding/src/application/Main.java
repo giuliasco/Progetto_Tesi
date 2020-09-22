@@ -47,6 +47,12 @@ public class Main {
 		}
 		b.writeToCsvFile(path);*/
 
+		long t1= 45634351124L;
+		long t2 = 2684583954L;
+
+		long t = Treelet.balance_merge(t1,t2);
+
+		System.out.println(t);
 
 
 

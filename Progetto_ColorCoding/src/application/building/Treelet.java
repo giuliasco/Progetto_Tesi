@@ -62,62 +62,105 @@ public class Treelet
     /*
     Merge della versione ottimizzata, in questo caso affinchè i due alberi siano uniti devono essere:
     1)in questo caso i due alberi condividono certamente il colore della radice che è la stessa
-    (come faccio a rappresentare questa cosa, senza far si che ci sia un problema??)
     2) la dimensione della struttura dell'albero radicato nell'ultimo figlio della radice di t1,
     deve essere maggiore o uguale a quello dell'albero nel primo figlio di t2.
-    3) la dimensione dei nodi in T1-1 deve essere non superiore ai 2/3 dei nodi totali????non ho
-    capito bene questa cosa
+    3) la dimensione dei nodi in T1-1 deve essere non superiore ai 2/3 dei nodi totali
     4) una volta effettuato il merge controllare che la radice è il centroide(per ora condidero che sia
     unico)
-     */
-    //bits 0-3: size of the tree, excluding the root
-    //bits 4-7: size of the subtree rooted in the last child
-    //bits 8-11: size of the subtree rooted in the first child
-    //bits 12-27: color's bitmask
-    //bits 28-59: DFS visit of the tree
+   */
 
     public static long balance_merge(long t1, long t2)
     {
-        long size1 = t1 & 0xFL;
-        long size2 = t2 & 0xFL;
+        int size1 = (int)(t1 & 0xFL);
+        int size2 = (int)(t2 & 0xFL);
 
         long structure1 = (t1>>28) & 0xFFFFFFFFL;
         long structure2 = (t2>>28) & 0xFFFFFFFFL;
 
-        if(size1 > (2 * (size1 + size2 + 1 )) / 3)
+        /*
+        verifico che la radice sia cenroide per l'albero risultante.
+        Ho deciso di tenerli i conteggi delle grandezze dei sottoalberi perchè può risultare utile anche dopo
+         */
+        int counter = 0;
+        int delta_t1[]=new int[nodes_structure(t1).get(0).size()];
+        int j=0;
+
+        for(int i=0; i<2*size1 ; i++)
+        {
+            long mask=1L;
+            int structure_bit1 = (int) (structure1 >> (2*size1 - 1 - i) & mask);
+            if (structure_bit1 == 1)
+            {
+                counter ++;
+                delta_t1[j] = delta_t1[j] + 1 ;
+            }
+            else
+            {
+                counter --;
+                if(counter == 0 )
+                {
+                   if( delta_t1[j] > (size1 + size2 + 1 )/2)
+                       return -1;
+
+                   j++;
+                }
+            }
+        }
+
+        int delta_t2[]=new int[nodes_structure(t2).get(0).size()];
+        int k=0;
+
+        for(int i=0; i<2*size1 ; i++)
+        {
+            long mask=1L;
+            int structure_bit2 = (int) (structure2 >> (2*size2 - 1 - i) & mask);
+            if (structure_bit2 == 1)
+            {
+                counter ++;
+                delta_t2[k] = delta_t2[k] + 1 ;
+            }
+            else
+            {
+                counter --;
+                if(counter == 0 )
+                {
+                    if( delta_t2[k] > (size1 + size2 + 1 )/2)
+                        return -1;
+
+                    k++;
+                }
+            }
+        }
+
+        //verifico i colori
+        if( Long.bitCount(t1 & t2 & 0xFFFF000L)!=1 )
             return -1;
 
-        if(size1==0 ) return -1;
-
-        int size_last1 = (int)((t1 >> 4) & 0xF);
-        long mask = (1<<(2*size_last1-2))-1;
-        long subtree1 = (structure1>>1) & mask;
-
-        if(size2>0)
+        //verifico che l'insieme A sia più grande di B secondo le regole insimeistiche date e solo allora creo t
+        if (size1 <= (size1 + size2 + 1)*2/3 & (size1 + delta_t2[0]) > (size1 + size2 + 1)*2/3 )
         {
-            int size_first2= (int) ((t2>>8) & 0xF);
+            int size_last1 = (int)((t1 >> 4) & 0xF);
+            long mask = (1<<(2*size_last1-2))-1;
+            long subtree1 = (structure1>>1) & mask;
+
+            int size_first2= delta_t2[0];
             long mask1 = (1<<(2*size_first2-2))-1;
             long subtree2 = (structure2 >> (size2 - size_first2 + 1)) & mask1;
 
-            if (subtree2 > subtree1)
+            if(subtree2 > subtree1)
                 return -2;
 
+            long structure = structure1<<(2*size2) | structure2;
+            long t = (size1 + size2) | t2 & 0XF0 |  ((t1 | t2) & 0xFFFF000L) | structure <<28;
+            assert(t<=0x0FFFFFFFFFFFFFFFL);
+            return t;
         }
 
-        if( (t1 & t2 & 0xFFFF000L)!=0 )
-            return -1;
+        return -8;
 
-        long structure = structure1<<(2*size2) | structure2;
-        long size_last2 = (t2>>4) & 0xF;
-        long size_first1=(t1>>8) & 0xF;
-
-        long t = (size1 + size2) | size_last2 << 4 | size_first1 << 8 |  ((t1 | t2) & 0xFFFF000L) | structure <<28;
-        assert(t<=0x0FFFFFFFFFFFFFFFL);
-
-        if(!is_centroid(t)) return -1;
-
-        return t;
     }
+
+
 
     public static int normalization_factor(long t)
     {
@@ -168,7 +211,7 @@ public class Treelet
 
 
 
-       private static boolean is_centroid(long t) {
+      /* private static boolean is_centroid(long t) {
            ArrayList<ArrayList<Integer>> nodeList = nodes_structure(t);
            int size = (int) (t & 0xFL) ;
            int medium_value = (size + 1 ) / 2;
@@ -205,7 +248,7 @@ public class Treelet
               value += build_alfa(j, nodeList);
            }
            return value;
-       }
+       }*/
 
 
 
