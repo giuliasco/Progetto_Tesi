@@ -1,76 +1,59 @@
 \chapter{Color Coding}
 
-In questo capitolo verr\`a descritta la tecnica del Color Coding introdotta da Alon, Yuster e Zwick  in \cite{alon1995color} , la sua estensione algoritmica e l'utilizzo che ne \`e stato fatto in questa tesi , per il calcolo della frequenza di k-treelet in un grafo.
+Nel capitolo verr\`a descritta la tecnica del Color Coding utilizzata in questo studio.
 
-\section{Tecnica del Color Coding}
-
-La tecnica del Color Coding fu presentata per la prima volta nel 1995, da Alon, Yuster e Zwick \cite{alon1995color}.
+La tecnica fu presentata per la prima volta nel 1995, da Alon, Yuster e Zwick \cite{alon1995color}.
 In generale, dato un grafo $G = (V,E)$, il problema dell'isomorfismo dei sottografi  di $G$ \`e un problema $NP-completo$.
 Il metodo del Color Coding permette di risolvere sottocasi di questo problema in tempo polinomiale.
 
-La tecnica del $color$-$coding$ \`e una tecnica randomizzata. Dati un grafo $ G = (V,E) $ ed uno $H = (V_H, E_H)$, i vertici $V$ di $G$, in cui verr\`a cercato un  sottografo isomorfo ad $H$, sono colorati casualmente di $k = |V_H|$ colori. Se $|V_H| = O(\log(V))$, allora, tutti i vertici del sottografo di $G$ isomorfo ad $H$, se esiste, saranno colorati da colori distinti.   
+Dati un grafo $ G = (V,E) $ ed uno $H = (V_H, E_H)$, i vertici $V$ di $G$, in cui verr\`a cercato un  sottografo isomorfo ad $H$, sono colorati casualmente di $k = |V_H|$ colori. Se $|V_H| = O(\log(V))$, allora, tutti i vertici del sottografo di $G$ isomorfo ad $H$, se esiste, saranno colorati da colori distinti.   
 
-Probabilmente i sottocasi pi\`u interessanti e semplici di problemi di sottografi isomorfi sono i seguenti.
-Dato un grafo $G=(V,E)$ (diretto o non) e un numero $k$, $G$ pu\`o contenere un percorso(diretto o non) di lunghezza $k$? $G$ pu\`o contenere un ciclo (diretto o non) di lunghezza $esattamente$ $k$?
+Il primo algoritmo descritto, per\`o, si limitava alla ricerca di sottografi indotti in un grafo, senza farne un conteggio.
+ 
+\`E per questo motivo che in questo capitolo presenteremo un'estensione dell'algoritmo dato da Alon \cite{alon1995color}, per effettuare un conteggio dei Motif all'interno del grafo.
+Dato in input un grafo $ G=(V,E) $ e un numero $ k $, per prima cosa il color coding assegna uniformemente e indipendentemente per ogni nodo di $ G $ un'etichetta in $ [k] := \{1,....,k\} $, indicato come un colore.
+L'obiettivo \`è quello di conteggiare il numero di alberi colorati non indotti di $ k-nodi $ in $ G $ - chiamati $ treelet $ - i cui colori non sono ripetuti.
+Questo viene fatto in maniera efficiente mediante una programmazione dinamica, tecnica bottom-up che identifica dei sottoproblemi del problema originario, procedendo logicamente dai problemi più piccoli verso quelli più grandi.
+Grazie al fatto che alberi con insiemi disgiunti di colori devono giacere su insiemi digiunti di nodi.
 
-Sia $G=(V,E)$ un grafo diretto o indiretto. Si consideri il problema di trovare un percorso semplice (diretto o no) di lunghezza $k-1$ in $G$. Data una colorazione dei vertici di $G$ con $k$ colori. Un percorso in $G$ \`e detto $colorato$ se ogni suo vertice \`e colorato da un colore distinto. Un percorso colorato \`e chiaramente semplice. Ogni percorso semplice di lunghezza $k-1$, d'altro canto, ha una possibilit\`a di diventare colorato di $k!/k^k>e^{-k}$. Si noti che questa quantit\`a \`e solo esponenzialmente piccola in $k$. Quello che si andr\`a per\`o a vedere, \`e il tempo  necessario per trovare un percorso colorato di lunghezza $k-1$ in $G$, se esiste, o tutte le coppie di vertici connesse da percorsi colorati di lunghezza $k-1$ in $G$.
 
-\newtheorem{lemma}{Lemma}[section]
-\newtheorem{teorema}[lemma]{Teorema}
-\begin{lemma}
-	\label{lemma1}
-	Sia $G=(V,E)$ un grafo diretto o indiretto e sia $c:V\rightarrow\{1,......,k\}$ una colorazione dei suoi vertici con $k$ colori. Un percorso colorato in $G$, se esiste, pu\`o essere trovato, nel caso peggiore, in $2^{O(k)} \cdot E$
-\end{lemma}
-\begin{proof}[\textbf{Dimostrazione}]
 
-	Per prima cosa viene descritto un algoritmo di complessit\`a temporale $2^{O(k)} \cdot E$, che preso in input il grafo $G=(V,E)$, la colorazione $c:V\rightarrow\{1,......,k\}$ ed un vertice $s\in{V}$ restituisce, se esiste, un percorso colorato di lunghezza $k-1$ che parte da $s$.
-	Per trovare un percorso colorato di lunghezza $k-1$ in $G$ che parte in un qualche punto si aggiunge semplicemente a $G$  un nuovo vertice $s'$, colorato con un nuovo colore $0$ e connesso con archi a tutti i vertici di $V$. A questo punto si cerca un percorso colorato di lunghezza $k$ che parte da $s'$.
-	Un percorso colorato di lunghezza $k-1$ che inizia ad un specifico vertice $s$ \`e trovato usando un approccio di programmazione dinamica.
-	Si suppone di aver gi\`a trovato per ogni vertice $v\in{V}$ i possibili insiemi di colori dei percorsi di lunghezza $i$ che connettono $s$ a $v$.
-	Si noti che non vengono registrati tutti i percorsi colorati da $s$ a $v$, ma solo l'insieme dei colori di ogni percorso.
-	Per ogni vertice $v$ si ha perci\'o una collezione di al pi\`u $\binom {k}{i}$ insiemi di colori.
-	Si ispeziona ogni sotto insieme $C$ che appartiene alla collezione di $v$, e ogni arco $(u,v)\in{E}$. 
-	Se $c(u)\notin{C}$, si aggiunge l'insieme $C\cup\{c(u)\}$ alla collezione di $u$ degli insiemi di colori dei percorsi colorati di lunghezza $i+1$.
-	Il grafo $G$ contiene un percorso colorato di lunghezza $k-1$ rispetto alla colorazione $c$ se e solo se la collezione finale, che corrisponde ai percorsi di dimensione $k-1$ di almeno un vertice \`e non vuota.
-	Il numero di operazioni svolte dall'algoritmo appena descritto sono al pi\`u $O(\sum_{i=o}^{k} i \binom{k}{i} \cdot |E|)$ che \`e chiaramente $O(k2^{k}\cdot{E})$.
-\end{proof}
+\section{Algoritmo}
 
-\begin{lemma}
-	\label{lemma2}
-	Sia $G=(V,E)$ un grafo diretto o indiretto e sia $c:V\rightarrow\{1,......,k\}$ una colorazione dei suoi vertici con $k$ colori. Tutte le coppie di vertici connessi da percorsi colorati di lunghezza $k-1$ in $G$ pu\`o essere trovato in tempo $2^{O(k)} \cdot{VE}$ o $2^{O(k)}\cdot {V^{\omega}}$ nei casi peggiore.
-\end{lemma}
+Qui descriviamo l'estensione dell'algoritmo del color coding che pu\`o contare e campionare treelet colorati non indotti uniformemnte a caso.
+L'algoritmo consiste in una fase di costruzione e una fase di campionamento, in questo studio per\`o non si vedr\'a quest'ultima fase, poich\`e non rilevante ai fini di questa tesi, ma ci concentreremo sulla prima fase.
+L'algoritmo inizia con una prima fase di colorazione dove per ogni nodo $ v \in V $ di $ G $ \`e assegnato un colore $ c(v) $, scelto indipendentemente e uniformemente a caso da $ [k] $.
+L'obiettivo della fase di costruzione \`e quello di costruire una tabella del conteggio dei treelet.
+Per ogni $ v $ e per ogni albero colorato $ T_C $ con $ k $ nodi, si vuole un conteggio $ c(T_C , v) $ del numero di copie di $ T_C $  in $ G $ che sono radicate in $ v $ (si noti che qui si intendono copie non indotte).
+A questo fine per ogni $ v $ si inizializza $ c(T_C , v) = 1 $, dove T \`e il treelet triviale di 1 nodo e $ C = \{c_v\} $.
+Successivamente si esegue una programmazione dinamica per il conteggio di treelet di dimensione $ h = 2,...,k $.
+Per ogni h a turno, si considera ogni possibile albero radicato T con $ h \le k $ nodi e ogni possibile insieme $ C \subseteq [k] $ con $ |C| = h $.
+Poi, $ \forall v \in V $,si calcola come segue il numero $ c(T_C,v) $ di occorrenze dei treelet (non indotti) radicati in $ v $ isomorfi a $ T $ e i cui colori giacciono nell'insieme $ C $. Si divide idealmente $ T $ in due sottoalberi radicati $ T' $ e $ T'' $  radicati rispettivamente nella radice $ r $ di $ T $ e in uno dei figli di $ r $.\\
+Perci\`o $ c(T_C,v) $ \`e dato come segue:
+\begin{equation}\label{conta}
+	c(T_c,v)=\frac{1}{\beta_T}\sum_{u\sim v}\sum_{\substack{{C',C''\subset C}\\{C'\cap C'' =0}}}c(T'_{C'},v)\cdot c(T''_{C''},u)
+\end{equation}
 
-\begin{proof}[\textbf{Dimostrazione}]
-	L'algoritmo con complessit\`a $2^{O(k)} \cdot{VE}$  \ 
-	\`e ottenuto dalla semplice esecuzione dell'algoritmo descritto nella prova del Lemma \ref{lemma1}, un numero $|V|$ di volte, una volta per ogni vertice iniziale.
-	\newline
-	Per ottenere l'algoritmo con complessit\`a $2^{O(k)}\cdot {V^{\omega}}$, invece, si usa il seguente approccio.
-	Si enumerano tutte le partizioni dell'insieme dei colori $\{1,2,....,k\}$ in due sottoinsiemi $C_1$ e $C_2$ di taglia $k/2$ ciascuno.
-	Ci sono solo $\binom{k}{k/2}<2^k$ di queste partizioni.
-	Per ognuna delle partizioni $C_1$ e $C_2$, siano $V_1$ l'insieme dei vertici di $G$ colorati da colori di $C_1$ e $V_2$ l'insieme dei vertici colorati da colori di $C_2$.
-	Siano $G_1$ e $G_2$ i sottografi di $G$ indotti da $V_1$ e $V_2$ rispettivamente.
-	Ricorsivamente si trovano tutte le coppie di vertici di $ G_1 $ e $ G_2 $ connesse da percorsi colorati di lunghezza $ k/2-1 $.
-	Tutte le informazioni vengono poi raccolte in due matrici booleane $ A_1 $ e $ A_2 $.
-	Sia $ B $ una matrice booleana che le relazioni di adiacenza tra i vertici di $ V_1 $ e quelli di $ V_2 $.
-	Il prodotto booleano $ A_1 B A_2 $ restituisce tutte le coppie di $ V $ che sono connesse da percorsi colorati di lunghezza esattamente $ k-1 $, dove i primi $ k/2 $ vertici del percorso sono colorati da colori di $ C_1 $ e i rimanenti da colori di $ C_2 $.
-	Dall'unione (OR) delle matrici ottenute per tutte le possibili partizioni si ottiene il risultato desiderato.
-	\`E facile da verificare che la complessit\`a di questo approccio \`e infatti $2^{O(k)}\cdot {V^{\omega}}$, come il numero di moltiplicazione di matrice utilizzato, $ t(k) $, soddisfa la ricorrenza $ t(k) \le 2^{k}t(k/2) $.
-\end{proof}
+dove $ \beta_T $ \`e una costante di normalizzazione che \'e uguale al numero di alberi di $ T $ isomorfi a $ T'' $ radicati in un figlio di $ r $. Per calcolare $ c(T_C,v) $ si passa attraverso tutti gli archi $ uv $ di $ G $, combinando i contatori di $ u $ e $ v $. La correttezza e la complessit\`a di questa costruzione, non sono trattate qui,ma vengono dimostrate in \cite{alon1995color}.
 
-Usando i precedenti Lemma si ottengono i seguenti risultati.
-
-\begin{teorema}
-	\label{teorema1}
-	Un percorso semplice diretto o indiretto di lunghezza $ k-1 $ in un grafo (diretto o indiretto) $ G =(V,E) $ che contiene tale percorso pu\`o essere trovato in un tempo atteso di $ 2^{O(k)} \cdot V $ nel caso indiretto e in $ 2^{O(k)} \cdot E $ nel caso diretto.
-\end{teorema}
-
-\begin{teorema}
-	\label{teorema2}
-	Un ciclo semplice diretto o indiretto di taglia $ k $ in un grafo $ G=(V,E) $ (diretto o indiretto) pu\`o essere trovato in un tempo atteso di $2^{O(k)} \cdot{VE}$ o $2^{O(k)}\cdot {V^{\omega}}$.
-\end{teorema}
-
-Il metodo di color-coding pu\`o essere usato in maniera efficiente non solo per trovare cicli o percorsi colorati, ma ogni sottografo con una larghezza dell'albero delimitata.
-
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{Fase di costruzione}
+	\textbf{input} : Grafo $ G $, dimensione del treelet $ k $ \;
+	\For{$ v $ in $ G $}{
+		$ C=\{c_v\} $\;
+		$ c(T_{c(v)} , v) = 1 $\;
+	}
+    \For{$ h = 2$ to $ k $}{
+    	\For{$ v $ in $ G $}{
+    		\ForEach{$ T : |T| = h $}{
+    			
+    			\( 	c(T_c,v)=\frac{1}{\beta_T}\sum_{u\sim v}\sum_{\substack{{C',C''\subset C}\\{C'\cap C'' =0}}}c(T'_{C'},v)\cdot c(T''_{C''},u) \)
+    			
+    		}
+		}
+	}
+\end{algorithm}
 
 
 
