@@ -2,33 +2,34 @@
 
 Nel capitolo verr\`a descritta la tecnica del Color Coding utilizzata in questo studio.
 
-La tecnica fu presentata per la prima volta nel 1995, da Alon, Yuster e Zwick \cite{alon1995color}.
+La tecnica fu presentata per la prima volta nel 1995 da Alon, Yuster e Zwick \cite{alon1995color}.
 In generale, dato un grafo $G = (V,E)$, il problema dell'isomorfismo dei sottografi  di $G$ \`e un problema $NP-completo$.
 Il metodo del Color Coding permette di risolvere sottocasi di questo problema in tempo polinomiale.
 
-Dati un grafo $ G = (V,E) $ ed uno $H = (V_H, E_H)$, i vertici $V$ di $G$, in cui verr\`a cercato un  sottografo isomorfo ad $H$, sono colorati casualmente di $k = |V_H|$ colori. Se $|V_H| = O(\log(V))$, allora, tutti i vertici del sottografo di $G$ isomorfo ad $H$, se esiste, saranno colorati da colori distinti.   
+Dati due grafi, $ G = (V,E) $ e $H = (V_H, E_H)$, i vertici $V$ di $G$, in cui verr\`a cercato un  sottografo isomorfo ad $H$, sono colorati casualmente di $k = |V_H|$ colori. Se $|V_H| = O(\log(V))$, allora tutti i vertici del sottografo di $G$ isomorfo ad $H$, se esiste, saranno colorati da colori distinti.   
 
 Il primo algoritmo descritto, per\`o, si limitava alla ricerca di sottografi indotti in un grafo, senza farne un conteggio.
  
-\`E per questo motivo che in questo capitolo presenteremo un'estensione dell'algoritmo dato da Alon \cite{alon1995color}, per effettuare un conteggio dei Motif all'interno del grafo.
-Dato in input un grafo $ G=(V,E) $ e un numero $ k $, per prima cosa il color coding assegna uniformemente e indipendentemente per ogni nodo di $ G $ un'etichetta in $ [k] := \{1,....,k\} $, indicato come un colore.
-L'obiettivo \`è quello di conteggiare il numero di alberi colorati non indotti di $ k-nodi $ in $ G $ - chiamati $ treelet $ - i cui colori non sono ripetuti.
-Questo viene fatto in maniera efficiente mediante una programmazione dinamica, tecnica bottom-up che identifica dei sottoproblemi del problema originario, procedendo logicamente dai problemi più piccoli verso quelli più grandi.
-Grazie al fatto che alberi con insiemi disgiunti di colori devono giacere su insiemi digiunti di nodi.
+\`E per questo motivo che in questo capitolo si presenter\`a un'estensione dell'algoritmo descritto da Alon \cite{alon1995color}, per effettuare un conteggio dei Motif all'interno del grafo.
+Dati in input un grafo $ G=(V,E) $ e un numero $ k $, per prima cosa il color coding assegna uniformemente e indipendentemente per ogni nodo di $ G $ un'etichetta in $ [k] := \{1,....,k\} $, indicato come un colore.
+L'obiettivo \`e quello di conteggiare il numero di alberi colorati non indotti di $ k-nodi $ in $ G $ - chiamati $ treelet $ - i cui colori non sono ripetuti.
+Questo viene fatto in maniera efficiente mediante  programmazione dinamica, una tecnica bottom-up che identifica dei sottoproblemi del problema originario, procedendo logicamente dai problemi pi\`u piccoli verso quelli pi\` grandi.
+
 
 
 
 \section{Algoritmo}
+\label{section1}
 
-Qui descriviamo l'estensione dell'algoritmo del color coding che pu\`o contare e campionare treelet colorati non indotti uniformemnte a caso.
-L'algoritmo consiste in una fase di costruzione e una fase di campionamento, in questo studio per\`o non si vedr\'a quest'ultima fase, poich\`e non rilevante ai fini di questa tesi, ma ci concentreremo sulla prima fase.
-L'algoritmo inizia con una prima fase di colorazione dove per ogni nodo $ v \in V $ di $ G $ \`e assegnato un colore $ c(v) $, scelto indipendentemente e uniformemente a caso da $ [k] $.
-L'obiettivo della fase di costruzione \`e quello di costruire una tabella del conteggio dei treelet.
+Qui viene descritta l'estensione dell'algoritmo del color coding che pu\`o contare e campionare treelet (non indotti) colorati uniformemnte a caso.
+L'algoritmo consiste in una fase di costruzione e una fase di campionamento, in questo studio per\`o non si vede quest'ultima fase, poich\`e non rilevante ai fini di questa tesi, ma si concentra sulla prima fase.
+L'algoritmo inizialmente prevede una fase di colorazione, dove per ogni nodo $ v \in V $ di $ G $ \`e assegnato un colore $ c_v $, scelto indipendentemente e uniformemente a caso da $ [k] := \{1,....,k\} $.
+L'obiettivo della fase di costruzione \`e quello di creare una tabella con il conteggio dei treelet che si possono incontrare in $ G $.
 Per ogni $ v $ e per ogni albero colorato $ T_C $ con $ k $ nodi, si vuole un conteggio $ c(T_C , v) $ del numero di copie di $ T_C $  in $ G $ che sono radicate in $ v $ (si noti che qui si intendono copie non indotte).
 A questo fine per ogni $ v $ si inizializza $ c(T_C , v) = 1 $, dove T \`e il treelet triviale di 1 nodo e $ C = \{c_v\} $.
 Successivamente si esegue una programmazione dinamica per il conteggio di treelet di dimensione $ h = 2,...,k $.
-Per ogni h a turno, si considera ogni possibile albero radicato T con $ h \le k $ nodi e ogni possibile insieme $ C \subseteq [k] $ con $ |C| = h $.
-Poi, $ \forall v \in V $,si calcola come segue il numero $ c(T_C,v) $ di occorrenze dei treelet (non indotti) radicati in $ v $ isomorfi a $ T $ e i cui colori giacciono nell'insieme $ C $. Si divide idealmente $ T $ in due sottoalberi radicati $ T' $ e $ T'' $  radicati rispettivamente nella radice $ r $ di $ T $ e in uno dei figli di $ r $.\\
+Per ogni h a turno, si considera ogni possibile albero radicato T con $ h \le k $ nodi e ogni possibile insieme di colori $ C \subseteq [k] $ con $ |C| = h $.
+Poi, $ \forall v \in V $,si calcola come segue il numero $ c(T_C,v) $ di occorrenze dei treelet (non indotti) radicati in $ v $ isomorfi a $ T $ e i cui colori giacciono nell'insieme $ C $. Si divide idealmente $ T $ in due sottoalberi, unici $ T' $ e $ T'' $  radicati rispettivamente nella radice $ r $ di $ T $ e in uno dei figli di $ r $.\\
 Perci\`o $ c(T_C,v) $ \`e dato come segue:
 \begin{equation}\label{conta}
 	c(T_c,v)=\frac{1}{\beta_T}\sum_{u\sim v}\sum_{\substack{{C',C''\subset C}\\{C'\cap C'' =0}}}c(T'_{C'},v)\cdot c(T''_{C''},u)
@@ -39,24 +40,40 @@ dove $ \beta_T $ \`e una costante di normalizzazione che \'e uguale al numero di
 \begin{algorithm}[H]
 	\SetAlgoLined
 	\caption{Fase di costruzione}
-	\textbf{input} : Grafo $ G $, dimensione del treelet $ k $ \;
-	\For{$ v $ in $ G $}{
-		$ C=\{c_v\} $\;
-		$ c(T_{c(v)} , v) = 1 $\;
-	}
-    \For{$ h = 2$ to $ k $}{
-    	\For{$ v $ in $ G $}{
-    		\ForEach{$ T : |T| = h $}{
-    			
-    			\( 	c(T_c,v)=\frac{1}{\beta_T}\sum_{u\sim v}\sum_{\substack{{C',C''\subset C}\\{C'\cap C'' =0}}}c(T'_{C'},v)\cdot c(T''_{C''},u) \)
-    			
-    		}
-		}
-	}
+ 	\textbf{input} : Grafo $ G $, dimensione del treelet $ k $ \;	
+ 				\For{$ v $ in $ G $}{
+ 				$ c_v = $ viene assegnato un colore preso da [$ k $]\;
+ 				$ c(T_{c_v} , v) = 1 $\;
+ 			}	
+ 			\For{$ h = 2$ to $ k $}{
+ 				\For{$ v $ in $ G $}{
+ 					\ForEach{$ T : |T| = h $}{					
+ 						\( 	c(T_c,v)=\frac{1}{\beta_T}\sum_{u\sim v}\sum_{\substack{{C',C''\subset C}\\{C'\cap C'' =0}}}c(T'_{C'},v)\cdot c(T''_{C''},u) \)	
+ 					}
+ 				}
+ 			}
+ 			
 \end{algorithm}
 
+Come si nota, l'algoritmo itera su tutte le coppie di conteggi $ c(T'_{C'},v) $ e $ c(T''_{C''},u) $ per ogni arco $ u\sim v $ e, se $ T'_{C'}, T''_{C''}  $  possono essere unite in un albero colorato $ T_C $, allora si aggiunge $ c(T'_{C'},v) \cdots c(T''_{C''},u)  $ al conteggio $ c(T_C,v) $.
+Per fare questo \`e necessaria un'operazione di ``controllo e unione'', che risulta abbastanza costosa.
+Infatti, per calcolare $ c(T_C,v) $, per ogni coppia di conteggi 
+Una semplice analisi ha restituito il seguente limite di complessit\`a:
 
+\newtheorem{teorema}{Teorema}[section]
+\begin{teorema}
+	(\cite{bressan2018motif} \textit{Teorema 5.1} ) La fase di costruzione richiede tempo $ O(a^{k}|E|) $ e spazio $ O(a^{k}|V|) $, per un qualche $ a > 0 $.
+	
+\end{teorema}
 
+La grandezza della tabella ottenuta dalla programmazione dinamica \`e il problema maggiore per l'algoritmo, infatti per $ k=6 $ e $ |V| = 5M $, sono necessari $ 45G $ di memoria.
 
+Come si pu\'o notare, per calcolare le occorrenze di un albero $ T $ nell'algoritmo si sfrutta un approccio top-down, ossia a partire dall'albero $ T $ si identificano i due alberi $ T' $ e $ T'' $ in cui pu\`o essere scomposto e in seguito si procede al calcolo di $ c(T_C,v) $ come indicato in \ref{conta}.
+
+In questo studio, invece, si \`e sfruttato un approccio bottom-up. Infatti, per ogni nodo $ v \in V $ di $ G $ e per ogni nodo $ u $  adiacente a $v$, si prendono due treelet colorati, rispettivamente $ T'_{C'} $ e $ T''_{C''} $, entrambi di dimensioni minori di $ h \le k $.
+Se $ C' \cap C'' = 0 $ e la struttura di $ T''_{C''} $ \`e minore della struttura del pi\`u piccolo sottoalbero radicato in $ T'_{C'} $, secondo l'ordinamento totale dei treelet (vedere \ref{section 2}), allora i due treelet possono essere uniti per creare $ T_C $ le cui occorrenze saranno determinate come in \ref{conta}.
+
+\section{Struttura dati}
+\label{section 2}
 
 	
