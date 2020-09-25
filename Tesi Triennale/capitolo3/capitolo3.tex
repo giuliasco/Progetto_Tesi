@@ -1,12 +1,18 @@
-\chapter{Decomposizioni bilanciate}
+\chapter{Tecnica Ottimizzata}
 
+In questo capitolo viene presentata un'ottimizzazione al problema descritto nel capitolo precedente.
+Tale ottimizzazione si basa sul principio della decomposizione bilanciata.
+Si fa vedere, inoltre, come l'utilizzo di quest'ultima permetta un notevole miglioramento delle performance.
+
+\section{Decomposizioni Bilanciate di un albero}
 Si vuole andare a dimostrare in questo paragrafo, che dato un albero T \`e sempre possibile ricavare una scomposizione bilanciata dell'albero.
 \\
 Prima di poter enunciare il teorema e dimostrarlo occorre dare delle nozioni preliminari.
-Innanzitutto va definito cosa si intende per scomposizione bilanciata di un albero.
-\newtheorem{definizione}{Definizione}[chapter]
+
+\newtheorem{definizione}{Definizione}[section]
 \newtheorem{lemma}[definizione]{Lemma}
 \begin{definizione}
+	\label{definizioneDeco}
 Sia $T_r$ un albero radicato nel nodo r , con k nodi.
 Diremo che la coppia (A,B), dove  A e B sono insiemi contenenti i nodi di $T_r$, \`e una decomposizione per l'albero se:
 \begin{itemize}
@@ -15,24 +21,36 @@ Diremo che la coppia (A,B), dove  A e B sono insiemi contenenti i nodi di $T_r$,
 \end{itemize}
 \end{definizione}
 
+
 \begin{lemma}
-Affinch\`e una scomposizione risulti bilanciata dovr\`a risultare che:
+\label{lemmaDeco}
+Dato un albero $ T $, e una sua decomposizione $ (A,B) $, affinch\`e tale decomposizione sia bilanciata dovr\`a risultare che:
 \begin{equation*}
 	\max{ \{|A| , |B| \} }  \le  f(k)
 \end{equation*}
 
 
-dove f(k) rappresenta il fattore di bilanciamento, varia in funzione al numero dei nodi dell'albero ed \`e pari a:
+dove f(k) \`e il fattore di bilanciamento, varia in funzione al numero dei nodi dell'albero ed \`e pari a:
 \begin{equation*}
-f(k) = \left\lceil \frac{2}{3}  k  \right\rceil
+f(k) = \left\lceil \frac{2}{3}  k  \right\rceil + 1
 \end{equation*}
-\end{lemma}
+\end{lemma}\mbox{}
 
-\paragraph{Dimostrazione}\mbox{}\\\\
 \begin{proof}
-	Dimostrazione.....
+Per dimostrare il lemma si fa una dimostrazione costruttiva, mediante il seguente algoritmo.
+In input si ha, un albero $ T $ e due insiemi di nodi $ A $ e $ B $ entrambi inizialmente vuoti.
+Per prima cosa si inserisce la radice in entrambi gli insiemi.
+Si supponga, che il numero dei sottoalberi radicati nella radice di $ T $ sia $ i \ge 2 $, perch\`e altrimenti verrebbe subito meno la Definizione \ref{definizioneDeco} , e che i $ T_i $ sottoalberi siano ordinati per dimensione, in ordine non crescente.
+Per prima cosa si calcola il valore di $ f(k) $ applicato ai nodi dell'albero $ T $.
+Il primo passo inserisce in $ A $ i nodi di $ T_1 $.
+Il secondo prova ad aggiunge ad $ A $ i nodi di $ T_2 $.
+Se $ |A| + |T_2| \le f(k) $ allora aggiorna $ A $ inserendo i nodi di $ T_2 $ e ripete il passo due su $ T_3 $, altrimenti l'algoritmo si arresta inserendo tutti i nodi dei sottoalberi rimanenti in $ B $.
+In realt\'a una volta trovato un $ T_i $ che non pu\`o essere aggiunto ad $ A $ l'algoritmo potrebbe continuare a vedere i sottoalberi a seguire, ma in questo caso si suppone che l'algoritmo si arresti.
 \end{proof}
 
+Come si pu\`o capire dalla dimostrazione del Lemma \ref{lemmaDeco}, le decomposizioni bilanciate cos\`i come sono definite fino ad ora non possono essere applicate su tutti gli alberi, ma solo su alcuni.
+Occorrono, perci\`o ulteriori definizioni.
+   
 \begin{definizione}
 Per ogni nodo v di un albero T, le diramazioni di T  rispetto a v, sono tutti i sottoalberi massimali, radicati nei figli di v. 
 Sia $\alpha(v)$ il numero di nodi della massima diramazione di v. 
@@ -51,33 +69,44 @@ A questo punto si pu\`o procedere con l'individuazione di $\alpha (v)$, ossia $\
 Per farlo, si considera ogni nodo v di T e si calcola la cardinalit\`a dei sottoalberi radicati in ognuna delle sue possibili diramazioni. 
 $\alpha (v)$ sar\`a il valore massimo tra tutte le quantit\`a individuate.
 \\
-\newtheorem{esempio}[definizione]{Esempio}
-\begin{esempio}\mbox{}\\
-Si prenda l’albero T in figura \ref{fig:1}.\\ 
+
+\paragraph{Esempio 1}\mbox{}\\
+Si prenda l'albero T in figura \ref{fig:1}.\\ 
 T ha otto nodi e per ogni nodo \`e indicata la cardinalit\`a del sottoalbero radicato in esso.
-\\
 	\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=10cm]{capitolo3/1}
 	\caption{}
 	\label{fig:1}
 \end{figure}
-
 Perci\`o per il nodo {\color{red} 1}, si avr\`a che:
 \begin{equation*}
 \alpha(1) = max {\{ |T_4| , |T_5| , (|T| - |T_1| )\}} = \max{\{1, 1, 5\} }  = 5
 \end{equation*}
-
-Dove $T_4$ rappresenta il sottoalbero di T radicato nel nodo 4, analogamente, mentre con l’ultimo valore rappresentiamo la cardinalit\`a del sottoalbero radicato in 0 e contenente tutti i nodi restanti non inclusi nel sottoalbero di T radicato in 1. 
-\end{esempio}
+Dove $T_4$ rappresenta il sottoalbero di T radicato nel nodo 4, analogamente $ T_5 $, mentre con l'ultimo valore rappresentiamo la cardinalit\`a del sottoalbero radicato in 0, che conterr\'a tutti i nodi restanti non inclusi nel sottoalbero di T radicato in 1. 
+\mbox{}\\\\
 Una volta determinato $\alpha(v)$ $\forall v \in T$, si procede alla ricerca del centroide, che sar\`a il nodo di T per cui vale la seguente disuguaglianza:
 \begin{equation*}
 \alpha(v) \le \left\lfloor\frac{n}{2} \right\rfloor
 \end{equation*}
-
+	\begin{figure}[!htb]
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=5.26cm]{capitolo3/grafo1c}
+		\caption{Rappresentazione dell'albero T}
+		\label{fig:2}
+	\end{minipage}\hfill
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=5.8cm]{capitolo3/grafo2}
+		\caption{Rappresentazione del centroide in T}
+		\label{fig:3}
+	\end{minipage}7
+\end{figure}
+\mbox{}\\\\
 \paragraph{Esempio 2}\mbox{}\\
-Si consideri l’albero T in figura \ref{fig:2} per la ricerca del nodo centroide.
-Per prima cosa su ogni nodo di T, numerati da 0 a 10, viene calcolato $\alpha(v)$. \\\\
+Si consideri l'albero T in figura \ref{fig:2} per la ricerca del nodo centroide.
+Per prima cosa  viene calcolato $\alpha(v)$ su ogni nodo di T, numerati da 0 a 10. \\
 Quello che si otterr\`a sar\`a:
 
 %$\alpha(0) = 6$; $\alpha(1) = 5$; $\alpha(2) = 7$; $\alpha(3) = 10$; $\alpha(4) = 7$; $\alpha(5) =  10$ $\alpha(6) = 9$; $\alpha(7) = 10$; $\alpha(8) = 10$; $\alpha(9) = 10$; $\alpha(10) = 10$.
@@ -91,23 +120,12 @@ Quello che si otterr\`a sar\`a:
 		 $\alpha(9) = 10$ && $\alpha(10) = 10$ &&
 	\end{tabular}
 \end{center}
-Poich\'e $ \left\lfloor\frac{n}{2} \right\rfloor = \left\lfloor \frac{11}{2} \right\rfloor = 5$, basta verificare per quale nodo v di T , vale che $\delta(v) \le \left\lfloor\frac{n}{2} \right\rfloor$.
-L’unico nodo per cui tale disuguaglianza risulta vera \`e il nodo 1, infatti $5\le 5$, e sar\`a l’unico centroide dell’albero T (figura \ref{fig:3}).
-	\begin{figure}[!htb]
-	\begin{minipage}{0.48\textwidth}
-	\centering
-	\includegraphics[width=5.26cm]{capitolo3/grafo1c}
-	\caption{Rappresentazione dell'albero T}
-	\label{fig:2}
-	\end{minipage}\hfill
-	\begin{minipage}{0.48\textwidth}
-			\centering
-		\includegraphics[width=5.8cm]{capitolo3/grafo2}
-		\caption{Rappresentazione del centroide in T}
-		\label{fig:3}
-	\end{minipage}
-\end{figure}\\
-Come gia accennato l’algoritmo ha complessit\`a lineare sul numero dei nodi.
+
+Poich\'e $ \left\lfloor\frac{n}{2} \right\rfloor = \left\lfloor \frac{11}{2} \right\rfloor = 5$, basta verificare per quale nodo v di T , vale che $\alpha(v) \le \left\lfloor\frac{n}{2} \right\rfloor$.
+L'unico nodo per cui tale disuguaglianza risulta vera \`e il nodo 1, infatti $5\le 5$, e sar\`a l'unico centroide dell'albero T (figura \ref{fig:3}).
+
+
+Come gi\'a accennato l'algoritmo ha complessit\`a lineare sul numero dei nodi.
 Infatti, occorre calcolare il grado di ogni nodo e successivamente verificare che ci siano le condizioni affich\`e risulti un centroide e si ha:
 
 \begin{equation*}
@@ -189,3 +207,4 @@ Nel caso in cui si abbiano due centroidi, la scelta su quale radicare l’albero
 
 
 \end{itemize}
+
