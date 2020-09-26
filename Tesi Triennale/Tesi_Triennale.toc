@@ -8,7 +8,3 @@
 \contentsline {section}{\numberline {2.2}Struttura dati}{8}
 \contentsline {chapter}{\numberline {3}Tecnica Ottimizzata}{11}
 \contentsline {section}{\numberline {3.1}Decomposizioni Bilanciate di un albero}{11}
-\contentsline {paragraph}{Esempio 1}{13}
-\contentsline {paragraph}{Esempio 2}{14}
-\contentsline {paragraph}{Teorema}{15}
-\contentsline {paragraph}{Dimostrazione}{15}
