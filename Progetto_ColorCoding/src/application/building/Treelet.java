@@ -81,63 +81,20 @@ public class Treelet
         verifico che la radice sia cenroide per l'albero risultante.
         Ho deciso di tenerli i conteggi delle grandezze dei sottoalberi perchè può risultare utile anche dopo
          */
-        int counter = 0;
-        int delta_t1[]=new int[nodes_structure(t1).get(0).size()];
-        int j=0;
 
-        for(int i=0; i<2*size1 ; i++)
-        {
-            long mask=1L;
-            int structure_bit1 = (int) (structure1 >> (2*size1 - 1 - i) & mask);
-            if (structure_bit1 == 1)
-            {
-                counter ++;
-                delta_t1[j] = delta_t1[j] + 1 ;
-            }
-            else
-            {
-                counter --;
-                if(counter == 0 )
-                {
-                   if( delta_t1[j] > (size1 + size2 + 1 )/2)
-                       return -1;
+        int[] delta_t1 = Treelet.structure(t1,size1,size2);
+        int[] delta_t2 = Treelet.structure(t2,size2,size1);
 
-                   j++;
-                }
-            }
-        }
-
-        int delta_t2[]=new int[nodes_structure(t2).get(0).size()];
-        int k=0;
-
-        for(int i=0; i<2*size1 ; i++)
-        {
-            long mask=1L;
-            int structure_bit2 = (int) (structure2 >> (2*size2 - 1 - i) & mask);
-            if (structure_bit2 == 1)
-            {
-                counter ++;
-                delta_t2[k] = delta_t2[k] + 1 ;
-            }
-            else
-            {
-                counter --;
-                if(counter == 0 )
-                {
-                    if( delta_t2[k] > (size1 + size2 + 1 )/2)
-                        return -1;
-
-                    k++;
-                }
-            }
-        }
+        if (delta_t1.length < nodes_structure(t1).get(0).size()-1 | delta_t2.length < nodes_structure(t2).get(0).size()-1)
+           return -1;
 
         //verifico i colori
         if( Long.bitCount(t1 & t2 & 0xFFFF000L)!=1 )
             return -1;
 
         //verifico che l'insieme A sia più grande di B secondo le regole insimeistiche date e solo allora creo t
-        if (size1 <= (size1 + size2 + 1)*2/3 & (size1 + delta_t2[0]) > (size1 + size2 + 1)*2/3 )
+        double ceil = Math.ceil((size1 + size2 + 1) * 2 / 3);
+        if (size1 <=(int) ceil & (size1 + delta_t2[0]) > (int) ceil)
         {
             int size_last1 = (int)((t1 >> 4) & 0xF);
             long mask = (1<<(2*size_last1-2))-1;
@@ -148,15 +105,15 @@ public class Treelet
             long subtree2 = (structure2 >> (size2 - size_first2 + 1)) & mask1;
 
             if(subtree2 > subtree1)
-                return -2;
+                return -1;
 
             long structure = structure1<<(2*size2) | structure2;
-            long t = (size1 + size2) | t2 & 0XF0 |  ((t1 | t2) & 0xFFFF000L) | structure <<28;
+            long t = (size1 + size2) | t2 & 0XF0 | 1<<8 |  ((t1 | t2) & 0xFFFF000L) | structure <<28;
             assert(t<=0x0FFFFFFFFFFFFFFFL);
             return t;
         }
 
-        return -8;
+        return -1;
 
     }
 
@@ -167,6 +124,40 @@ public class Treelet
         return (int)((t>>8) & 0xFL);
     }
 
+
+
+    private static int[] structure(long t,int size_t, int size_other)
+    {
+
+        long structure = (t>>28) & 0xFFFFFFFFL;
+
+        int counter = 0;
+        int[] delta =new int[nodes_structure(t).get(0).size()];
+        int j=0;
+
+        for(int i=0; i<2*size_t ; i++)
+        {
+            long mask=1L;
+            int structure_bit1 = (int) (structure >> (2*size_t - 1 - i) & mask);
+            if (structure_bit1 == 1)
+            {
+                counter ++;
+                delta[j] = delta[j] + 1 ;
+            }
+            else
+            {
+                counter --;
+                if(counter == 0 )
+                {
+                    if( delta[j] > (size_t + size_other + 1 )/2)
+                       break;
+                    j++;
+                }
+            }
+        }
+
+        return delta;
+    }
 
 
    private static ArrayList<ArrayList<Integer>> nodes_structure(long t)

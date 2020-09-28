@@ -1,65 +1,65 @@
 package application;
 import java.util.*;
 import application.building.*;
+import org.apache.commons.cli.*;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
 
-	public static void main(String[] args ) {
+	public static void main(String[] args ) throws ParseException {
 
-		/*Scanner scanner = new Scanner(System.in);
+		CommandLineParser parser = new DefaultParser();
+		Options options = new Options();
+		options.addOption("F",true, "input file path");
+		options.addOption("c",true,"number of colors needed ");
+		options.addOption("k",true,"size of searched treelet");
+		options.addOption("t",true,"Number of thread that it can use");
+		options.addOption("C", true, "1 if it's a random coloration, 2 if it's round robin");
+		options.addOption("help",false, "return list of command");
+		options.addOption("balanced",false, "[OPTIONAL] make a balance search of k-treelet");
+		options.addOption("p",true,"[OPTIONAL] path to save output file");
+		CommandLine cmd = parser.parse( options, args);
 
-		System.out.print("inserisci il tuo file, con il proprio percorso : ");
-		String file = scanner.next();
+		if(cmd.hasOption("help"))
+		{
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp( "Command require for operation", options );
+		}else {
 
-		System.out.print("inserisci il numero di colori che deve avere il grafo: ");
-		String color = scanner.next();
-		int c = Integer.parseInt(color);
+			String file = cmd.getOptionValue("F");
+			Graph graph = new Graph(file);
 
-		System.out.print("inserisci la dimensione desiderata del treelet k  : ");
-		String dim = scanner.next();
-		int k = Integer.parseInt(dim);
+			int c = Integer.parseInt(cmd.getOptionValue("c"));
 
-		String file = new String();
+			int k = Integer.parseInt(cmd.getOptionValue("k"));
 
-
-		 */
-		/*String file = args[0];
-		Graph graph = new Graph(file);
-
-		int c = Integer.valueOf(args[1]);
-
-		int k = Integer.valueOf(args[2]);
-
-		int thread = Integer.valueOf(args[3]);
-
-
-		int coloration = Integer.valueOf(args[4]); // 1 per colorazione random , mentre 2 per round robin
-
-		String path = args[5];
+			int thread = Integer.parseInt(cmd.getOptionValue("t"));
 
 
-		Table b = new Table(graph,c,k,thread,coloration);
-		try {
-			b.build();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			int coloration = Integer.parseInt(cmd.getOptionValue("C"));
+
+			Table b = new Table(graph, c, k, thread, coloration);
+			try {
+				if(cmd.hasOption("balanced")) b.build_balanced();
+				else b.build();
+
+				if (cmd.hasOption("p")){
+					String path = cmd.getOptionValue("p");
+					b.write_file(path);
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
 		}
-		b.writeToCsvFile(path);*/
-
-		long t1= 45634351124L;
-		long t2 = 2684583954L;
-
-		long t = Treelet.balance_merge(t1,t2);
-
-		System.out.println(t);
-
-
-
 
 
 	}
-	}
+
+}
+
+
 
 
 
