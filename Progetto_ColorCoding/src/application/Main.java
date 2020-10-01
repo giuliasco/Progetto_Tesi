@@ -25,9 +25,11 @@ public class Main {
 		{
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp( "Command require for operation", options );
-		}else {
+		}
 
+		else {
 			String file = cmd.getOptionValue("F");
+
 			Graph graph = new Graph(file);
 
 			int c = Integer.parseInt(cmd.getOptionValue("c"));
@@ -36,27 +38,25 @@ public class Main {
 
 			int thread = Integer.parseInt(cmd.getOptionValue("t"));
 
-
 			int coloration = Integer.parseInt(cmd.getOptionValue("C"));
 
 			Table b = new Table(graph, c, k, thread, coloration);
+
 			try {
-				if(cmd.hasOption("balanced")) b.build_balanced();
+				if (cmd.hasOption("balanced")) b.build_balanced();
+
 				else b.build();
 
-				if (cmd.hasOption("p")){
+				if (cmd.hasOption("p")) {
 					String path = cmd.getOptionValue("p");
 					b.write_file(path);
 				}
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
 		}
-
-
 	}
-
 }
 
 

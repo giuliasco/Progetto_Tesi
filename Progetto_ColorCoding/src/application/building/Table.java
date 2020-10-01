@@ -45,6 +45,7 @@ public class Table
     private int colors;
     private int k;
     public int coloration;
+    private int[] color;
 
     private int nthreads;
     private AtomicInteger next_vertex = new AtomicInteger(0);;
@@ -169,7 +170,7 @@ public class Table
 
     private void do_build1()
     {
-        int[] color= graph.colorGraph(colors , coloration);
+        color= graph.colorGraph(colors , coloration);
 
 
         log("AVVIO CREAZIONE TABELLA PER H = 1");
@@ -182,6 +183,30 @@ public class Table
         }
 
         log("FINE CREAZIONE TABELLA");
+    }
+
+
+
+
+
+    private void do_build(int h)
+    {
+
+        while(true)
+        {
+            int u = next_vertex.getAndIncrement();
+            if(u >= graph.V)
+                break;
+
+
+            Long2LongMap map = new Long2LongOpenHashMap();
+            for( int v : graph.adj.get(u) )
+                process_edge(h, u, v, map);
+
+            table.get(h).set(u ,normalize(map));
+        }
+
+
     }
 
 
@@ -210,28 +235,6 @@ public class Table
     }
 
 
-    private void do_build(int h)
-    {
-
-        while(true)
-        {
-            int u = next_vertex.getAndIncrement();
-            if(u >= graph.V)
-                break;
-
-
-            Long2LongMap map = new Long2LongOpenHashMap();
-            for( int v : graph.adj.get(u) )
-                process_edge(h, u, v, map);
-
-            table.get(h).set(u ,normalize(map));
-        }
-
-
-    }
-
-
-
     private void process_edge(int h, int u, int v, Map<Long,Long> map)
     {
         for (int j=1; j<=h-1; j++)
@@ -240,9 +243,11 @@ public class Table
             {
                 for(Entry e2 : table.get(h - j).get(v))
                 {
-                    long t = Treelet.merge(e1.treelet, e2.treelet);
-                    if(t>=0)
+                    long t = Treelet.merge(e1.treelet, e2.treelet,h,k);
+                    if(t>=0 & h!=k)
                         map.put(t, map.getOrDefault(t, 0L) + e1.count * e2.count);
+                    else if (t>=0 & h==k)
+                        map.put(t, map.getOrDefault(t, 0L) + e1.count * e2.count * (int)((t>>4) & 0xFL));
                     else if(t==-2)
                         break;
                 }

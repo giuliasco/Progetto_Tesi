@@ -1,9 +1,6 @@
 package application.building;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class Treelet
 {
@@ -27,7 +24,7 @@ public class Treelet
     2) l'insieme dei colori di t1 e t2 non devono condividere neanche un colore.
 
      */
-    public static long merge(long t1, long t2)
+    public static long merge(long t1, long t2, int h,int k)
     {
         long size1 = t1 & 0xFL;
         long size2 = t2 & 0xFL;
@@ -55,6 +52,10 @@ public class Treelet
         long structure = (structure1 << (2*size2+2)) | (1<<(2*size2+1)) | (structure2<<1);
         long t = (size1+size2+1) | ((size2+1)<<4) | (ncopies<<8) | ((t1 | t2) & 0xFFFF000L) | (structure<<28);
         assert(t<=0x0FFFFFFFFFFFFFFFL);
+        if ( h == k )
+        {
+            t=is_centroid(t);
+        }
         return t;
     }
 
@@ -93,7 +94,7 @@ public class Treelet
             return -1;
 
         //verifico che l'insieme A sia più grande di B secondo le regole insimeistiche date e solo allora creo t
-        double ceil = Math.ceil((size1 + size2 + 1) * 2 / 3);
+        double ceil = Math.ceil((double)(size1 + size2 + 1) * 2 / 3);
         if (size1 <=(int) ceil & (size1 + delta_t2[0]) > (int) ceil)
         {
             int size_last1 = (int)((t1 >> 4) & 0xF);
@@ -202,50 +203,92 @@ public class Treelet
 
 
 
-      /* private static boolean is_centroid(long t) {
-           ArrayList<ArrayList<Integer>> nodeList = nodes_structure(t);
-           int size = (int) (t & 0xFL) ;
-           int medium_value = (size + 1 ) / 2;
-           int values[] = new int[size];
-           int alfa=0;
+      private static long is_centroid(long t)
+      {
+          long structure = (t>>28) & 0xFFFFFFFFL;
+          int size = (int)(t & 0xF) ;
+          int counter = 0;
+          int array_size = nodes_structure(t).get(0).size();
 
-           if(!nodeList.get(0).isEmpty())
-           {
-               for (int i = 0; i < size; i++)
-               {
-                   values[i]=build_alfa(i,nodeList);
-               }
-           }
+          int centroid = -1;
 
-           for (int j=0; j<values.length; j++)
-           {
-               if (j==0 | alfa <values[j]) alfa=values[j];
-           }
+          ArrayList<Integer> delta = new ArrayList<Integer>();
+          ArrayList<String> list_subtree = new ArrayList<String>();
+          int j=0;
+          delta.add(0);
+          list_subtree.add("");
+          for(int i=0; i<2*size ; i++)
+          {
+              long mask=1L;
+              int structure_bit = (int) (structure >> (2*size - 1 - i) & mask);
+              if (structure_bit == 1)
+              {
+                  counter ++;
+                  delta.set(j,delta.get(j)+1) ;
+                  list_subtree.set(j,list_subtree.get(j)+ structure_bit);
+              }
+              else
+              {
+                  counter --;
+                  list_subtree.set(j,list_subtree.get(j)+ structure_bit);
+                  if(counter == 0 )
+                  {
+                      if( delta.get(j) > (size+1)/2 ) break;
+                      if(delta.get(j) == (size+1)/2 ) centroid = j;
+                      j++;
+                      delta.add(0);
+                      list_subtree.add("");
+                  }
+              }
+          }
 
-           if (alfa > medium_value) return false;
+          if ( delta.size() < array_size + 1 ) return -1; //se non è centroide
 
-           return true;
+          if((size +1)%2 == 0 & centroid>=0)  //se il numero di nodi è pari allora faccio questo controllo alrimenti non necessario per algoritmo di Jordan.
+          {
+              long t1= t & 0xFFFFFFFFFFFFF000L;
+
+
+              long l = Long.parseLong(list_subtree.get(centroid),2) >> 1;
+              list_subtree.remove(centroid);
+              l -= Long.highestOneBit(l);
+              String s = Long.toBinaryString(l) ;
+
+              if(centroid == 0 )
+              {
+                  s = s + "1" ;
+
+                  for (String s1 : list_subtree)
+                      s= s + s1 ;
+
+                  s = s + "0";
+              }
+
+              else
+                  {
+                      s = "0" + s;
+                      String s2 = "";
+
+                      for (String s1 : list_subtree)
+                          s2 += s1;
+
+                      s = "1" + s2 + s ;
+                  }
+
+              long t2 = Long.parseLong(s,2)<<28|t1 & 0xFFFFFFFL;
+
+              if ((int) (t1>>28) == (int)(t2>>28))
+              {
+
+                 return t1 = t1 & 0xFFFFFFFFFFFFF0FL | 2<<4 ;
+              }
+
+              if ( (int) (t1>>28) > (int)(t2>>28)) return -1;
+
+          }
+
+          return t = t & 0xFFFFFFFFFFFFF0FL | 1<<4 ;
        }
-
-       private static int build_alfa(int i, ArrayList<ArrayList<Integer>> nodeList)
-       {
-           int value;
-
-           if (nodeList.get(nodeList.get(0).get(i)).isEmpty()) return value=1;
-
-           value = nodeList.get(nodeList.get(0).get(i)).size();
-           for(Integer j : nodeList.get(nodeList.get(0).get(i)))
-           {
-              value += build_alfa(j, nodeList);
-           }
-           return value;
-       }*/
-
-
-
-
-
-
 
 
 
