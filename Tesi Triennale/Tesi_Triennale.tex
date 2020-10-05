@@ -17,6 +17,7 @@
 \usepackage[Glenn]{fncychap}
 \usepackage{indentfirst}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{chngcntr}
 \usepackage[babel]{csquotes}
@@ -30,10 +31,12 @@
 \counterwithout{equation}{chapter} 
 \usepackage{array, booktabs}
 \usepackage{comment}
-\usepackage[ruled,vlined]{algorithm2e}
-\usepackage{listings}
-\usepackage{algorithmic}
-
+\usepackage[linesnumbered, ruled]{algorithm2e}
+\SetAlgorithmName{Algortimo}{Algoritmo}{Algorithm 1}
+\newcommand\xqed[1]{%
+	\leavevmode\unskip\penalty9999 \hbox{}\nobreak\hfill
+	\quad\hbox{#1}}
+\newcommand\demo{\xqed{$\square$}}
 
 
 \begin{document}

@@ -1,19 +1,17 @@
 \chapter{Color Coding}
 
-Nel capitolo viene descritta la tecnica del Color Coding utilizzata in questo studio.
+Nel capitolo viene descritta la tecnica del Color Coding utilizzata in questa tesi.
 
-La tecnica fu presentata per la prima volta nel 1995 da Alon, Yuster e Zwick \cite{alon1995color}.
-In generale, dato un grafo $G = (V,E)$, il problema dell'isomorfismo dei sottografi  di $G$ \`e un problema $NP-completo$.
-Il metodo del Color Coding permette di risolvere sottocasi di questo problema in tempo polinomiale.
-
-Dati due grafi, $ G = (V,E) $ e $H = (V_H, E_H)$, i vertici $V$ di $G$, in cui viene cercato un  sottografo isomorfo ad $H$, sono colorati casualmente di $k = |V_H|$ colori. Se $|V_H| = O(\log(V))$, allora tutti i vertici del sottografo di $G$ isomorfo ad $H$, se esiste, sono colorati da colori distinti.   
+La tecnica fu introdotta nel 1995 da Alon, Yuster e Zwick \cite{alon1995color}.
+In generale, dato un grafo $G = (V,E)$, il problema dell'isomorfismo dei sottografi  di $G$ \`e un problema $NP$-completo.
+Il metodo del Color Coding permette di risolvere sottocasi di questo problema in tempo polinomiale, tramite un algoritmo randomizzato.
 
 Il primo algoritmo che loro descrissero, per\`o, si limitava alla ricerca di sottografi indotti in un grafo, senza farne un conteggio del numero delle occorrenze totali.
  
-\`E per questo motivo che in questo capitolo si presenta un'estensione dell'algoritmo descritto da Alon \cite{alon1995color}, per effettuare un conteggio delle occorrenze dei Motif all'interno del grafo.
+\`E per questo motivo che in questo capitolo si presenta un'estensione dell'algoritmo descritto da Alon \cite{alon1995color,bressan2018motif}, per effettuare un conteggio delle occorrenze dei treelet all'interno del grafo, che viene effettuato in maniera simultanea.
 Dati in input un grafo $ G=(V,E) $ e un numero $ k $, per prima cosa il color coding assegna uniformemente e indipendentemente per ogni nodo di $ G $ un'etichetta in $ [k] := \{1,....,k\} $, indicato come un colore.
-L'obiettivo \`e quello di conteggiare il numero di alberi colorati non indotti di $ k-nodi $ in $ G $ - chiamati $ treelet $ - i cui colori non sono ripetuti.
-Questo viene fatto in maniera efficiente mediante  programmazione dinamica, una tecnica bottom-up che identifica dei sottoproblemi del problema originario, procedendo logicamente dai problemi pi\`u piccoli verso quelli pi\` grandi.
+L'obiettivo \`e quello di conteggiare il numero di occorrenze di alberi colorati non indotti di $ k$-nodi in $ G $ - chiamati $ k-treelet $ - in cui ogni vertice dell'occorrenza ha un colore distinto.\\
+Questo viene fatto in maniera efficiente mediante  programmazione dinamica, una tecnica che identifica dei sottoproblemi del problema originario, procedendo dai problemi pi\`u piccoli verso quelli pi\`u grandi.
 
 
 
@@ -21,96 +19,94 @@ Questo viene fatto in maniera efficiente mediante  programmazione dinamica, una 
 \section{Algoritmo}
 \label{section1}
 
-Qui viene descritta l'estensione dell'algoritmo del color coding che pu\`o contare e campionare treelet (non indotti) colorati uniformemnte a caso.
-L'algoritmo consiste in una fase di costruzione e una fase di campionamento, in questo studio per\`o non si vede quest'ultima fase, poich\`e non rilevante ai fini di questa tesi, ma si concentra sulla prima fase.
-L'algoritmo inizialmente prevede una fase di colorazione, dove per ogni nodo $ v \in V $ di $ G $ \`e assegnato un colore $ c_v $, scelto indipendentemente e uniformemente a caso da $ [k] := \{1,....,k\} $.
-L'obiettivo della fase di costruzione \`e quello di creare una tabella con il conteggio delle occorrenze dei treelet che si possono incontrare in $ G $.
-Per ogni nodo $ v $ e per ogni albero colorato $ T_C $ con $ k $ nodi, si vuole un conteggio $ c(T_C , v) $ del numero di copie di $ T_C $  in $ G $ che sono radicate in $ v $ (si noti che qui si intendono copie non indotte).
-A questo fine per ogni nodo $ v $ si inizializza $ c(T_C , v) = 1 $, dove T \`e il treelet triviale di 1 nodo e $ C = \{c_v\} $.
-Successivamente si esegue una programmazione dinamica per il conteggio di treelet di dimensione $ h = 2,...,k $.
-Per ogni h a turno, si considera ogni possibile albero radicato T con $ h \le k $ nodi e ogni possibile insieme di colori $ C \subseteq [k] $ con $ |C| = h $.
-Poi, $ \forall v \in V$ di $ G $,si calcola come segue il numero $ c(T_C,v) $ di occorrenze dei treelet (non indotti) radicati in $ v $ isomorfi a $ T $ e i cui colori giacciono nell'insieme $ C $. Si divide idealmente $ T $ in due sottoalberi, unici $ T' $ e $ T'' $  radicati rispettivamente nella radice $ r $ di $ T $ e in uno dei figli di $ r $.\\
-Perci\`o $ c(T_C,v) $ \`e dato come segue:
+In questa sezione viene descritta l'estensione dell'algoritmo del color coding che pu\`o contare i treelet (non indotti) colorati uniformemnte a caso.
+
+L'algoritmo inizialmente prevede una fase di colorazione, dove ad ogni nodo $ v \in V $ di $ G $ \`e assegnato un colore $ c_v $, scelto indipendentemente e uniformemente a caso da $ [k] := \{1, \dots ,k\} $.\\
+L'obiettivo della fase di costruzione \`e quello di creare una tabella con il conteggio delle occorrenze dei treelet che si possono incontrare in $ G $.\\
+Per ogni nodo $ v \in V $ e per ogni albero colorato $ T_C $, con $ k $ nodi, si vuole calcolare il numero $ c(T_C , v) $ del numero di copie di $ T_C $  in $ G $ che sono radicate in $ v $ (si noti che qui si intendono copie non indotte).\\
+Possiamo immaginare $ T_C $ come una coppia $ (T,C) $ dove $ C \subseteq {1,\dots,k} $.\\
+Quello che si fa \`e per ogni nodo $ v $ si inizializza $ c(T_{C_0} , v) = 1 $, dove T \`e il treelet di 1 nodo e $ C_0 = \{c_v\} $.
+Per ogni $ h = 2,\dots,k $ a turno, si considera ogni possibile albero radicato T e ogni possibile insieme di colori $ C \subseteq [k] $ con $ |C| = h $.\\
+Quindi, $ \forall v \in V$ di $ G $, si calcola come segue il numero $ c(T_C,v) $ di occorrenze dei treelet (non indotti) radicati in $ v $ isomorfi a $ T $ e i cui colori giacciono nell'insieme $ C $. Si divide idealmente $ T $ in due sottoalberi colorati unici $ T' $ e $ T'' $, con $ T'' $ il sottoalbero radicato in uno dei figli della radice di $ T $ e $ T' $ il sottoalbero di $ T $, radicato in $ r $ contenente $ |T| - |T''| $ nodi.\\
+Per calcolare $ c(T_C,v) $ si analizza, $ \forall v \in V $ di $ G $, l'insieme dei nodi adiacenti adiacenti a $ v $, indicato con $ adj(v) $, ossia l'insieme dei nodi collegati a $ v $ da un arco in $ E $.
+Quindi si prendono in $ v $ tutti i treelet colorati radicati isomorfi a $ T'_{C'} $ precedentemente calcolati e, $ \forall u \in adj(v) $, i treelet radicati isomorfi a $ T''_{C''} $.
+Se $ C' \cap C'' = 0 $, si procede al conteggio delle occorrenze di $ T_C $ radicato in $ v $ nel modo seguente:
+
 \begin{equation}\label{conta}
-	c(T_c,v)=\frac{1}{\beta_T}\sum_{u\sim v}\sum_{\substack{{C',C''\subset C}\\{C'\cap C'' =0}}}c(T'_{C'},v)\cdot c(T''_{C''},u)
+	c(T_c,v)=\frac{1}{\beta_T}\sum_{u \in adj(v)}\sum_{\substack{C' \subset C \\C'' = C \setminus C' \\ |C'|=|T'|, |C''| = |T''|}}c(T'_{C'},v)\cdot c(T''_{C''},u)
 \end{equation}
 
-dove $ \beta_T $ \`e una costante di normalizzazione che \'e uguale al numero di alberi di $ T $ isomorfi a $ T'' $ radicati in un figlio di $ r $. Per calcolare $ c(T_C,v) $ si passa attraverso tutti gli archi $ u\sim v $ di $ G $, combinando i conteggi di $ u $ e $ v $. La correttezza e la complessit\`a di questa costruzione, non sono trattate qui,ma vengono dimostrate in \cite{alon1995color}.
+dove $ \beta_T $ \`e una costante di normalizzazione che \'e uguale al numero di alberi di $ T $ isomorfi a $ T'' $ radicati in un figlio di $ r $.\\
+ La correttezza e la complessit\`a di questa costruzione, non sono trattate qui, ma vengono dimostrate in \cite{alon1995color}.\\
+ Possiamo vedere l'algoritmo formalmente  descritto in Algoritmo \ref{algoritmo}.\mbox{}\\
+
 
 \begin{algorithm}[H]
+	\label{algoritmo}
 	\SetAlgoLined
 	\caption{Fase di costruzione}
- 	\textbf{input} : Grafo $ G $, dimensione del treelet $ k $ \;	
+ 	\textbf{input} : Grafo $ G =(V,E) $, dimensione del treelet $ k $ \;	
  				\For{$ v $ in $ G $}{
- 				$ c_v = $ viene assegnato un colore preso da [$ k $]\;
- 				$ c(T_{c_v} , v) = 1 $\;
+ 				$C_0 = \{c_v\}$; viene assegnato un colore uniformemente a caso preso da [$ k $]\;
+ 				$ c(T_{C_0} , v) = 1 $\;
  			}	
  			\For{$ h = 2$ to $ k $}{
- 				\For{$ v $ in $ G $}{
+ 				\For{$ v \in V $}{
  					\ForEach{$ T : |T| = h $}{					
- 						\( 	c(T_c,v)=\frac{1}{\beta_T}\sum_{u\sim v}\sum_{\substack{{C',C''\subset C}\\{C'\cap C'' =0}}}c(T'_{C'},v)\cdot c(T''_{C''},u) \)	
+ 						\( 	c(T_C,v)=\frac{1}{\beta_T}\sum_{u\in adj(v)}\sum_{\substack{{C',C''\subset C}\\{C'\cap C'' =0}}}c(T'_{C'},v)\cdot c(T''_{C''},u) \)	
  					}
  				}
  			}
  			
 \end{algorithm}\mbox{}\\
 
-Come si nota, l'algoritmo itera su tutte le coppie di conteggi $ c(T'_{C'},v) $ e $ c(T''_{C''},u) $ per ogni arco $ u\sim v $ e, se $ T'_{C'}, T''_{C''}  $  possono essere unite in un albero colorato $ T_C $, allora si aggiunge $ c(T'_{C'},v) \cdot c(T''_{C''},u)  $ al conteggio $ c(T_C,v) $.
-Per fare questo \`e necessaria un'operazione di ``controllo e unione'', che risulta abbastanza costosa.
-Infatti, per calcolare $ c(T_C,v) $, per ogni coppia di conteggi 
-Una semplice analisi ha restituito il seguente limite di complessit\`a:
+Come si pu\'o notare, per calcolare le occorrenze di un albero $ T_C $ nell'algoritmo si sfrutta un approccio top-down, ossia a partire dall'albero $ T_C $ si identificano i due alberi $ T' $ e $ T'' $ in cui pu\`o essere scomposto, si considerano tutte le partizioni di $ C',C'' \subset C $ e in seguito si procede al calcolo di $ c(T_C,v) $ come indicato in \eqref{conta}.
 
-\newtheorem{teorema}{Teorema}[section]
-\begin{teorema}
-	(\cite{bressan2018motif} \textit{Teorema 5.1} ) La fase di costruzione richiede tempo $ O(a^{k}|E|) $ e spazio $ O(a^{k}|V|) $, per un qualche $ a > 0 $.
-	
-\end{teorema}
+In questa tesi, cos\'i come in \cite{bressan2019motivo}, invece, si \`e sfruttato un approccio bottom-up. Infatti, per ogni nodo $ v \in V $ di $ G $ e per ogni nodo $ u \in adj(v)$, si prendono tutte le coppie possibili di treelet colorati radicati rispettivamente in $ u $ e $ v $, $ T'_{C'} $ e $ T''_{C''} $, tali che $ |T'| + |T''| = k $ e $ |T'|,|T''|>0 $.
 
-La grandezza della tabella ottenuta da questa programmazione \`e il problema maggiore per l'algoritmo, infatti per $ k=6 $ e $ |V| = 5M $, sono necessari $ 45G $ di memoria.
-
-Come si pu\'o notare, per calcolare le occorrenze di un albero $ T $ nell'algoritmo si sfrutta un approccio top-down, ossia a partire dall'albero $ T $ si identificano i due alberi $ T' $ e $ T'' $ in cui pu\`o essere scomposto e in seguito si procede al calcolo di $ c(T_C,v) $ come indicato in \ref{conta}.
-
-In questo studio, invece, si \`e sfruttato un approccio bottom-up. Infatti, per ogni nodo $ v \in V $ di $ G $ e per ogni nodo $ u $  adiacente a $v$, si prendono tutti le coppie possibili di treelet colorati radicati rispettivamente in $ u $ e $ v $, $ T'_{C'} $ e $ T''_{C''} $, entrambi di dimensioni minori di $ h $, con $ h \le k $.
-Se $ C' \cap C'' = 0 $ e la struttura di $ T''_{C''} $ \`e minore della struttura del pi\`u piccolo sottoalbero radicato nella radice di $ T'_{C'} $, secondo l'ordinamento totale dei treelet (vedere \ref{section 2}), allora i due treelet possono essere uniti a creare $ T_C $ di dimensione esattamente $ h $ le cui occorrenze saranno determinate come in \ref{conta}.
-
-\section{Struttura dati}
+\section{Dettagli implementativi: rappresentazione compatta dei treelet colorati}
 \label{section 2}
 In questa sezione vengono descritte le strutture dati usate per implementare l'algoritmo in Java.
 Gli oggetti principali che vengono manipolati sono i treelet colorati e le occorrenze associate.
 
-Ogni treelet ha una rappresentazione unica, nella quale sono memorizzati anche i colori.
-Vengono codificati come stringhe binarie da 64 bit.
-I bit sono cos\'i suddivisi : 
+Ogni treelet colorato $ T_C = (T,C) $ ha una rappresentazione unica, nella quale sono memorizzate la topologia di $ T $, i colori in $ C $, ed infomazioni aggiuntive per facilitare la minipolazione di $T_C$.
+Tale rappresentazione richiede al pi\`u 59 bit e pu\`o pertanto essere memorizzata usando degli interi a 64 bit, un tipo di dati nativo in Java e nelle pi\`u comuni architetture moderne.
+I bit sono numerati da 0 a 63 e ordinati dal bit meno significativo a qullo pi\`u significativo.\\
+Sono cos\'i suddivisi:
 \begin{itemize}
-	\item i bit da 0-3 contengono la dimensione del treelet a meno della radice
-	\item i bit da 4-7 contengono la dimensione del sottoalbero pi\'u piccolo radicato nella radice del treelet
-	\item i bit da 8-11 vengono usati per memorizzare il valore di $ \beta $ associato al treelet.
-	\item i bit da 12-27 sono usati per indicare i colori dell'albero
-	\item i bit da 28-58 sono usati per codificare la struttura del treelet .
-	\item gli ultimi 4 bit sono lasciati a zero
-\end{itemize}
+	\item i bit da 0-3 contengono il numero di nodi di $ T $ a meno della radice, che non \`e necessaria ai fini delle operazioni effettuate.
+	\item i bit da 4-7 contengono la dimensione del sottoalbero radicato nell'ultimo figlio della radice di $ T $.
+	\item i bit da 8-11 vengono usati per memorizzare il valore di $ \beta_T $ associato a $ T $.
+	\item i bit da 12-27 sono usati per indicare i colori in $ C $
+	\item i bit da 28-58 sono usati per codificare la struttura del treelet, come descritti nel seguito.
+	\item gli ultimi 5 bit sono lasciati a zero
+\end{itemize}\mbox{}\\
 
-		\begin{figure}[htbp]
+Per codificare la struttura dell'albero si procede nel seguente modo.\\
+Si esegue una visita DFS su $ T $ partendo dalla radice $ r $ e attraversando gli archi di $ T $, in modo che, al termine della visita, ogni arco sia stato attraversato esattamente 2 volte, in direzioni opposte. 
+
+Sia $h=|T|$ e sia $e_i$, con $i = 1, 2, \dots, 2(h-1)$, l'$i$-esimo arco attraversato dalla visita. 
+L'$i$-esimo bit della codifica \`e $0$ se $e_i$ \`e attraversato in direzione di $r$ in $T$ e $1$ in caso contrario. In Figura \ref{figura} si pu\`o vedere un esempio di tale codifica.
+
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=11cm]{capitolo2/grafo3}
 	\caption{Un treelet radicato e la codifica della sua struttura}
 	\label{figura}
 \end{figure}
-Per codificare la struttura dell'albero si procede nel seguente modo.
-Si esegue una visita DFS trasversale su $ T $ partendo dalla radice $ r $. Poi l'$ i $-esimo bit della codifica \`e 1 (rispettivamente 0) se l'$ i $-esimo arco si visita in direzione opposta a $ r $ (rispettivamente se si visita in direzione di r). In Figura \ref{figura} si pu\`o vedere un esempio di tale codifica.
 
 Per un qualunque $ k \le 16 $ questa codifica richiede al massimo 30 bit.
 L'ordinamento lessicografico sulla struttura permette anche un'ordinamento totale sui treelet. Questo ordinamento \`e anche una regola decisiva per la visita DFS: i figli di un nodo vengono visitati nell'ordine dato dai sottoalberi radicati in esso.
-Ci\`o implica che ogni treelet $ T $ ha una codifica unica ben definita della struttura. Inoltre, in questo modo si garantisce un'operazione di unione molto rapida.\\
+Ci\`o implica che ogni treelet $ T $ ha una codifica unica , ed ogni codifica valida corrisponde ad un solo treelet. Inoltre, in questo modo \`e possibile implementare rapidamente l'operazione di unione.\\
 
 La codifica dei treelet supporta le seguenti operazioni :
 \begin{itemize}
-	\item $ \textbf{singleton} $ (int color) : permette di inizializzare un treelet di un solo nodo con il rispettivo colore
+	\item $ \textbf{singleton} $ (c) : permette di inizializzare un treelet di un solo nodo con il rispettivo $ c \in {1, \dots, k} $
 	\item $ \textbf{merge} $ ($ T' $,$ T'' $) : fa l'unione di due alberi $ T' $ e $ T'' $, se possibile creando un nuovo albero $ T $ che avr\`a come struttura la concatenazione delle strutture di $ T' $ e $ T'' $.
 	Come dimensione, a meno della radice, $ T $ avr\`a la somma delle dimensioni di $ T' $ e $ T'' $ pi\'u 1, ossia il nodo radice di $ T'' $.
 	I colori di $ T $, sono dati dall'unione dei colori di $ T' $ e $ T'' $.
 	In $ T $ come $ \beta $ viene memorizzato il valore corrispondente a quello di $ T' $ e se la struttura del sottoalbero pi\'u piccolo di $ T' $ \`e uguale a quella di $ T'' $ viene incrementato di 1. Per finire, la dimensione del sottoalbero pi\`u piccolo radicato in $ T $ sar\`a esattamente la dimensione di $ T''+1  $ .
-	\item $\textbf{normalization\_factor}$ ($ T $): restituisce la costante di normalizzazione $ \beta $.
+	\item $\textbf{normalization\_factor}$ ($ T $): restituisce la costante di normalizzazione $ \beta_T $ associata a $ T $.
 	    
 \end{itemize}
 \begin{figure}[htbp]
@@ -119,18 +115,34 @@ La codifica dei treelet supporta le seguenti operazioni :
 	\caption{un treelet colorato e la sua codifica, mostrata per semplicit\`a solo su 8+8+4+4+4=28 bit}
 	\label{figura1}
 \end{figure}
-Un esempio di treelet colorato e della sua codifica \`e data nella Figura \ref{figura1}.
+Un esempio di treelet colorato e della sua codifica \`e mostrato in Figura \ref{figura1}.\mbox{}\\\\
+Nell'implementazione i conteggi vengono salvati all'interno di una tabella indicizzata, rappresentata mediante strutture annidate di $ ArrayList $.\\
+Quello che si ottiene \`e una tabella con $ k $ entrate, indicizzate da $ 1 $ a $ k $ ed associate al numero di vertici dei treelet.\\
+L'$ i $-esima entrata della tabella, con $ 1\le i \le k $ generico, a sua volta, \`e un $ ArrayList $, con una dimensione fissata, che varia a secondo della cardinalit\`a di $ V $, cos\`i che ad ogni entrata \`e associato un vertice $ v\in V $ di $ G $.\\
+Per ognuna delle $ |V| $ entrate, viene creato un $ ArrayList $ contenente tutti i treelet colorati di dimensione $ i $ raggiungibili dai differenti nodi in $ V $, insieme al relativo numero di occorrenze.\\
+All'interno di quest'ultima lista i treelet sono ordinati in ordine non descrescente.\\
+La tabella ha una costruzione dinamica, perci\`o l'$ i $-esima entrata \`e costruita solo dopo aver terminato la costruzione della $ i-1 $-esima.
 
+Per permettere una costruzione pi\`u rapida della tabella, nell'implentazione \`e utilizzato il $ Multithreading $, cio\`e vengono utilizzati pi\`u thread che lavorano in parallelo.
+Un thread \`e un flusso di esecuzione indipendente all'interno di un processo.
+Il numero di thread utilizzato nell'implementazione \`e dipendente dal numero di processori presenti nella macchina.
+Supponendo di avere un pc con 4 processori, vengono usati 3 thread, uno in meno rispetto al numero di processori.
+Per garantire un funzionamento in parallelo senza conflitti \`e dovuto provvedere affinch\`e nessuna operazione necessitasse di semafori di mutua esclusione (mutex) e che ogni tipo di dato coinvolto fosse atomico, ossia non scomponibile.\\
+Riguardo le operazioni sugli ArrayList non \`e stato necessario ricorrere alla mutua esclusione.
+Per le variabili \`e stato necessario, invece, garantire la visita dei vertici del grafo in maniera atomica e a tal proposito i vertici, in ogni ArrayList, sono rappresentati mediante $ AtomicInteger $, ossia valori interi che possono essere aggiornati in maniera atomica.\mbox{}\\
 
-
-Per quanto riguarda i conteggi delle occorrenze dei treelet sono memorizzati in una tabella con $ k $  entrate ognuna delle quali composta da altrettante $ n $ tabelle, una per ogni nodo $ v \in G $.
-La coppia $ (T_C,c(T_C,v)) $ \`e memorizzata in maniera strutturata nelle tabelle, tramite le istanze di una classe $ Entry $, contenente gli elementi della la coppia,  ordinate rispetto la dimensione dei treelet.
-Le tabelle sono costruite in maniera dinamica.
-La prima tabella, contiene  $ \forall v \in G $ la coppia $ (T_0,1) $ dove $ T_0 $ \`e il treelet triviale colorato.
-A seguire sfruttando la variante dell'algoritmo del color coding descritta in \ref{section1} vengono calcolate tutte le tabelle.
-Quindi l'$ i$-esima tabella, con $ 2 \le i \le k $, sar\`a costruita sfruttando tutte le $ h-1 $ tabelle gi\`a calcolate.
-Cos\`i facendo nella tabella con $ i = k $, saranno contenuti tutti i $ k $-treelet di $ G $ e le loro occorrenze.
-
+La codifica della tabella ha un metodo principale:
+\begin{itemize}
+	\item \textbf{build()}: d\`a inizio alla creazione della tabella, in maniera dinamica sfruttando le operazioni descritte nell'algoritmo \ref{algoritmo}.
+	Al suo interno vengono richiamati due metodi:
+	\begin{enumerate}
+		\item \textbf{do\_build1()} : dopo aver colorato il grafo $ G $ uniformemente a caso, viene fissata l'entrata della tabella indicizzata con 1, e al suo interno, $ \forall v \in V $ di $ G $, viene salvato il corrispondente treelet  colorato radicato in $ v $, con un solo nodo.
+		Viene inoltre associata la rispettiva occorrenza che \`e pari ad 1.
+		Formalmente in questo metodo si sviluppano le righe da 2 a 5 dell'algoritmo \ref{algoritmo}.	
+		\item \textbf{do\_build}(size): Al variare della size, $ 2\le size \le k $, vengono fissate tutte le altre entrate della tabella.
+	 	In questo caso, vengono sviluppate le righe da 6 a 12 dell'algoritmo \ref{algoritmo}.
+	\end{enumerate}
+\end{itemize}	
 
 
 	

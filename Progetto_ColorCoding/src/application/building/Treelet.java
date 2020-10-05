@@ -54,7 +54,7 @@ public class Treelet
         assert(t<=0x0FFFFFFFFFFFFFFFL);
         if ( h == k )
         {
-            t=is_centroid(t);
+            t=build_centroidTree(t);
         }
         return t;
     }
@@ -78,22 +78,19 @@ public class Treelet
         long structure1 = (t1>>28) & 0xFFFFFFFFL;
         long structure2 = (t2>>28) & 0xFFFFFFFFL;
 
-        /*
-        verifico che la radice sia cenroide per l'albero risultante.
-        Ho deciso di tenerli i conteggi delle grandezze dei sottoalberi perchè può risultare utile anche dopo
-         */
 
-        int[] delta_t1 = Treelet.structure(t1,size1,size2);
-        int[] delta_t2 = Treelet.structure(t2,size2,size1);
 
-        if (delta_t1.length < nodes_structure(t1).get(0).size()-1 | delta_t2.length < nodes_structure(t2).get(0).size()-1)
+        int[] delta_t1 = treelet_structure(t1,size1,size2);
+        int[] delta_t2 = treelet_structure(t2,size2,size1);
+
+        if (delta_t1.length < nodes_sequence(t1).get(0).size()-1 | delta_t2.length < nodes_sequence(t2).get(0).size()-1)
            return -1;
 
-        //verifico i colori
+
         if( Long.bitCount(t1 & t2 & 0xFFFF000L)!=1 )
             return -1;
 
-        //verifico che l'insieme A sia più grande di B secondo le regole insimeistiche date e solo allora creo t
+
         double ceil = Math.ceil((double)(size1 + size2 + 1) * 2 / 3);
         if (size1 <=(int) ceil & (size1 + delta_t2[0]) > (int) ceil)
         {
@@ -111,6 +108,7 @@ public class Treelet
             long structure = structure1<<(2*size2) | structure2;
             long t = (size1 + size2) | t2 & 0XF0 | 1<<8 |  ((t1 | t2) & 0xFFFF000L) | structure <<28;
             assert(t<=0x0FFFFFFFFFFFFFFFL);
+
             return t;
         }
 
@@ -127,13 +125,13 @@ public class Treelet
 
 
 
-    private static int[] structure(long t,int size_t, int size_other)
+    private static int[] treelet_structure(long t, int size_t, int size_other)
     {
 
         long structure = (t>>28) & 0xFFFFFFFFL;
 
         int counter = 0;
-        int[] delta =new int[nodes_structure(t).get(0).size()];
+        int[] delta =new int[nodes_sequence(t).get(0).size()];
         int j=0;
 
         for(int i=0; i<2*size_t ; i++)
@@ -161,7 +159,7 @@ public class Treelet
     }
 
 
-   private static ArrayList<ArrayList<Integer>> nodes_structure(long t)
+   private static ArrayList<ArrayList<Integer>> nodes_sequence(long t)
     {
 
         int size = (int) (t & 0xFL) ;
@@ -203,12 +201,12 @@ public class Treelet
 
 
 
-      private static long is_centroid(long t)
+      private static long build_centroidTree(long t)
       {
           long structure = (t>>28) & 0xFFFFFFFFL;
           int size = (int)(t & 0xF) ;
           int counter = 0;
-          int array_size = nodes_structure(t).get(0).size();
+          int array_size = nodes_sequence(t).get(0).size();
 
           int centroid = -1;
 

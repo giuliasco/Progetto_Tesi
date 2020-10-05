@@ -5,91 +5,64 @@ Tale ottimizzazione si basa sul principio delle decomposizioni bilanciate.
 Si fa vedere, inoltre, come l'utilizzo di quest'ultima permetta un notevole miglioramento delle performance.
 
 \section{Decomposizioni Bilanciate di un albero}
-Si vuole andare a dimostrare in questo paragrafo, che dato un albero T \`e sempre possibile ricavare una scomposizione bilanciata dell'albero.
+Si vuole andare a dimostrare in questa sezione, che dato un albero T \`e sempre possibile ricavare una scomposizione bilanciata dell'albero.
 \\
-Prima di poter enunciare il teorema e dimostrarlo occorre dare delle nozioni preliminari.
+Prima di poter enunciare e dimostrare il risultato principale di questa sezione occorre dare delle nozioni preliminari.
 
 \newtheorem{definizione}{Definizione}[section]
-\newtheorem{lemma}[definizione]{Lemma}
+
 \begin{definizione}
 	\label{definizioneDeco}
-Sia $T_r$ un albero radicato nel nodo r , con k nodi.
-Diremo che la coppia (A,B), dove  A e B sono insiemi contenenti i nodi di $T_r$, \`e una decomposizione per l'albero se:
+Sia $T_r$ un albero radicato nel nodo r, con k nodi.
+Diremo che la coppia (A,B), dove  A e B sono insiemi contenenti i nodi di $T_r$, \`e una decomposizione per l'albero $ T_r $ se:
 \begin{itemize}
-	\item $| A |\cup| B | = k$
-	\item $A \cap B = r$.
+	\item $| A | + | B | = k$
+	\item $A \cap B = \{r\}$.
 \end{itemize}
 \end{definizione}
 
 
-\begin{lemma}
+\begin{definizione}
 \label{lemmaDeco}
-Dato un albero $ T $, e una sua decomposizione $ (A,B) $, affinch\`e tale decomposizione sia bilanciata dovr\`a risultare che:
+Dato un albero $ T $, diremo che $ (A,B) $ \`e una decomposizione bilanciata se:
 \begin{equation*}
 	\max{ \{|A| , |B| \} }  \le  f(k)
 \end{equation*}
+\end{definizione}
 
 
-dove f(k) \`e il fattore di bilanciamento, varia in funzione al numero dei nodi dell'albero ed \`e pari a:
-\begin{equation*}
-f(k) = \left\lceil \frac{2}{3}  k  \right\rceil 
-\end{equation*}
-\end{lemma}\mbox{}
 
-\begin{proof}
-Per dimostrare il lemma si fa una dimostrazione costruttiva, mediante il seguente algoritmo.
-In input si ha, un albero $ T $ e due insiemi di nodi $ A $ e $ B $ entrambi inizialmente vuoti.
-Per prima cosa si inserisce la radice la radice $ r $ di $ T $ in entrambi gli insiemi.
-Si supponga, che il numero dei sottoalberi radicati nella radice di $ T $ sia $ i \ge 2 $ e che i $ T_i $ sottoalberi siano ordinati per dimensione, in ordine non crescente.
-Per prima cosa si calcola il valore di $ f(k) $ applicato ai nodi dell'albero $ T $.
-Il primo passo inserisce in $ A $ i nodi di $ T_1 $.
-Il secondo prova ad aggiunge ad $ A $ i nodi di $ T_2 $.
-Se $ |A| + |T_2| \le f(k) $ allora aggiorna $ A $ inserendo i nodi di $ T_2 $ e si ripete il passo due su $ T_3 $, altrimenti l'algoritmo si arresta inserendo tutti i nodi dei sottoalberi rimanenti in $ B $.
-In realt\'a una volta trovato un $ T_i $ che non pu\`o essere aggiunto ad $ A $ l'algoritmo potrebbe continuare a vedere i sottoalberi a seguire, ma in questo caso si suppone che l'algoritmo si arresti.
-Una volta concluso l'algoritmo l'insieme $ A $ arriver\`a a contenere un numero di elementi tale che $ |A| \le \left\lceil \frac{2}{3}  k  \right\rceil  $
-\end{proof}
 
-Come si pu\`o capire dalla dimostrazione del Lemma \ref{lemmaDeco}, le decomposizioni bilanciate cos\`i come sono definite fino ad ora non possono essere applicate su tutti gli alberi, ma solo su alcuni.
-Occorrono, perci\`o ulteriori definizioni.
-   
+
 \begin{definizione}
-Per ogni nodo v di un albero T, le diramazioni di T  rispetto a v, sono tutti i sottoalberi massimali, radicati nei figli di v. 
-Sia $\alpha(v)$ il numero di nodi della massima diramazione di v. 
+Per ogni nodo $ v $ di un albero $ T $, le diramazioni di $ T $  rispetto a $ v $, sono tutti i sottoalberi massimali, radicati nei figli di $ v $. 
+Sia  $\alpha(v)$  , $ \forall v \in T $,il grado della diramazione di $ v $ con il maggior numero di nodi.
 
-Un nodo u di un albero T con n nodi, \`e un nodo centroide se $\alpha(u)\le\frac{n}{2}$.
-
-Il centroide di un albero non \`e necessariamente unico, infatti Jordan \cite{jordan1869assemblages}  ha dimostrato che o (i) T ha un singolo centroide v e $\alpha(v) < \frac{n}{2}$ oppure (ii) t ha due nodi centroidi (adiacenti) $v_1$ e $v_2$ tali che $\alpha(v_1) = \alpha(v_2) = \frac{n}{2}$, in questo caso il numero di nodi n \`e pari.
+Un nodo $ v $ di un albero $ T $ con $ n $ nodi, \`e un nodo centroide se $\alpha(v)\le\frac{n}{2}$.
 \end{definizione}\mbox{}
 
-
-Esistono diversi algoritmi per la ricerca del centroide, quello da noi usato \`e l'algoritmo di Jordan \cite{jordan1869assemblages} che  ha una complessit\`a temporale lineare al numero di nodi O(n). \\
-Il primo passo da fare \`e determinare $\alpha(v)$ $\forall v \in T$.\\
-Per poter calcolare $\alpha(v)$ $\forall v \in T$, inizialmente si effettua una visita DFS (Depth First Search) dell'albero, in modo da definire la cardinalit\`a di ogni possibile sottoalbero a partire dalla radice, procedendo su ogni suo figlio .
-I sottoalberi ottenuti dai nodi foglia e dal nodo radice, sono alberi banali che avranno rispettivamente cardinalit\`a 1 e $|T|$. \\
-A questo punto si pu\`o procedere con l'individuazione di $\alpha (v)$, ossia $\forall v$ della diramazione con un maggior numero di nodi.
-
-Per farlo, si considera ogni nodo v di T e si calcola la cardinalit\`a dei sottoalberi radicati in ognuna delle sue possibili diramazioni. 
-$\alpha (v)$ sar\`a il valore massimo tra tutte le quantit\`a individuate.
-Una volta determinato $\alpha(v)$ $\forall v \in T$, si procede alla ricerca del centroide, che sar\`a il nodo di T per cui vale la seguente disuguaglianza:
-\begin{equation*}
-\alpha(v) \le \left\lfloor\frac{n}{2} \right\rfloor
-\end{equation*}\mbox{}\\
-Nell'esempio \ref{es1} si pu\`o vedere l'applicazione dell'algoritmo per la ricerca del centroide.\mbox{}\\
-
+Il centroide di un albero non \`e necessariamente unico, infatti Jordan \cite{jordan1869assemblages}  ha dimostrato che o (i) $ T $ ha un singolo centroide $ v $ e $\alpha(v) < \frac{n}{2}$ oppure (ii) $ T $ ha due nodi centroidi (adiacenti) $v_1$ e $v_2$ tali che $\alpha(v_1) = \alpha(v_2) = \frac{n}{2}$, in questo caso il numero di nodi $ n $ \`e pari.\\
+Esistono diversi algoritmi per la ricerca del centroide, quello utilizzato in questa tesi \`e l'algoritmo di Jordan \cite{jordan1869assemblages} che  ha una complessit\`a temporale lineare nel numero di nodi. \\
+Il primo passo da effettuare \`e determinare $\alpha(v)$ per ogni nodo $ v \in T$.\\
+Viene definito $ \alpha(v) = \max\{\delta(z_i)\} $, dove $ \delta(z_i )$ rappresenta il grado di diramazione, ossia il numero di nodi incontrati durante una visita DFS (in profondit\`a) effettuata a partire da ogni nodo radice, $ z_i $, di tutte le possibili diramazioni di $ v $.
+Una volta calcolato il valore di $ \alpha(v) $, $ \forall v \in T $, si verifica per quali valori di $ \alpha(v) $ risulta $\alpha(v)\le\frac{n}{2}$.
+Nel caso ci fosse un unico nodo $ v $, come in (i), che soddisfa la precedente espressione, allora tale nodo rappresenta l'unico  centroide dell'albero $ T $.
+Nel caso, invece, ce ne fossero due, come definito in (ii), per esempio $ v_1 $ e $ v_2 $,  l'albero $ T $ conterr\`a due centroidi, rispettivamente $ v_1 $ e $ v_2 $.\\
+Nell'esempio \ref{es1} si pu\`o vedere l'applicazione dell'algoritmo per la ricerca del centroide.
 	\begin{figure}[htbp]
 		\centering
-		\includegraphics[width=11.5cm]{capitolo3/grafo1}
-		\caption{Dato un albero $ T $, si vede come pu\`o cambiare la struttura se radicato nel suo centroide}
+		\includegraphics[width=5cm]{capitolo3/grafo2}
+		\caption{Albero $ T $  per la ricerca del centroide} 
 		\label{fig:2}
 \end{figure}
+\mbox{}\\
 
-\mbox{}\\\\
 \newtheorem{esempio}[definizione]{Esempio}
 \begin{esempio}
 	\label{es1}
 Si consideri l'albero T in figura \ref{fig:2} per la ricerca del nodo centroide.
-Innanzitutto su ogni nodo di T, numerati da 0 a 10,  viene calcolato $\alpha(v)$ . \\
-Quello che si otterr\`a sar\`a:
+Su tutti i di $ T $, numerato da 0 a 10,  viene calcolato $\alpha(v)$ . \\
+Quello che si ottiene \`e :
 
 %$\alpha(0) = 6$; $\alpha(1) = 5$; $\alpha(2) = 7$; $\alpha(3) = 10$; $\alpha(4) = 7$; $\alpha(5) =  10$ $\alpha(6) = 9$; $\alpha(7) = 10$; $\alpha(8) = 10$; $\alpha(9) = 10$; $\alpha(10) = 10$.
 
@@ -103,35 +76,36 @@ Quello che si otterr\`a sar\`a:
 	\end{tabular}
 \end{center}
 
-Poich\'e $ \left\lfloor\frac{n}{2} \right\rfloor = \left\lfloor \frac{11}{2} \right\rfloor = 5$, basta verificare per quale nodo v di T , vale che $\alpha(v) \le \left\lfloor\frac{n}{2} \right\rfloor$.
-L'unico nodo per cui tale disuguaglianza risulta vera \`e il nodo 2, infatti $5\le 5$, e sar\`a l'unico centroide dell'albero T (figura \ref{fig:3}). 
-\end{esempio}
+Poich\'e $ \left\lfloor\frac{n}{2} \right\rfloor = \left\lfloor \frac{11}{2} \right\rfloor = 5$, l'unico nodo per cui la disuguaglianza risulta vera \`e il nodo 2, infatti $5\le 5$, ed \`e esattamente l'unico centroide dell'albero T (figura \ref{fig:2}). 
+\demo
+\end{esempio}\mbox{}\\
 
-Come gi\'a accennato l'algoritmo ha complessit\`a lineare sul numero dei nodi.
-Infatti, occorre calcolare il grado di ogni nodo e successivamente verificare che ci siano le condizioni affich\`e risulti un centroide e si ha:
+L'ultimo punto da considerare prima di poter enunciare e dimostrare il risultato principale di questa sezione riguarda la definizione di un algoritmo valido per comporre due insiemi di nodi $ A $ e $ B $,in modo bilanciato.
+Siano dati in input un albero $ T $,con $ k $ nodi, ed un fattore di bilanciamento definito da una funzione $ f(k) $.
+Inizialmente viene posta la radice $ r $ di $ T $ come unico nodo nei due insiemi $ A $ e $ B $.
+Successivamente, si verifica se la cardinalit\`a del sottoalbero radicato nel figlio pi\`u a sinistra di $ r $ sommata alla cardinalit\`a corrente dell'insieme $ A $ non supera il valore della funzione $ f(k) $.
+In caso affermativo si aggiungono tutti i nodi del sottoalbero radicato nel figlio pi\`u a sinistra di $ r $ nell'insieme $ A $ e si ripete il passo descritto in precedenza sul sottoalbero radicato nel figlio successivo di $ r $.
+Quando, al generico passo $ i $, la cardinalit\`a dell'insieme $ A $, fino a quell'istante, sommata alla cardinalit\`a del sottoalbero radicato nell'$ i$-esimo figlio di $ r $ supera il valore della funzione $ f(k) $, i nodi dell'$ i$-esimo sottoalbero e di tutti quelli a seguire verranno aggiunti nell'insieme $ B $.
+Poich\`e i nodi dell'albero sono in numero finito \`e garantito che l'algoritmo si arresta in un tempo finito.\\
 
-\begin{equation*}
-\sum_{v}^{}(1 + \delta(v)) = n + \sum_{v}^{} \delta(v) = n+n-1= 2n-1 =O(n)
-\end{equation*}\\
-In base a tutte le nozioni illustrate in precedenza possiamo passare ad enunciare il  teorema di seguito.
+
+In base a tutte le nozioni illustrate in precedenza possiamo passare ad enunciare il seguente teorema.
+
 
 \newtheorem{teorema1}[definizione]{Teorema}
 \begin{teorema1}
-Per ogni albero T di k nodi esiste un nodo r di T , tale che l'albero $T_r$, ottenuto radicando T in r ammette una decomposizione bilanciata.
+Per ogni albero T di k nodi esiste un nodo r di T , tale che l'albero $T_r$, ottenuto radicando T in r ammette una decomposizione $ \lceil \frac{2}{3}k \rceil$-bilanciata.
 \end{teorema1}
 \begin{proof}
-	Sia $ T $ un albero con pi\`u di due nodi(per $n\le2$ caso banale). \\
-	La prima operazione da compiere \`e individuare il nodo $ r $ di $ T $, su cui si andr\`a poi a radicarsi l'albero.
-	Banalmente, per come \`e stato definito, il nodo che si cerca, non \`e altro che  un centroide dell'albero $ T $, quindi si applica l’algoritmo precedentemente descritto per la sua ricerca.
-	Una volta trovato, questo sar\`a il nuovo nodo su cui sar\`a radicato l'albero $ T $, che da questo punto sar\`a indicato con $T_r$.
-	\\ 
-	Inoltre supponiamo, senza perdere di generalit\`a, che i sottoalberi radicati nei figli di r siano ordinati in maniera non crescente rispetto alla loro dimensione.\\
-	\`E possibile ottenere una scomposizione, (A,B), dei k nodi di $T_r$,  tale che un insieme, ad esempio A, contenga al massimo i $\left\lceil \frac{2}{3} \right\rceil$ dei nodi dell'albero e B il restante di essi, come descritto nel Lemma \ref{lemmaDeco}.
-	Ovviamente questo algoritmo terminer\`a, poich\'e il numero di nodi \`e finito.
-	Inoltre l'insieme con il maggior numero di elementi non contiene pi\`u dei $\left\lceil \frac{2}{3} \right\rceil$ del totale. \\
-	Per dimostrarlo si osserva che A deve contenere almeno $\frac{1}{3}$ dei nodi totali. \\
-	Si supponga che dopo aver applicato l'algoritmo descritto nella dimostrazione del Lemma \ref{lemmaDeco}, $ A $ contenga i  $ \left\lceil \frac{2}{3}\right\rceil $ dei nodi totali.
-	Sia x il primo elemento non in $  A $ e sia $ i $ la sua posizione (figura \ref{fig:4}).
+	Sia $ T $ un albero con pi\`u di due nodi (per $n\le2$ la propriet\`a \`e banalmente vera). \\
+	La prima operazione da compiere \`e individuare il nodo $ r $ di $ T $, su cui si andr\`a poi a radicare il nuovo albero $ T_r $.\\
+	Per come \`e stato definito, il nodo da ricercare, non \`e altro che  un centroide dell'albero $ T $, quindi si applica l'algoritmo precedentemente descritto per la sua ricerca.\\ 
+	Una volta trovato si eseguono opportune modifiche su $ T $ in modo da radicarlo nel suo centroide, ottendendo cos\`i $ T_r $.\\ 
+	Senza perdere di generalit\`a, si suppone che i sottoalberi radicati nei figli di r siano ordinati in maniera non crescente rispetto alla loro dimensione.\\
+	\`E possibile ottenere una scomposizione, (A,B), dei k nodi di $T_r$,  tale che, applicando l'algoritmo descritto in precedenza con fattore di bilanciamento $ f(k) = \left\lceil \frac{2}{3} \right\rceil $, gli insiemi $ A $ e $ B $ risultino bilanciati.
+	Risulta, pertanto, che l'insieme con il maggior numero di elementi non contiene pi\`u dei $\left\lceil \frac{2}{3} \right\rceil$ del totale dei nodi. \\
+	Sia esso, ad esempio, l'insieme $ A $.
+	Si denota con $ x $ il primo sottoalbero di $ T_r $ non appartenente ad $  A $, radicato nell'$ i $-esimo figlio della radice di $ T_r $ (figura \ref{fig:4}).
 	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=6cm]{capitolo3/3}
@@ -141,53 +115,69 @@ Per ogni albero T di k nodi esiste un nodo r di T , tale che l'albero $T_r$, ott
 	
 	Si possono verificare  due casi:
 	\begin{itemize}
-		\item (i=2)  L'insieme A \`e formato da un unico elemento y:
+		\item (i=2)  L'insieme A \`e formato dall'insieme di nodi di un unico sottoalbero y:
 		\begin{figure*}[htbp]
 			\centering
 			\includegraphics[width=6cm]{capitolo3/4}
 			\caption{}
 		\end{figure*}\\
-		Per come \`e costruito di A, si ha certamente che:
+		Per costruzione di $ A $, si ha che:
 		\\
 		\begin{equation}
-			y + x > \frac{2}{3}k
+			\label{dis1}
+			|y| + |x| > \frac{2}{3}k
 		\end{equation}
 		\\
-		Dividendo entrambi i membri di (1) per  due, si ottiene:
+		Dividendo entrambi i membri di (2) per  due, si ottiene:
 		\\
 		\begin{equation}
-			\frac{ x + y }{2} > \frac{k}{3}  
+			\frac{ |x| + |y| }{2} > \frac{k}{3}  
 		\end{equation}
-		Si nota che $\frac{ x + y }{2} $ rappresenta esattamente il valore medio. \\
-		Dall'ordinamento dei sottoalberi di $T_r$, risulta che $y \ge x$ perci\`o si ha che:
+		\\
+		Si pu\`o notare che $\frac{ |x| + |y| }{2} $ rappresenta esattamente il valore medio. \\
+		Dall'ordinamento dei sottoalberi di $T_r$, risulta che il sottoalbero indicato con $ y $ \`e maggiore o uguale a quello indicato con $ x $.\\
+		Pertanto :
+		\\
 		\begin{equation}
 			y \ge \frac{ x + y }{2} 
 		\end{equation}
-		unendo la (2) e la (3)  si ottiene:
+		\\
+		Combinando le disequazioni (2) e (3) si ottiene:
+		\\
 		\begin{equation*}
 			y > \frac{k}{3}  
 		\end{equation*}
-		\item ($i\ge3$) In $ A $ vi sono almeno due elementi. Sia $ S $ il valore ottenuto dalla loro somma 
+		\\
+		\item ($i\ge3$) In $ A $ ci sono almeno due elementi. Sia $ S $ la cardinalit\'a dell'insieme $ A $.
+		
 		\begin{figure*}[htbp]
 			\centering
 			\includegraphics[width=6cm]{capitolo3/5}
 			\caption{}
-		\end{figure*}\\
-		Si ha che:
+		\end{figure*}
+	
+		Sommando $ S $ alla cardinalit\`a di $ x $ si ha:
+		\\
 		\begin{equation}
-			S + x > \frac{2}{3}
+			S + |x| > \frac{2}{3}
 		\end{equation}
-		Inoltre, per costruzione:
+		\\
+		Inoltre, avendo un ordinamento ben definito dei sottoalberi di $ T_r $, ne consegue che:
+		\\ 
 		\begin{equation}
-			x \le \frac{k}{3}
+			|x| \le \frac{k}{3}
 		\end{equation}
-		Sottraendo la (5) alla (4), ammissibile poich\'e rispetta le regole delle disequazioni, si ottiene:\\
+		\\
+		Sottraendo la diseguazione (6) alla disequazione (5), si ottiene:
+		\\
 		\begin{equation}
-			S + x - x > \frac{2}{3} k - \frac{k}{3} \hspace{0.3cm} \text{    ossia    }\hspace{0.3cm} S > \frac{k}{3}
+			S + |x| - |x| > \frac{2}{3} k - \frac{k}{3} \hspace{0.3cm} \text{    ossia    }\hspace{0.3cm} S > \frac{k}{3}
 		\end{equation}
-		Perci\`o gli insiemi ottenuti dalla scomposizione di $T_r$ hanno cardinalit\`a compresa tra $\frac{1}{3} k$ e $\frac{2}{3} k$, garantendo cos\`i delle decomposizioni bilanciate.\\ 
-		Nel caso in cui si abbiano due centroidi, la scelta su quale radicare l'albero  \`e deterministica e  viene fatta prendendo quello che, tra i due,garantisce un'ordinamento corretto dei sottoalberi radicati nella radice oppure, a parit\`a di ordinamento, ne viene scelto uno dei due in maniera arbitraria. 
+		\\
+		Perci\`o gli insiemi ottenuti dalla scomposizione di $T_r$ hanno cardinalit\`a compresa tra $\frac{1}{3} k$ e $\frac{2}{3} k$, garantendo cos\`i delle decomposizioni bilanciate.
 	\end{itemize}
-\end{proof}
+\end{proof}\mbox{}\\
+
+	Nel caso in cui si abbiano due centroidi, la scelta su quale radicare l'albero  \`e deterministica e  viene fatta prendendo quello che, tra i due, garantisce un'ordinamento corretto dei sottoalberi radicati nella radice oppure, a parit\`a di ordinamento, ne viene scelto uno dei due in maniera arbitraria. 
 
 

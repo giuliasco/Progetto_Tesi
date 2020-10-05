@@ -12,7 +12,6 @@ public class Main {
 		CommandLineParser parser = new DefaultParser();
 		Options options = new Options();
 		options.addOption("F",true, "input file path");
-		options.addOption("c",true,"number of colors needed ");
 		options.addOption("k",true,"size of searched treelet");
 		options.addOption("t",true,"Number of thread that it can use");
 		options.addOption("C", true, "1 if it's a random coloration, 2 if it's round robin");
@@ -24,7 +23,7 @@ public class Main {
 		if(cmd.hasOption("help"))
 		{
 			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp( "Command require for operation", options );
+			formatter.printHelp( "", options );
 		}
 
 		else {
@@ -32,7 +31,7 @@ public class Main {
 
 			Graph graph = new Graph(file);
 
-			int c = Integer.parseInt(cmd.getOptionValue("c"));
+			int c = Integer.parseInt(cmd.getOptionValue("k"));
 
 			int k = Integer.parseInt(cmd.getOptionValue("k"));
 
@@ -43,9 +42,9 @@ public class Main {
 			Table b = new Table(graph, c, k, thread, coloration);
 
 			try {
-				if (cmd.hasOption("balanced")) b.build_balanced();
+				if (cmd.hasOption("balanced")) b.flag=true;
 
-				else b.build();
+				b.build();
 
 				if (cmd.hasOption("p")) {
 					String path = cmd.getOptionValue("p");

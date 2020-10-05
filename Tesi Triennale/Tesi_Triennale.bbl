@@ -1,5 +1,31 @@
 \begin{thebibliography}{1}
 
+\bibitem{alon2008biomolecular}
+Noga Alon, Phuong Dao, Iman Hajirasouliha, Fereydoun Hormozdiari, and S~Cenk
+  Sahinalp.
+\newblock Biomolecular network motif counting and discovery by color coding.
+\newblock {\em Bioinformatics}, 24(13):i241--i249, 2008.
+
+\bibitem{bhuiyan2012guise}
+Mansurul~A Bhuiyan, Mahmudur Rahman, Mahmuda Rahman, and Mohammad Al~Hasan.
+\newblock Guise: Uniform sampling of graphlets for large graph analysis.
+\newblock In {\em 2012 IEEE 12th International Conference on Data Mining},
+  pages 91--100. IEEE, 2012.
+
+\bibitem{zhao2010subgraph}
+Zhao Zhao, Maleq Khan, VS~Anil Kumar, and Madhav~V Marathe.
+\newblock Subgraph enumeration in large social contact networks using parallel
+  color coding and streaming.
+\newblock In {\em 2010 39th International Conference on Parallel Processing},
+  pages 594--603. IEEE, 2010.
+
+\bibitem{boldi2011layered}
+Paolo Boldi, Marco Rosa, Massimo Santini, and Sebastiano Vigna.
+\newblock Layered label propagation: A multiresolution coordinate-free ordering
+  for compressing social networks.
+\newblock In {\em Proceedings of the 20th international conference on World
+  wide web}, pages 587--596, 2011.
+
 \bibitem{alon1995color}
 Noga Alon, Raphael Yuster, and Uri Zwick.
 \newblock Color-coding.
@@ -17,12 +43,6 @@ Marco Bressan, Stefano Leucci, and Alessandro Panconesi.
 \newblock Motivo: fast motif counting via succinct color coding and adaptive
   sampling.
 \newblock {\em Proceedings of the VLDB Endowment}, 12(11):1651--1663, 2019.
-
-\bibitem{alon2008biomolecular}
-Noga Alon, Phuong Dao, Iman Hajirasouliha, Fereydoun Hormozdiari, and S~Cenk
-  Sahinalp.
-\newblock Biomolecular network motif counting and discovery by color coding.
-\newblock {\em Bioinformatics}, 24(13):i241--i249, 2008.
 
 \bibitem{jordan1869assemblages}
 Camille Jordan.

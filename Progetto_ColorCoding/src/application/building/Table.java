@@ -45,6 +45,7 @@ public class Table
     private int colors;
     private int k;
     public int coloration;
+    public boolean flag =false;
     private int[] color;
 
     private int nthreads;
@@ -79,43 +80,9 @@ public class Table
     public void build() throws InterruptedException
     {
         do_build1();
-
-        for(int i=2; i<=k; i++)
-        {
-
-            final int size = i;
-            next_vertex.set(0);
-
-            Timestamp ts = new Timestamp(System.currentTimeMillis());
-            log("AVVIO CREAZIONE TABELLA PER H = " + i);
-
-            ArrayList<Thread> threads = new ArrayList<Thread>();
-            for(int j = 0; j < nthreads; j++)
-            {
-                threads.add(new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        do_build(size);
-                    }
-                }));
-            }
-
-            for(Thread t : threads)
-                t.start();
-
-            for(Thread t : threads)
-                t.join();
-
-            log("FINE CREAZIONE TABELLA");
-
-        }
-    }
-
-    public void build_balanced() throws InterruptedException
-    {
-        do_build1();
-
-        int h=(int)Math.ceil((double)2*k/3);
+        int h;
+        if (flag) h=(int)Math.ceil((double)2*k/3);
+        else h=k;
         for(int i=2; i<=h ; i++)
         {
 
@@ -143,29 +110,34 @@ public class Table
                 t.join();
 
             log("FINE CREAZIONE TABELLA");
-        }
 
-        log("AVVIO CREAZIONE TABELLA PER H = " + k);
-        next_vertex.set(0);
-        ArrayList<Thread> threads1 = new ArrayList<Thread>();
-        for (int j = 0 ; j < nthreads ; j++)
-        {
-            threads1.add(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    balance_build(h);
+
+            if(flag)
+            {
+                log("AVVIO CREAZIONE TABELLA PER H = " + k);
+                next_vertex.set(0);
+                ArrayList<Thread> threads1 = new ArrayList<Thread>();
+                for (int j = 0 ; j < nthreads ; j++)
+                {
+                    threads1.add(new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            balance_build(h);
+                        }
+                    }));
                 }
-            }));
+                for(Thread t : threads1)
+                    t.start();
+
+                for(Thread t : threads1)
+                    t.join();
+
+                log("FINE CREAZIONE TABELLA");
+            }
+
         }
-        for(Thread t : threads1)
-            t.start();
-
-        for(Thread t : threads1)
-            t.join();
-
-        log("FINE CREAZIONE TABELLA");
-
     }
+
 
 
     private void do_build1()
@@ -229,7 +201,15 @@ public class Table
                 }
             }
 
-            table.get(k).set(u ,normalize(map));
+            ArrayList<Entry> l = new ArrayList<Entry>(map.size());
+
+            for(Map.Entry<Long, Long> e : map.entrySet())
+                l.add(new Entry(e.getKey(), e.getValue()));
+
+            Collections.sort(l);
+
+
+            table.get(k).set(u ,l);
         }
 
     }
@@ -246,6 +226,12 @@ public class Table
                     long t = Treelet.merge(e1.treelet, e2.treelet,h,k);
                     if(t>=0 & h!=k)
                         map.put(t, map.getOrDefault(t, 0L) + e1.count * e2.count);
+                    /*
+                    poichè faccio il radicamento nel centroide solo  quando h=k,
+                    modifico i bit in modo tale che nei bit da 3 a 7 sia contenuto un 1 o un 2, nel caso in cui l'albero ha un centroide
+                    due centroidi che creano due alberi diversi ho 1, mentre nel caso ho due centroidi che creano due alberi uguali allora ho 2.
+                    cos\'i che quando calcolo le occorrenze moltiplico per due nel caso opportuno.
+                     */
                     else if (t>=0 & h==k)
                         map.put(t, map.getOrDefault(t, 0L) + e1.count * e2.count * (int)((t>>4) & 0xFL));
                     else if(t==-2)
