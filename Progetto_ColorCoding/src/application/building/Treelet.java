@@ -69,35 +69,34 @@ public class Treelet
 
     public static long balance_merge(long t1, long t2)
     {
-        /*int size1 = (int)(t1 & 0xFL);
+        int size1 = (int)(t1 & 0xFL);
         int size2 = (int)(t2 & 0xFL);
+        int total_size= size1 + size2;
 
         long structure1 = (t1>>28) & 0xFFFFFFFFL;
         long structure2 = (t2>>28) & 0xFFFFFFFFL;
 
 
-
-        int[] delta_t1 = treelet_structure(t1,size1,size2);
-        int[] delta_t2 = treelet_structure(t2,size2,size1);
-
-        if (delta_t1.length < nodes_sequence(t1).get(0).size()-1 | delta_t2.length < nodes_sequence(t2).get(0).size()-1)
-           return -1;
+        StructureInfo info = new StructureInfo(structure2);
 
 
+        //vincolo sui colori, possono avere solo un colore in comune ossia il nodo della radice
         if( Long.bitCount(t1 & t2 & 0xFFFF000L)!=1 )
             return -1;
 
 
-        double ceil = Math.ceil((double)(size1 + size2 + 1) * 2 / 3);
-        if (size1 <=(int) ceil & (size1 + delta_t2[0]) > (int) ceil)
+        int z= info.children.get(0).get(info.children.get(0).size() -1);
+        int len = info.structure_start[z] - info.structure_end[z] + 1;
+        long s =  append_subtree(structure1,structure2>>info.structure_end[z] ,len);
+        int size_s= Long.bitCount(s) +1 ;
+
+        if ((size1+1) <= (2 * total_size /3)+1 && (size_s) > (2 * total_size /3)+1  )
         {
             int size_last1 = (int)((t1 >> 4) & 0xF);
             long mask = (1<<(2*size_last1-2))-1;
             long subtree1 = (structure1>>1) & mask;
 
-            int size_first2= delta_t2[0];
-            long mask1 = (1<<(2*size_first2-2))-1;
-            long subtree2 = (structure2 >> (size2 - size_first2 + 1)) & mask1;
+            long subtree2 = (structure2 >> info.structure_end[z]) & ( 1L<<len - 1 );
 
             if(subtree2 > subtree1)
                 return -1;
@@ -106,8 +105,21 @@ public class Treelet
             long t = (size1 + size2) | t2 & 0XF0 | 1<<8 |  ((t1 | t2) & 0xFFFF000L) | structure <<28;
             assert(t<=0x0FFFFFFFFFFFFFFFL);
 
+
+            StructureInfo info1 = new StructureInfo(structure);
+            int[] c = centroids(info1);
+
+            if(c[0]!=0 && c[1]== -1) return -1;
+
+            else if (c[0]==0 && c[1]== -1) return t;
+
+            long t_0 = reroot(structure, c[0], info);
+            long t_1 = reroot(structure, c[1], info);
+
+            if(t_0 > t_1 && t_0!=structure) return -1;
+
             return t;
-        }*/
+        }
 
         return -1;
 
@@ -275,22 +287,7 @@ public class Treelet
         
         return t1;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   
-
 }
-
-
 
 
 

@@ -11,19 +11,27 @@ public class Main {
 
 
 
-/*        long t = 0b111010100101001111010011000100L;
+/*      long t = 0b111010100101001111010011000100L;
         System.out.println(t);
         System.out.println(Treelet.reroot(t, 9));
         int[] centroids = Treelet.centroids(t);
-        System.out.println("Centroids: " + centroids[0] + " " + centroids[1]);*/
+        System.out.println("Centroids: " + centroids[0] + " " + centroids[1]);
 
 
         System.out.println("Representative 1: " + Treelet.isomorphism_class_representative(0b11001010) );
         System.out.println("Representative 2: " + Treelet.isomorphism_class_representative(0b11100100) );
-        System.out.println("Representative 3: " + Treelet.isomorphism_class_representative(0b11010010) );
+        System.out.println("Representative 3: " + Treelet.isomorphism_class_representative(0b11010010) );*/
 
+		long t1 = Long.parseLong("1010101010100000000001111111000100100110",2);
+		long t2 = Long.parseLong("101010100000011111000000000100100100",2);
+		long t = Treelet.balance_merge(t2,t1);
+		System.out.println(t>>28);
 
-		CommandLineParser parser = new DefaultParser();
+		/*
+		FARE DEI TEST PIU SIGNIFICATIVI....
+		 */
+
+		/*CommandLineParser parser = new DefaultParser();
 		Options options = new Options();
 		options.addOption("F",true, "input file path");
 		options.addOption("k",true,"size of searched treelet");
@@ -68,7 +76,7 @@ public class Main {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 }
 
