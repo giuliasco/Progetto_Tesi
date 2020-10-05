@@ -24,7 +24,7 @@ public class Treelet
     2) l'insieme dei colori di t1 e t2 non devono condividere neanche un colore.
 
      */
-    public static long merge(long t1, long t2, int h,int k)
+    public static long merge(long t1, long t2)
     {
         long size1 = t1 & 0xFL;
         long size2 = t2 & 0xFL;
@@ -52,10 +52,7 @@ public class Treelet
         long structure = (structure1 << (2*size2+2)) | (1<<(2*size2+1)) | (structure2<<1);
         long t = (size1+size2+1) | ((size2+1)<<4) | (ncopies<<8) | ((t1 | t2) & 0xFFFF000L) | (structure<<28);
         assert(t<=0x0FFFFFFFFFFFFFFFL);
-        if ( h == k )
-        {
-            t=build_centroidTree(t);
-        }
+
         return t;
     }
 
@@ -72,7 +69,7 @@ public class Treelet
 
     public static long balance_merge(long t1, long t2)
     {
-        int size1 = (int)(t1 & 0xFL);
+        /*int size1 = (int)(t1 & 0xFL);
         int size2 = (int)(t2 & 0xFL);
 
         long structure1 = (t1>>28) & 0xFFFFFFFFL;
@@ -110,7 +107,7 @@ public class Treelet
             assert(t<=0x0FFFFFFFFFFFFFFFL);
 
             return t;
-        }
+        }*/
 
         return -1;
 
@@ -123,172 +120,225 @@ public class Treelet
         return (int)((t>>8) & 0xFL);
     }
 
-
-
-    private static int[] treelet_structure(long t, int size_t, int size_other)
+    
+    
+    public static long get_structure(long t)
     {
-
-        long structure = (t>>28) & 0xFFFFFFFFL;
-
-        int counter = 0;
-        int[] delta =new int[nodes_sequence(t).get(0).size()];
-        int j=0;
-
-        for(int i=0; i<2*size_t ; i++)
+        return (t>>28) & 0xFFFFFFFFL;
+    }
+    
+    
+    
+    /*
+        Riradica il treelet rappresentato da t nel nodo con indice v.
+        I nodi sono indicizzati in ordine DFS dalla radice di t (rispetto alla relazione d'ordine dei sottoalberi)
+    */
+    public static long reroot(long structure, int v, StructureInfo info)
+    {
+        if(v==0)
+            return structure;
+    
+        int path[] = new int[16]; //Index of the vertices in the path from v to the root in t
+        int path_length = 0;
+        do 
         {
-            long mask=1L;
-            int structure_bit1 = (int) (structure >> (2*size_t - 1 - i) & mask);
-            if (structure_bit1 == 1)
+            path[path_length++]=v;
+            v = info.parent[v];
+        }
+        while(v != -1);
+        
+        
+        long parent_structure=0;
+        long parent_structure_length=0;
+        
+        //Reroot!
+        for(int i=path_length-1; i>=0; i--)
+        {
+            int u = path[i];  
+            System.out.println("Processing vertex " + u);
+                  
+            long new_structure = 0;
+            long new_structure_length = 0;
+            
+            int idx;
+            for(idx=0; idx < info.children.get(u).size(); idx++)
             {
-                counter ++;
-                delta[j] = delta[j] + 1 ;
+                int z = info.children.get(u).get(idx);
+                int len = info.structure_start[z] - info.structure_end[z] + 1;
+                long s =  (structure >> info.structure_end[z]) & ( 1L<<len - 1 );
+                
+                if(parent_structure>s)
+                    break;
+            }
+    
+            System.out.println("Idx: " + idx);
+
+            for(int j=0; j<idx; j++)
+            {
+                int z = info.children.get(u).get(j);
+                if(i>0 && z == path[i-1])
+                    continue;
+                
+                System.out.println("Appending children " + z);
+                int len = info.structure_start[z] - info.structure_end[z] + 1;
+                new_structure = append_subtree(new_structure, structure>>info.structure_end[z], len);
+                new_structure_length += len + 2;
+            }
+            
+
+            
+            if(u!=0)
+            {
+                System.out.println("Appending parent");
+                new_structure = append_subtree(new_structure, parent_structure, parent_structure_length);
+                new_structure_length += parent_structure_length + 2;
+            }
+
+            for(int j=idx; j<info.children.get(u).size(); j++)
+            {
+                int z = info.children.get(u).get(j);
+                if(i>0 && z == path[i-1])
+                    continue;
+                
+                System.out.println("Appending children " + z);
+                int len = info.structure_start[z] - info.structure_end[z] + 1;
+                new_structure = append_subtree(new_structure, structure>>info.structure_end[z], len);
+                new_structure_length += len + 2;
+            }
+                
+            parent_structure = new_structure;
+            parent_structure_length = new_structure_length;
+            
+            System.out.println("Structure after processing vertex " + u + ": " + Long.toBinaryString(parent_structure) + " len: " + parent_structure_length);
+        }
+    
+        return parent_structure;
+    }     
+    
+    
+    //Appends a the tree encoded by the fist n bits of s as a child of the root of tree t 
+    private static long append_subtree(long t, long s, long n)
+    {    
+        return ((((t<<1) | 1L)<<n) | (s & ((1L<<n)-1)) )<<1;
+    }
+    
+    
+    
+    public static int[] centroids(StructureInfo info)
+    {        
+        int[] centroids = {-1, -1};
+        int ncentroids=0;
+        for(int i=0; i<info.number_of_vertices; i++)
+        {
+            boolean is_centroid=true; 
+            int vertices_towards_parent = info.number_of_vertices-1;
+            for(int u : info.children.get(i))
+            {
+                int size = (info.structure_start[u] - info.structure_end[u] + 1)/2 + 1; //number of vertices in the subtree of s rooted in u
+                
+                if(2*size > info.number_of_vertices)
+                {
+                    is_centroid = false;
+                    continue;
+                }
+                
+                vertices_towards_parent -= size;
+            }
+            
+            if(is_centroid && 2*vertices_towards_parent<=info.number_of_vertices)
+                centroids[ncentroids++]=i;
+            
+            if(ncentroids==2)
+                break;
+        }
+        
+        return centroids;
+    } 
+    
+    
+    
+    public static long isomorphism_class_representative(long structure)
+    {
+        StructureInfo info = new StructureInfo(structure);
+        int[] c = centroids(info);
+        
+        System.out.println("Centroidi: " + c[0] + " " + c[1]);
+        
+        if(c[1]==-1)
+            return reroot(structure, c[0], info);
+        
+        long t0 = reroot(structure, c[0], info);
+        long t1 = reroot(structure, c[1], info);
+        
+        if(t0 < t1)
+            return t0;
+        
+        return t1;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+
+}
+
+
+
+
+
+class StructureInfo
+{
+    public int[] parent = new int[16]; //p[i] contiene l'incide del padre del nodo i, oppure -1 se il padre non esiste
+    public ArrayList<ArrayList<Integer>> children = new ArrayList<ArrayList<Integer>>(); //children[i][j] contiene l'indice del j-esimo figlio del nodo i
+    
+    public int structure_start[] = new int[16]; //structure_start[i] contiene la posizione del primo bit (più significativo) che rappresenta il sottoalbero radicato nel vertice i nella struttura di t
+    public int structure_end[] = new int[16]; //structure_length[i] contiene la posizione dell'ultimo bit (meno significiativo) che rappresenta il sottoalbero radicato nel vertice i nella struttura di t
+    //Normalmente structure_start[i]>=structure_end[i]. Se la rappresentazione del sottoalbero di t radicato in i è vuota allora structure_end[i]=structure_start[i]-1.
+    //structure_start[0] e structure_end[0] non sono definiti (e non sono mai usati)
+ 
+    public int number_of_vertices;
+ 
+    StructureInfo(long structure)
+    {        
+        int size = Long.bitCount(structure); //Number of edges in the structure
+                
+        for(int i=0; i<=size; i++)
+            children.add(new ArrayList<Integer>());
+                    
+        parent[0]=-1;
+        structure_start[0]=2*size;
+        structure_end[0]=0;
+        
+        int current=0; //The index of the vertex we are currently visiting
+        int last_vertex=0; //The index of the last discovered vertex
+    
+        for(int i=0; i<2*size; i++)
+        {
+            if( ((structure>>(2*size-1-i)) & 1L) != 0)
+            {
+                //New edge directed away from the root
+                parent[++last_vertex]=current;
+                children.get(current).add(last_vertex);
+                current=last_vertex;
+                structure_start[current] = 2*size-2-i;
             }
             else
             {
-                counter --;
-                if(counter == 0 )
-                {
-                    if( delta[j] > (size_t + size_other + 1 )/2)
-                       break;
-                    j++;
-                }
+                //Edge going back towards the parent
+                structure_end[current] = 2*size-i;
+                current=parent[current];
             }
         }
-
-        return delta;
-    }
-
-
-   private static ArrayList<ArrayList<Integer>> nodes_sequence(long t)
-    {
-
-        int size = (int) (t & 0xFL) ;
-        long structure = (t>>28) & 0xFFFFFFFFL;
-
-        ArrayList<ArrayList<Integer>> node_counter = new ArrayList<ArrayList<Integer>>(size+1);
-        while(node_counter.size()<size+1) node_counter.add(new ArrayList<Integer>());
-
-        int root[] = new int[size+1];
-        int counter = 0;
-        int current_value = counter;
-        int previous_value = -1;
-        root[0]=previous_value;
-
-        for ( int i= 0 ; i < 2*size ; i++)
-        {
-
-            long mask=1L;
-            int structure_bit = (int) (structure >> (2*size - 1 - i) & mask);
-
-            if (structure_bit ==  1)
-            {
-                previous_value = current_value;
-                counter++;
-                current_value=counter;
-                root[current_value] = previous_value;
-                node_counter.get(previous_value).add(current_value);
-
-            } else
-            {
-                current_value = previous_value;
-                previous_value = root[current_value];
-            }
-        }
-
-        return node_counter;
-
-        }
-
-
-
-      private static long build_centroidTree(long t)
-      {
-          long structure = (t>>28) & 0xFFFFFFFFL;
-          int size = (int)(t & 0xF) ;
-          int counter = 0;
-          int array_size = nodes_sequence(t).get(0).size();
-
-          int centroid = -1;
-
-          ArrayList<Integer> delta = new ArrayList<Integer>();
-          ArrayList<String> list_subtree = new ArrayList<String>();
-          int j=0;
-          delta.add(0);
-          list_subtree.add("");
-          for(int i=0; i<2*size ; i++)
-          {
-              long mask=1L;
-              int structure_bit = (int) (structure >> (2*size - 1 - i) & mask);
-              if (structure_bit == 1)
-              {
-                  counter ++;
-                  delta.set(j,delta.get(j)+1) ;
-                  list_subtree.set(j,list_subtree.get(j)+ structure_bit);
-              }
-              else
-              {
-                  counter --;
-                  list_subtree.set(j,list_subtree.get(j)+ structure_bit);
-                  if(counter == 0 )
-                  {
-                      if( delta.get(j) > (size+1)/2 ) break;
-                      if(delta.get(j) == (size+1)/2 ) centroid = j;
-                      j++;
-                      delta.add(0);
-                      list_subtree.add("");
-                  }
-              }
-          }
-
-          if ( delta.size() < array_size + 1 ) return -1; //se non è centroide
-
-          if((size +1)%2 == 0 & centroid>=0)  //se il numero di nodi è pari allora faccio questo controllo alrimenti non necessario per algoritmo di Jordan.
-          {
-              long t1= t & 0xFFFFFFFFFFFFF000L;
-
-
-              long l = Long.parseLong(list_subtree.get(centroid),2) >> 1;
-              list_subtree.remove(centroid);
-              l -= Long.highestOneBit(l);
-              String s = Long.toBinaryString(l) ;
-
-              if(centroid == 0 )
-              {
-                  s = s + "1" ;
-
-                  for (String s1 : list_subtree)
-                      s= s + s1 ;
-
-                  s = s + "0";
-              }
-
-              else
-                  {
-                      s = "0" + s;
-                      String s2 = "";
-
-                      for (String s1 : list_subtree)
-                          s2 += s1;
-
-                      s = "1" + s2 + s ;
-                  }
-
-              long t2 = Long.parseLong(s,2)<<28|t1 & 0xFFFFFFFL;
-
-              if ((int) (t1>>28) == (int)(t2>>28))
-              {
-
-                 return t1 = t1 & 0xFFFFFFFFFFFFF0FL | 2<<4 ;
-              }
-
-              if ( (int) (t1>>28) > (int)(t2>>28)) return -1;
-
-          }
-
-          return t = t & 0xFFFFFFFFFFFFF0FL | 1<<4 ;
-       }
-
-
-
+        
+        number_of_vertices=size+1;
+    }   
 }
 

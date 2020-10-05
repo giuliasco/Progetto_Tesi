@@ -170,12 +170,14 @@ public class Table
             if(u >= graph.V)
                 break;
 
+            if(h==k && color[u]!=0)
+                continue;
 
             Long2LongMap map = new Long2LongOpenHashMap();
             for( int v : graph.adj.get(u) )
                 process_edge(h, u, v, map);
 
-            table.get(h).set(u ,normalize(map));
+            table.get(h).set(u, normalize(map));
         }
 
 
@@ -223,17 +225,9 @@ public class Table
             {
                 for(Entry e2 : table.get(h - j).get(v))
                 {
-                    long t = Treelet.merge(e1.treelet, e2.treelet,h,k);
-                    if(t>=0 & h!=k)
+                    long t = Treelet.merge(e1.treelet, e2.treelet);
+                    if(t>=0)
                         map.put(t, map.getOrDefault(t, 0L) + e1.count * e2.count);
-                    /*
-                    poichè faccio il radicamento nel centroide solo  quando h=k,
-                    modifico i bit in modo tale che nei bit da 3 a 7 sia contenuto un 1 o un 2, nel caso in cui l'albero ha un centroide
-                    due centroidi che creano due alberi diversi ho 1, mentre nel caso ho due centroidi che creano due alberi uguali allora ho 2.
-                    cos\'i che quando calcolo le occorrenze moltiplico per due nel caso opportuno.
-                     */
-                    else if (t>=0 & h==k)
-                        map.put(t, map.getOrDefault(t, 0L) + e1.count * e2.count * (int)((t>>4) & 0xFL));
                     else if(t==-2)
                         break;
                 }
@@ -272,18 +266,28 @@ public class Table
 
 
          Long2LongMap map = new Long2LongOpenHashMap();
-
          for (int i=0 ; i < graph.V ; i++)
          {
+             if(table.get(k).get(i)==null)
+                continue;
+         
              for (Entry e : table.get(k).get(i))
              {
-                 map.put(e.treelet, map.getOrDefault(e.treelet, 0L) + e.count);
+                 long structure=Treelet.get_structure(e.treelet);
+                 map.put(structure, map.getOrDefault(structure, 0L) + e.count);
              }
          }
-
-         for(Map.Entry<Long,Long> entry : map.entrySet())
+        
+         Long2LongMap representant_map = new Long2LongOpenHashMap(); 
+         for (Map.Entry<Long,Long> e : map.entrySet())
          {
-             String s1 = Long.toString((entry.getKey()>> 28) & 0xFFFFFFFFL );
+             long repr = Treelet.isomorphism_class_representative(e.getKey());
+             representant_map.put(repr, map.getOrDefault(repr, 0L) + e.getValue());
+         }
+
+         for(Map.Entry<Long,Long> entry : representant_map.entrySet())
+         {
+             String s1 = Long.toString(entry.getKey() );
              String s2 = Long.toString(entry.getValue());
              fw.append(s1);
              fw.append(separator);
