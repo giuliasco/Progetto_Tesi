@@ -22,10 +22,13 @@ public class Main {
         System.out.println("Representative 2: " + Treelet.isomorphism_class_representative(0b11100100) );
         System.out.println("Representative 3: " + Treelet.isomorphism_class_representative(0b11010010) );*/
 
-		long t1 = Long.parseLong("1010101010100000000001111111000100100110",2);
-		long t2 = Long.parseLong("101010100000011111000000000100100100",2);
-		long t = Treelet.balance_merge(t2,t1);
-		System.out.println(t>>28);
+		long t1 = Long.parseLong("1010101010100000000001111111011000100110",2);
+		long t2 = Long.parseLong("101010100000011111000000010000100100",2);
+		long t = Treelet.balance_merge(t1,t2);
+		long struct = t>>28;
+		long first = t & 0xFFF;
+		System.out.println(struct + " " + first );
+		System.out.println(Treelet.normalization_balanced_factor(t));
 
 		/*
 		FARE DEI TEST PIU SIGNIFICATIVI....

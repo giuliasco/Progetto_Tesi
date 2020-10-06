@@ -1,5 +1,6 @@
 package application.building;
 
+import java.math.BigInteger;
 import java.util.*;
 
 public class Treelet
@@ -76,55 +77,89 @@ public class Treelet
         long structure1 = (t1>>28) & 0xFFFFFFFFL;
         long structure2 = (t2>>28) & 0xFFFFFFFFL;
 
-
-        StructureInfo info = new StructureInfo(structure2);
-
+        int ncopies = (int)t1 >> 8 & 0xF;
+        StructureInfo info1= new StructureInfo(structure1);
+        StructureInfo info2 = new StructureInfo(structure2);
 
         //vincolo sui colori, possono avere solo un colore in comune ossia il nodo della radice
         if( Long.bitCount(t1 & t2 & 0xFFFF000L)!=1 )
             return -1;
-
-
-        int z= info.children.get(0).get(info.children.get(0).size() -1);
-        int len = info.structure_start[z] - info.structure_end[z] + 1;
-        long s =  append_subtree(structure1,structure2>>info.structure_end[z] ,len);
+        /*
+        verifico che preso il primo sottoalbero radicato nella radice di t2 unita a t1 la
+        loro suddivisione rispetta il fattore di bilanciamento definito in caso negativo non procedo all'unione, mentre
+        in caso positivo procedo nelle verifiche di accettabilità dell'unione bilanciata.
+         */
+        int z= info2.children.get(0).get(0);
+        int len2 = info2.structure_start[z] - info2.structure_end[z] + 1;
+        long s =  append_subtree(structure1,structure2>>info2.structure_end[z] ,len2);
         int size_s= Long.bitCount(s) +1 ;
 
         if ((size1+1) <= (2 * total_size /3)+1 && (size_s) > (2 * total_size /3)+1  )
         {
-            int size_last1 = (int)((t1 >> 4) & 0xF);
-            long mask = (1<<(2*size_last1-2))-1;
-            long subtree1 = (structure1>>1) & mask;
+            int r= info1.children.get(0).get(info1.children.get(0).size() -1 );
+            int len1 = info1.structure_start[r] - info1.structure_end[r] + 1;
+            long subtree1 = (structure1 >> info1.structure_end[r]) & ( 1L<<len1 - 1 );
+            long subtree2 = (structure2 >> info2.structure_end[z]) & ( 1L<<len2 - 1 );
 
-            long subtree2 = (structure2 >> info.structure_end[z]) & ( 1L<<len - 1 );
-
+            //verfico che è possibile unire i due alberi rispettando l'ordinamento non descrescente dei ottoalberi radicati nella radice.
             if(subtree2 > subtree1)
                 return -1;
 
+            //definisco il nuovo valore di bilanciamento per l'albero bilanciato che ci occorerà successivamente per i conteggi in fase di normalizzazione.
+           if(subtree1 == subtree2)
+           {
+               for( Integer x : info2.children.get(0))
+               {
+                   int l = info2.structure_start[x] - info2.structure_end[x] + 1;
+                   long subtree = (structure2 >> info2.structure_end[x]) & ( 1L<<l - 1 );
+
+                   if(subtree != subtree1) break; //non appena trovo un sottoalbero non uguale subtree1 esco dal ciclo
+
+                   ncopies++;
+
+               }
+           }
             long structure = structure1<<(2*size2) | structure2;
-            long t = (size1 + size2) | t2 & 0XF0 | 1<<8 |  ((t1 | t2) & 0xFFFF000L) | structure <<28;
+
+            //controllo se la struttura ottenuta ha come radice il centroide dell'albero
+            StructureInfo info = new StructureInfo(structure);
+            int[] c = centroids(info);
+
+            if(c[0]!=0 && c[1]== -1) return -1; //se il centroide è unico e diverso dalla radice scarto l'albero
+
+            //se l'albero ha più di un centroide
+            long equal_rooted_tree =1;
+            if(c[1]!= -1)
+            {
+                //radico gli alberi nei due centroidi differenti
+                long t0_struct = reroot(structure, c[0], info);
+                long t1_struct = reroot(structure, c[1], info);
+
+                if(t0_struct == t1_struct ) equal_rooted_tree=2;
+                if (t0_struct < t1_struct && t0_struct != structure) return -1;
+                if (t1_struct < t0_struct && t1_struct != structure) return -1;
+            }
+
+            /*
+            Se t1 e t2 possono essere uniti a formare t, modifico la struttura di t e:
+            - bit da 0 a 3 salvo il valore equal_rooted_tree, che mi dice e l'albero ha due centroidi le cui rispettive radicazioni
+            risultano uguali.
+            - bit da 4 a 7 salvo il numero di copie che trovo in t2 a partire dal primo sottoalbero radicato nella radice
+             rispetto all'ultimo sottoalbero radicato nella radice di t1, che  sua volta potrebbe avere altreante copie in t1
+             che però sono già conteggiate da beta di t1.
+            - bit da 8-11 invece ci memorizzo il valore di beta di t1
+
+            Un volta aver calcolato e salvato entrambi i valori li posso usare in fase di normalizzazione per normalizzare
+            il numero di occorrenze di ogni albero facendo il rapporto binomiale.
+             */
+
+            long t = equal_rooted_tree & 0xF |  ((t1 | t2) & 0xFFFF000L) |  ncopies<<4 | t1 & 0xF00 | structure <<28;
             assert(t<=0x0FFFFFFFFFFFFFFFL);
-
-
-            StructureInfo info1 = new StructureInfo(structure);
-            int[] c = centroids(info1);
-
-            if(c[0]!=0 && c[1]== -1) return -1;
-
-            else if (c[0]==0 && c[1]== -1) return t;
-
-            long t_0 = reroot(structure, c[0], info);
-            long t_1 = reroot(structure, c[1], info);
-
-            if(t_0 > t_1 && t_0!=structure) return -1;
 
             return t;
         }
-
         return -1;
-
     }
-
 
 
     public static int normalization_factor(long t)
@@ -132,7 +167,31 @@ public class Treelet
         return (int)((t>>8) & 0xFL);
     }
 
-    
+
+    public static int normalization_balanced_factor(long t)
+    {
+        int n = (int)t >> 4 & 0xF;
+        int r = (int)t >> 8 & 0xF;
+
+        return binomial_coefficient(n,r);
+    }
+
+
+    private static int binomial_coefficient(int n, int k)
+    {
+        int res = 1;
+
+        if (k > n - k)
+            k = n - k;
+
+        for (int i = 0; i < k; ++i) {
+            res *= (n - i);
+            res /= (i + 1);
+        }
+
+        return res;
+    }
+
     
     public static long get_structure(long t)
     {
