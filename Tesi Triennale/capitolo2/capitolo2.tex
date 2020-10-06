@@ -64,12 +64,20 @@ Come si pu\'o notare, per calcolare le occorrenze di un albero $ T_C $ nell'algo
 
 In questa tesi, cos\'i come in \cite{bressan2019motivo}, invece, si \`e sfruttato un approccio bottom-up. Infatti, per ogni nodo $ v \in V $ di $ G $ e per ogni nodo $ u \in adj(v)$, si prendono tutte le coppie possibili di treelet colorati radicati rispettivamente in $ u $ e $ v $, $ T'_{C'} $ e $ T''_{C''} $, tali che $ |T'| + |T''| = k $ e $ |T'|,|T''|>0 $.
 
+Dallo sviluppo dell'algoritmo \ref{algoritmo}, si noti che conteggia e salva per ogni nodo $ v\in V $ di $ G $ il numero di occorrenze di ogni $ k $-treelet colorati che si pu\`o raggiungere a partire da $ v $.
+Lo scopo di questa tesi per\`o \'e quello di conteggiare il numero di $ k $-treelet colorati individuabili su tutto il grafo $ G $ e le occorrenze totali per ognuno.
+A tale scopo \`e neccessario aggregare gli alberi in un unica tabella contenente i $ k $-treelet e le rispettive occorrenze.
+Per evitare di conteggiare gli alberi un numero di volte superiori a quelle effettive, vengono classificati secondo una classe di equivalenza di isomorfismo. Dati due alberi $ T' $ e $ T'' $ si dicono isomorfi se esiste una funzione bijettiva $ f : T' \rightarrow T'' $.
+Perci\`o se due alberi sono isomorfi, verranno raggruppati nella stessa classe di equivalenza e le loro occorrenze saranno sommate.
+Cos\`i facendo otterremo i conteggi effettivi di tutti i $ k $-treelet trovati in $ G $ e il numero di volte che occorrono. 
+
+
 \section{Dettagli implementativi: rappresentazione compatta dei treelet colorati}
 \label{section 2}
 In questa sezione vengono descritte le strutture dati usate per implementare l'algoritmo in Java.
 Gli oggetti principali che vengono manipolati sono i treelet colorati e le occorrenze associate.
 
-Ogni treelet colorato $ T_C = (T,C) $ ha una rappresentazione unica, nella quale sono memorizzate la topologia di $ T $, i colori in $ C $, ed infomazioni aggiuntive per facilitare la minipolazione di $T_C$.
+Ogni treelet colorato $ T_C = (T,C) $ ha una rappresentazione unica, nella quale sono memorizzate la topologia di $ T $, i colori in $ C $, ed informazioni aggiuntive per facilitare la minipolazione di $T_C$.
 Tale rappresentazione richiede al pi\`u 59 bit e pu\`o pertanto essere memorizzata usando degli interi a 64 bit, un tipo di dati nativo in Java e nelle pi\`u comuni architetture moderne.
 I bit sono numerati da 0 a 63 e ordinati dal bit meno significativo a qullo pi\`u significativo.\\
 Sono cos\'i suddivisi:
@@ -116,8 +124,11 @@ La codifica dei treelet supporta le seguenti operazioni :
 	\label{figura1}
 \end{figure}
 Un esempio di treelet colorato e della sua codifica \`e mostrato in Figura \ref{figura1}.\mbox{}\\\\
-Nell'implementazione i conteggi vengono salvati all'interno di una tabella indicizzata, rappresentata mediante strutture annidate di $ ArrayList $.\\
-Quello che si ottiene \`e una tabella con $ k $ entrate, indicizzate da $ 1 $ a $ k $ ed associate al numero di vertici dei treelet.\\
+Nell'implementazione i treelet individuati da ogni nodo e i rispettivi conteggi vengono salvati all'interno di una tabella indicizzata, rappresentata mediante strutture annidate di $ ArrayList $.
+Inizialmente come nell'algoritmo \ref{algoritmo} i treelet e i conteggi sono calcolati su ogni nodo $ v \in V $ di $ G $ scorrendo tutti gli archi $ E $.
+Solo una volta calcolati  tutti i treelet su tutti i nodi $ v $, questi verranno aggregati e i loro conteggi sommati, inoltre per ogni classe di equivalenza sar\`a identificato un unico rappresentante che \`e il k-treelet radicato nel centroide.
+Nella sezione \ref{section3} verr\`a data la definizione di centroide di un albero e l'algoritmo per la sua ricerca.\\
+Inizialmente, perci\`o, quello che si ha \`e una tabella con $ k $ entrate, indicizzate da $ 1 $ a $ k $ ed associate al numero di vertici dei treelet.\\
 L'$ i $-esima entrata della tabella, con $ 1\le i \le k $ generico, a sua volta, \`e un $ ArrayList $, con una dimensione fissata, che varia a secondo della cardinalit\`a di $ V $, cos\`i che ad ogni entrata \`e associato un vertice $ v\in V $ di $ G $.\\
 Per ognuna delle $ |V| $ entrate, viene creato un $ ArrayList $ contenente tutti i treelet colorati di dimensione $ i $ raggiungibili dai differenti nodi in $ V $, insieme al relativo numero di occorrenze.\\
 All'interno di quest'ultima lista i treelet sono ordinati in ordine non descrescente.\\
@@ -131,18 +142,6 @@ Per garantire un funzionamento in parallelo senza conflitti \`e dovuto provveder
 Riguardo le operazioni sugli ArrayList non \`e stato necessario ricorrere alla mutua esclusione.
 Per le variabili \`e stato necessario, invece, garantire la visita dei vertici del grafo in maniera atomica e a tal proposito i vertici, in ogni ArrayList, sono rappresentati mediante $ AtomicInteger $, ossia valori interi che possono essere aggiornati in maniera atomica.\mbox{}\\
 
-La codifica della tabella ha un metodo principale:
-\begin{itemize}
-	\item \textbf{build()}: d\`a inizio alla creazione della tabella, in maniera dinamica sfruttando le operazioni descritte nell'algoritmo \ref{algoritmo}.
-	Al suo interno vengono richiamati due metodi:
-	\begin{enumerate}
-		\item \textbf{do\_build1()} : dopo aver colorato il grafo $ G $ uniformemente a caso, viene fissata l'entrata della tabella indicizzata con 1, e al suo interno, $ \forall v \in V $ di $ G $, viene salvato il corrispondente treelet  colorato radicato in $ v $, con un solo nodo.
-		Viene inoltre associata la rispettiva occorrenza che \`e pari ad 1.
-		Formalmente in questo metodo si sviluppano le righe da 2 a 5 dell'algoritmo \ref{algoritmo}.	
-		\item \textbf{do\_build}(size): Al variare della size, $ 2\le size \le k $, vengono fissate tutte le altre entrate della tabella.
-	 	In questo caso, vengono sviluppate le righe da 6 a 12 dell'algoritmo \ref{algoritmo}.
-	\end{enumerate}
-\end{itemize}	
 
 
 	
