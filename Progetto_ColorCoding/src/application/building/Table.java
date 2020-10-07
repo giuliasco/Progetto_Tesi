@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.IntUnaryOperator;
 
 import it.unimi.dsi.fastutil.longs.*;
 
@@ -44,20 +45,21 @@ public class Table
     private Graph graph;
     private int colors;
     private int k;
-    public int coloration;
-    public boolean flag =false;
+    private int coloration;
+    private boolean balanced;
     private int[] color;
 
     private int nthreads;
     private AtomicInteger next_vertex = new AtomicInteger(0);;
 
-    public Table(Graph graph, int c, int k, int nthreads , int coloration)
+    public Table(Graph graph, int c, int k, int nthreads, int coloration, boolean balanced)
     {
         this.graph = graph;
         this.colors = c;
         this.k = k;
         this.nthreads = nthreads;
         this.coloration = coloration;
+        this.balanced = balanced;
 
         table = new ArrayList<ArrayList<ArrayList<Entry>>>();
         table.add(null);
@@ -77,65 +79,50 @@ public class Table
 
 
 
-    public void build() throws InterruptedException
+    private void run_threads(Runnable entrypoint) throws InterruptedException
     {
-        do_build1();
-        int h;
-        if (flag) h=(int)Math.ceil((double)2*k/3);
-        else h=k;
-        for(int i=2; i<=h ; i++)
-        {
-
-            final int size = i;
-            next_vertex.set(0);
-
-            Timestamp ts = new Timestamp(System.currentTimeMillis());
-            log("AVVIO CREAZIONE TABELLA PER H = " + i);
-
             ArrayList<Thread> threads = new ArrayList<Thread>();
             for(int j = 0; j < nthreads; j++)
-            {
-                threads.add(new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        do_build(size);
-                    }
-                }));
-            }
+                threads.add(new Thread(entrypoint));
 
             for(Thread t : threads)
                 t.start();
 
             for(Thread t : threads)
                 t.join();
+    }
 
+
+    public void build() throws InterruptedException
+    {
+        do_build1();
+        int h;
+        
+        if (balanced)
+            h=(2*(k-1))/3 + 1;
+        else
+            h=k;
+        
+        for(int i=2; i<=h ; i++)
+        {
+
+            final int size = i;
+            next_vertex.set(0);
+
+            log("AVVIO CREAZIONE TABELLA PER H = " + i);
+            run_threads( () -> { do_build(size); } );
             log("FINE CREAZIONE TABELLA");
-
-
-            if(flag)
-            {
-                log("AVVIO CREAZIONE TABELLA PER H = " + k);
-                next_vertex.set(0);
-                ArrayList<Thread> threads1 = new ArrayList<Thread>();
-                for (int j = 0 ; j < nthreads ; j++)
-                {
-                    threads1.add(new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            balance_build(h);
-                        }
-                    }));
-                }
-                for(Thread t : threads1)
-                    t.start();
-
-                for(Thread t : threads1)
-                    t.join();
-
-                log("FINE CREAZIONE TABELLA");
-            }
-
         }
+
+        if(!balanced)
+            return;
+        
+        
+        next_vertex.set(0);
+                
+        log("AVVIO CREAZIONE TABELLA PER H = " + k);
+        run_threads( () -> { do_build_balanced(k); } );
+        log("FINE CREAZIONE TABELLA");
     }
 
 
@@ -183,9 +170,27 @@ public class Table
 
     }
 
-
-    private void balance_build(int size)
+    private ArrayList<Entry> normalize(Map<Long,Long> map)
     {
+        ArrayList<Entry> l = new ArrayList<Entry>(map.size());
+        for(Map.Entry<Long, Long> e : map.entrySet())
+        {
+            assert(e.getValue()%Treelet.normalization_factor(e.getKey())==0);
+            l.add(new Entry(e.getKey(), e.getValue()/Treelet.normalization_factor(e.getKey())));
+        }
+        
+        Collections.sort(l);
+        return l;
+    }
+
+
+
+    private void do_build_balanced(int size)
+    {
+    
+        final int from = 2+(k-1)/3; 
+        final int to = (2*(k-1))/3 + 1;
+    
         while(true)
         {
             int u = next_vertex.getAndIncrement();
@@ -193,27 +198,49 @@ public class Table
                 break;
 
             Long2LongMap map = new Long2LongOpenHashMap();
-            for (Entry e1 : table.get(size).get(u))
+            for(int i=from; i<=to; i++)
             {
-                for(Entry e2 : table.get(k-size+1).get(u))
+                for (Entry e1 : table.get(i).get(u))
                 {
-                    long t = Treelet.balance_merge(e1.treelet, e2.treelet);
-                    if(t>=0)
-                        map.put(t, map.getOrDefault(t, 0L) + e1.count * e2.count);
+                    for(Entry e2 : table.get(k-i+1).get(u))
+                    {
+                        long t = Treelet.balance_merge(e1.treelet, e2.treelet);
+                        
+                        if(t>=0)
+                            map.put(t, map.getOrDefault(t, 0L) + e1.count * e2.count);
+                            
+                        //if(Treelet.get_structure(t)==682)
+                        //    System.out.println(Treelet.get_structure(e1.treelet) +  "+" + Treelet.get_structure(e2.treelet));                         
+                    }
                 }
+
             }
+            
+            
 
             ArrayList<Entry> l = new ArrayList<Entry>(map.size());
-
             for(Map.Entry<Long, Long> e : map.entrySet())
+            {
+                //assert(e.getValue() % Treelet.normalization_factor_balanced(e.getKey()) == 0);
+                
+                //if(Treelet.get_structure(e.getKey())==682)
+                //    System.out.println("Normalization factor of " + Treelet.get_structure(e.getKey()) + ": " + Treelet.normalization_factor_balanced(e.getKey()) + "   repr: " + e.getKey());
+                //Entry entry = new Entry(e.getKey(), e.getValue() / Treelet.normalization_factor_balanced(e.getKey()) );
+                //l.add(entry);
+                
                 l.add(new Entry(e.getKey(), e.getValue()));
-
+                
+                //if(Treelet.get_structure(entry.treelet)==682)
+                //    System.out.println(u+" "+entry.count);
+                    
+            }
+            
+            
+            
             Collections.sort(l);
-
 
             table.get(k).set(u ,l);
         }
-
     }
 
 
@@ -235,42 +262,14 @@ public class Table
         }
     }
 
-    private ArrayList<Entry> normalize(Map<Long,Long> map)
-    {
-        ArrayList<Entry> l = new ArrayList<Entry>(map.size());
-        for(Map.Entry<Long, Long> e : map.entrySet())
-            l.add(new Entry(e.getKey(), e.getValue()/Treelet.normalization_factor(e.getKey())));
-
-        Collections.sort(l);
-        return l;
-    }
 
 
 
-
-    public void write_file(String path)
-    {
-     String fileName = path +"/occorrenze.txt";
-     String separator = "  ";
-     try
-     {
-         File file = new File(fileName);
-         if (file.exists())
-             System.out.println("Il file " + fileName + " esiste");
-         else if (file.createNewFile())
-             System.out.println("Il file " + fileName + " è stato creato");
-         else
-             System.out.println("Il file " + fileName + " non può essere creato");
-
-         FileWriter fw = new FileWriter(file);
-
-
+    private Long2LongMap aggregate()
+    {    
          Long2LongMap map = new Long2LongOpenHashMap();
          for (int i=0 ; i < graph.V ; i++)
          {
-             if(table.get(k).get(i)==null)
-                continue;
-         
              for (Entry e : table.get(k).get(i))
              {
                  long structure=Treelet.get_structure(e.treelet);
@@ -282,9 +281,60 @@ public class Table
          for (Map.Entry<Long,Long> e : map.entrySet())
          {
              long repr = Treelet.isomorphism_class_representative(e.getKey());
-             representant_map.put(repr, map.getOrDefault(repr, 0L) + e.getValue());
+             //System.out.println(e.getKey() + " mapped to " + repr + " (" + e.getValue() + ")");
+             representant_map.put(repr, representant_map.getOrDefault(repr, 0L) + e.getValue());
          }
+         
+         return representant_map;
+    }
 
+    private Long2LongMap aggregate_balanced()
+    {
+         Long2LongMap map = new Long2LongOpenHashMap();
+         for (int i=0 ; i < graph.V ; i++)
+         {
+             if(table.get(k).get(i)==null)
+                continue;
+         
+             for (Entry e : table.get(k).get(i))
+                 map.put(e.treelet, map.getOrDefault(e.treelet, 0L) + e.count);
+         }
+         
+        Long2LongMap representant_map = new Long2LongOpenHashMap(); 
+        for(Map.Entry<Long,Long> e : map.entrySet())
+        {
+            //assert(e.getValue() % Treelet.normalization_factor_balanced(e.getKey()) == 0);
+            representant_map.put(Treelet.get_structure(e.getKey()), e.getValue() / Treelet.normalization_factor_balanced(e.getKey()) );
+        }
+        
+        return representant_map;
+    }
+    
+
+
+    public void write_file(String path)
+    {
+     try
+     {
+
+         File file = new File(path);
+/*         if (file.exists())
+             System.out.println("Il file " + fileName + " esiste");
+         else if (file.createNewFile())
+             System.out.println("Il file " + fileName + " è stato creato");
+         else
+             System.out.println("Il file " + fileName + " non può essere creato");
+*/
+         FileWriter fw = new FileWriter(file);
+
+
+         Long2LongMap representant_map = null;
+         if(balanced)
+            representant_map=aggregate_balanced();
+        else
+            representant_map=aggregate();
+
+         String separator = "  ";
          for(Map.Entry<Long,Long> entry : representant_map.entrySet())
          {
              String s1 = Long.toString(entry.getKey() );

@@ -74,7 +74,8 @@ public class Graph {
 	}
 
 
-	public int[] colorGraph (int c , int i) {
+	public int[] colorGraph (int c , int i)
+	{
 		int color[] = new int[V];
 
 		//colorazione Random
