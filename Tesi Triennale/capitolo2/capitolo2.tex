@@ -1,5 +1,5 @@
 \chapter{Color Coding}
-
+\label{cap 2}
 Nel capitolo viene descritta la tecnica del Color Coding utilizzata in questa tesi.
 
 La tecnica fu introdotta nel 1995 da Alon, Yuster e Zwick \cite{alon1995color}.
@@ -24,21 +24,22 @@ In questa sezione viene descritta l'estensione dell'algoritmo del color coding c
 L'algoritmo inizialmente prevede una fase di colorazione, dove ad ogni nodo $ v \in V $ di $ G $ \`e assegnato un colore $ c_v $, scelto indipendentemente e uniformemente a caso da $ [k] := \{1, \dots ,k\} $.\\
 L'obiettivo della fase di costruzione \`e quello di creare una tabella con il conteggio delle occorrenze dei treelet che si possono incontrare in $ G $.\\
 Per ogni nodo $ v \in V $ e per ogni albero colorato $ T_C $, con $ k $ nodi, si vuole calcolare il numero $ c(T_C , v) $ del numero di copie di $ T_C $  in $ G $ che sono radicate in $ v $ (si noti che qui si intendono copie non indotte).\\
-Possiamo immaginare $ T_C $ come una coppia $ (T,C) $ dove $ C \subseteq {1,\dots,k} $.\\
+Si pu\`o immaginare $ T_C $ come una coppia $ (T,C) $ dove $ C \subseteq {1,\dots,k} $.\\
 Quello che si fa \`e per ogni nodo $ v $ si inizializza $ c(T_{C_0} , v) = 1 $, dove T \`e il treelet di 1 nodo e $ C_0 = \{c_v\} $.
-Per ogni $ h = 2,\dots,k $ a turno, si considera ogni possibile albero radicato T e ogni possibile insieme di colori $ C \subseteq [k] $ con $ |C| = h $.\\
-Quindi, $ \forall v \in V$ di $ G $, si calcola come segue il numero $ c(T_C,v) $ di occorrenze dei treelet (non indotti) radicati in $ v $ isomorfi a $ T $ e i cui colori giacciono nell'insieme $ C $. Si divide idealmente $ T $ in due sottoalberi colorati unici $ T' $ e $ T'' $, con $ T'' $ il sottoalbero radicato in uno dei figli della radice di $ T $ e $ T' $ il sottoalbero di $ T $, radicato in $ r $ contenente $ |T| - |T''| $ nodi.\\
-Per calcolare $ c(T_C,v) $ si analizza, $ \forall v \in V $ di $ G $, l'insieme dei nodi adiacenti adiacenti a $ v $, indicato con $ adj(v) $, ossia l'insieme dei nodi collegati a $ v $ da un arco in $ E $.
-Quindi si prendono in $ v $ tutti i treelet colorati radicati isomorfi a $ T'_{C'} $ precedentemente calcolati e, $ \forall u \in adj(v) $, i treelet radicati isomorfi a $ T''_{C''} $.
+Per ogni $ h = 2,\dots,k $ a turno, si considera ogni possibile albero radicato T di dimensione $ h $ e ogni possibile insieme di colori $ C \subseteq [k] $ con $ |C| = h $.\\
+Quindi $ \forall v \in V$ di $ G $, si calcola come segue il numero $ c(T_C,v) $ di occorrenze dei treelet (non indotti) radicati in $ v $ isomorfi a $ T $ e i cui colori giacciono nell'insieme $ C $. Si divide idealmente $ T $ in due sottoalberi colorati unici $ T' $ di dimensione $ i $ con $ i = 1, \dots,h-1 $ e $ T'' $ di dimensione $ h-i $.
+I due alberi saranno tali che  $ T'' $ \`e il sottoalbero radicato in uno dei figli della radice di $ T $ e $ T' $ \`e il sottoalbero di $ T $, radicato in $ r $ contenente $ |T| - |T''| $ nodi.\\
+Per calcolare $ c(T_C,v) $ si analizza $ \forall v \in V $ di $ G $ l'insieme dei nodi $ u \in V $ tale che la coppia $ (u,v)\in E $.
+Quindi si prendono  tutti i treelet colorati radicati in $ v $ isomorfi a $ T'_{C'} $ precedentemente calcolati e tutti i  treelet radicati in $ u $ isomorfi a $ T''_{C''} $.
 Se $ C' \cap C'' = 0 $, si procede al conteggio delle occorrenze di $ T_C $ radicato in $ v $ nel modo seguente:
 
 \begin{equation}\label{conta}
-	c(T_c,v)=\frac{1}{\beta_T}\sum_{u \in adj(v)}\sum_{\substack{C' \subset C \\C'' = C \setminus C' \\ |C'|=|T'|, |C''| = |T''|}}c(T'_{C'},v)\cdot c(T''_{C''},u)
+	c(T_c,v)=\frac{1}{\beta_T}\sum_{(u,v)\in E}\sum_{\substack{C' \subset C \\C'' = C \setminus C' \\ |C'|=|T'|, |C''| = |T''|}}c(T'_{C'},v)\cdot c(T''_{C''},u)
 \end{equation}
 
 dove $ \beta_T $ \`e una costante di normalizzazione che \'e uguale al numero di alberi di $ T $ isomorfi a $ T'' $ radicati in un figlio di $ r $.\\
  La correttezza e la complessit\`a di questa costruzione, non sono trattate qui, ma vengono dimostrate in \cite{alon1995color}.\\
- Possiamo vedere l'algoritmo formalmente  descritto in Algoritmo \ref{algoritmo}.\mbox{}\\
+ Si pu\`o vedere l'algoritmo formalmente  descritto in Algoritmo \ref{algoritmo}.\mbox{}\\
 
 
 \begin{algorithm}[H]
@@ -53,7 +54,7 @@ dove $ \beta_T $ \`e una costante di normalizzazione che \'e uguale al numero di
  			\For{$ h = 2$ to $ k $}{
  				\For{$ v \in V $}{
  					\ForEach{$ T : |T| = h $}{					
- 						\( 	c(T_C,v)=\frac{1}{\beta_T}\sum_{u\in adj(v)}\sum_{\substack{{C',C''\subset C}\\{C'\cap C'' =0}}}c(T'_{C'},v)\cdot c(T''_{C''},u) \)	
+ 						\( 	c(T_C,v)=\frac{1}{\beta_T}\sum_{(u,v)\in E}\sum_{\substack{{C',C''\subset C}\\{C'\cap C'' =0}}}c(T'_{C'},v)\cdot c(T''_{C''},u) \)	
  					}
  				}
  			}
