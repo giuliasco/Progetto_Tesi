@@ -1,14 +1,14 @@
 \chapter{Tecnica Ottimizzata}
-
+\label{cap:3}
 In questo capitolo viene presentata un'ottimizzazione al problema descritto nel capitolo precedente.
 Tale ottimizzazione si basa sul principio delle decomposizioni bilanciate.
 Si fa vedere, inoltre, come l'utilizzo di quest'ultima permetta un notevole miglioramento delle performance.
 
 \section{Decomposizioni Bilanciate di un albero}
-\label{section3}
-Si vuole andare a dimostrare in questa sezione, che dato un albero T \`e sempre possibile ricavare una scomposizione bilanciata dell'albero.
+\label{cap:3 par:1}
+Si vuole andare a dimostrare in questa sezione che dato un albero T \`e sempre possibile ricavare una scomposizione bilanciata dell'albero.
 \\
-Prima di poter enunciare e dimostrare il risultato principale di questa sezione occorre dare delle nozioni preliminari.
+Prima di poter enunciare e dimostrare il risultato principale occorre dare delle nozioni preliminari.
 
 \newtheorem{definizione}{Definizione}[section]
 
@@ -25,10 +25,11 @@ Diremo che la coppia (A,B), dove  A e B sono insiemi contenenti i nodi di $T_r$,
 
 \begin{definizione}
 \label{lemmaDeco}
-Dato un albero $ T $, diremo che $ (A,B) $ \`e una decomposizione bilanciata se:
+Dato un albero $ T $ con $ k $ nodi, diremo che $ (A,B) $ \`e una decomposizione bilanciata se:
 \begin{equation*}
 	\max{ \{|A| , |B| \} }  \le  f(k)
 \end{equation*}
+dove $ f $ \`e una funzione definita su $ k $.
 \end{definizione}
 
 
@@ -37,17 +38,24 @@ Dato un albero $ T $, diremo che $ (A,B) $ \`e una decomposizione bilanciata se:
 
 \begin{definizione}
 Per ogni nodo $ v $ di un albero $ T $, le diramazioni di $ T $  rispetto a $ v $, sono tutti i sottoalberi massimali di $ T $ non contenenti $ v $. 
-Sia  $\alpha(v)$  , $ \forall v \in T $,il grado della diramazione di $ v $ con il maggior numero di nodi.
-
+Per ogni $ v \in T $, si definisce $\alpha(v)$ come il grado della diramazione di $ v $ con il maggior numero di nodi.\\
 Un nodo $ v $ di un albero $ T $ con $ n $ nodi, \`e un nodo centroide se $\alpha(v)\le\frac{n}{2}$.
 \end{definizione}\mbox{}
 
-Il centroide di un albero non \`e necessariamente unico, infatti Jordan \cite{jordan1869assemblages}  ha dimostrato che o (i) $ T $ ha un singolo centroide $ v $ e $\alpha(v) < \frac{n}{2}$ oppure (ii) $ T $ ha due nodi centroidi (adiacenti) $v_1$ e $v_2$ tali che $\alpha(v_1) = \alpha(v_2) = \frac{n}{2}$, in questo caso il numero di nodi $ n $ \`e pari.\\
+Il centroide di un albero non \`e necessariamente unico, infatti Jordan \cite{jordan1869assemblages}  ha dimostrato che, dato un albero $ T $ con $ n $ nodi:
+\begin{enumerate}
+	\renewcommand{\labelenumi}{\roman{enumi}}
+	\item $ T $ ha un singolo centroide $ v $ e $\alpha(v) < \frac{n}{2}$;
+	\item$ T $ ha due nodi centroidi (adiacenti) $v_1$ e $v_2$ tali che $\alpha(v_1) = \alpha(v_2) = \frac{n}{2}$, in questo caso il numero di nodi $ n $ \`e pari.
+\end{enumerate}
+
 Esistono diversi algoritmi per la ricerca del centroide, quello utilizzato in questa tesi \`e l'algoritmo di Jordan \cite{jordan1869assemblages} che  ha una complessit\`a temporale lineare nel numero di nodi. \\
 Il primo passo da effettuare \`e determinare $\alpha(v)$ per ogni nodo $ v \in T$.\\
-Viene definito $ \alpha(v) = \max\{\delta(z_i)\} $, dove $ \delta(z_i )$ rappresenta il grado di diramazione, ossia il numero di nodi incontrati durante una visita DFS (in profondit\`a) effettuata a partire da ogni nodo radice, $ z_i $, di tutte le possibili diramazioni di $ T $ unite a $ v $, che non lo contengono.
-Una volta calcolato il valore di $ \alpha(v) $, $ \forall v \in T $, si verifica per quali valori di $ \alpha(v) $ risulta $\alpha(v)\le\frac{n}{2}$.
-Nel caso ci fosse un unico nodo $ v $, come in (i), che soddisfa la precedente espressione, allora tale nodo rappresenta l'unico  centroide dell'albero $ T $.
+Si definisce  $\delta(z)$ come il fattore di diramazione di un albero. ossia il numero di nodi incontrati durante una visita DFS (in profondit\`a) effettuata a partire dalla radice $ z $.
+Siano $\delta(z_i)$ i fattori di bilanciamento ottenuti da tutte le possibili diramazioni $ i $ di $ T $ unite a $ v $, che non lo contengono, allora, $ \alpha(v) = \max \{\delta(z_i)\} $.
+
+Una volta calcolato il valore di $ \alpha(v) $ $ \forall v \in T $ si verifica per quali valori  risulta $\alpha(v)\le\frac{n}{2}$.
+Nel caso ci fosse un unico nodo $ v $ che soddisfa la precedente espressione,, come in (i),  allora tale nodo rappresenta l'unico  centroide dell'albero $ T $.
 Nel caso, invece, ce ne fossero due, come definito in (ii), per esempio $ v_1 $ e $ v_2 $,  l'albero $ T $ conterr\`a due centroidi, rispettivamente $ v_1 $ e $ v_2 $.\\
 Nell'esempio \ref{es1} si pu\`o vedere l'applicazione dell'algoritmo per la ricerca del centroide.
 	\begin{figure}[htbp]
@@ -81,8 +89,8 @@ Poich\'e $ \left\lfloor\frac{n}{2} \right\rfloor = \left\lfloor \frac{11}{2} \ri
 
 L'ultimo punto da considerare prima di poter enunciare e dimostrare il risultato principale di questa sezione riguarda la definizione di un algoritmo valido per comporre due insiemi di nodi, che chiameremo $ T' $ e $ T'' $, in maniera $ f(k) $-bilanciata.\\
 Siano dati in input un albero $ T $, con $ k $ nodi, ed un fattore di bilanciamento definito da una funzione $ f(k) $, poich\'e non considero la radice di $ T $, la funzione viene valutata su $ k-1 $ piuttosto che su $ k $.
-Si suppone inoltre, senza perdere di generalit\`a, che i sottoalberi radicati nei figli della radice $ r $ di $ T $ siano ordinati con ordine non crescente.
-Da questo deriva che, supponendo che $ r $ abbia $ n $ figli, vi saranno al pi\`u $  n $ alberi radicati in ciascuni di essi tali che: $ |T_i| \ge |T_{i+1}|$, $ \forall i = 1,\dots, n-1 $.\mbox{}\\\\
+Si suppone inoltre, senza perdita di generalit\`a, che i sottoalberi radicati nei figli della radice $ r $ di $ T $ siano ordinati con ordine non crescente.
+Da questo deriva che, supponendo che $ r $ abbia $ n $ figli, vi saranno al pi\`u $  n $ alberi radicati in ciascuno di essi tali che: $ |T_i| \ge |T_{i+1}|$ \ $ \forall i = 1,\dots, n-1 $.\mbox{}\\\\
 
 	\begin{figure}[htbp]
 	\centering
@@ -120,19 +128,19 @@ In base a tutte le nozioni fino ad ora discusse si pu\`o dare il seguente risult
 
 \newtheorem{teorema1}[definizione]{Teorema}
 \begin{teorema1}
-Per ogni albero T di k nodi esiste un nodo r di T  tale che l'albero $T_r$, ottenuto radicando T in r, ammette una decomposizione $ (\lfloor \frac{2}{3}(k-1) \rfloor + 1)$-bilanciata.
+	\label{teorema1 cap3 sez1}
+Per ogni albero T di k nodi esiste un nodo r di T  tale che l'albero $T_r$, ottenuto radicando T in r, ammette una decomposizione $ (\lfloor \frac{2}{3}(k-1) \rfloor + 1)$-bilanciata ed, inoltre, sia $ (|T'|,|T''|)$ tale decomposizione risulta che il $ \max \{|T'|,|T''|\} \ge 2+ \left\lfloor \frac{(k-1)}{3}\right\rfloor $
 \end{teorema1}\mbox{}
 \begin{proof}
-	Sia $ T $ un albero con $ k $ nodi, con $ k>2 $ (per $n\le2$ la propriet\`a \`e banalmente vera) \\
-	La prima operazione da compiere \`e individuare il nodo $ r $ di $ T $, su cui si andr\`a poi a radicare il nuovo albero $ T_r $.\\
-	Si suppone che tale nodo sia un centroide dell'albero $ T $, quindi si applica l'algoritmo precedentemente descritto per la ricerca del centroide.\\ 
-	Senza perdere di generalit\`a si suppone di avere un unico nodo centroide, indicato con $ r $.
-	Una volta individuato $ r $ si procede, se necessario a riradicare l'albero $ T $ in $ r $, l'albero cos\`i ottenuto verr\`a indicato con $ T_r $.\\ 
+	
+	Sia $ T $ un albero di $ k $ nodi,con $ k>2 $ (per $n\le2$ la propriet\`a \`e banalmente vera) \\
+	La prima operazione da compiere \`e individuare il nodo $ r $ di $ T $ su cui si andr\`a poi a radicare il nuovo albero $ T_r $.\\
+	Si suppone che tale nodo sia un centroide dell'albero $ T $ quindi si applica l'algoritmo di Jordan per la ricerca del centroide, senza perdita di generalit\`a si suppone di avere un unico nodo centroide, indicato con $ r $.\\
+	Se il centroide $ r $ trovato non corrisponde alla radice dell'albero $ T $, si modifica $ T $ radicandolo in $ r $ e l'albero cos\`i ottenuto verr\`a indicato con $ T_r $. \\ 
 	Inoltre, si suppone che i sottoalberi radicati nei figli di r siano ordinati in maniera non crescente rispetto alla loro dimensione.\\
-	Si applichi a $ T_r $ l'algoritmo \ref{algoritmo1} precedentemente descritto, per definire se \`e possibile ottenere una $ f(k) $-decomposizione, con $ f(k) =
-	(\lfloor \frac{2}{3}(k-1) \rfloor + 1  $.
-	Sia $ \{T_j | i=1,\dots,n\} $ l'insieme dei sottoalberi radicati negli $ n $ figli di $ r $.
-	Si consideri il primo valore di $ i $ tale che l'$ if $ a riga $ 4 $ nell'algoritmo \ref{algoritmo1} risulti vero (si noti che tale valore di $ i $ esiste sempre dal fatto che per $ i = n $ la condizione \`e verificata).\mbox{}\\\\
+	Si applichi a $ T_r $ l'algoritmo \ref{algoritmo1} precedentemente descritto per definire se \`e possibile ottenere una $ f(k) $-decomposizione, con $ f(k) =
+	(\lfloor \frac{2}{3}(k-1) \rfloor + 1  $.\\
+	Sia $ \{T_i \ | \  i=1,\dots,n\} $ l'insieme dei sottoalberi radicati negli $ n $ figli di $ r $ e si consideri il primo valore di $ i $ tale che l'istruzione $ if $ di riga $ 4 $ nell'algoritmo \ref{algoritmo1} risulti vera (si noti che tale valore di $ i $ esiste sempre dal fatto che per $ i = n $ la condizione \`e verificata).\mbox{}\\\\
 	Sia 
 	\[ S = \sum_{i=1}^{n}{|T_i|} = (k-1 ) \]\\
 	e sia
@@ -143,9 +151,9 @@ Per ogni albero T di k nodi esiste un nodo r di T  tale che l'albero $T_r$, otte
 	\\ 
 	\begin{equation}\label{1}
 		x+|T_i| > \frac{2}{3}\cdot S
-	\end{equation}7
+	\end{equation}
 \\
-	Inoltre si sa che
+	Inoltre sapendo che
 	\\
 	
 	\begin{equation}\label{2}
@@ -160,13 +168,13 @@ Per ogni albero T di k nodi esiste un nodo r di T  tale che l'albero $T_r$, otte
 	\end{equation}
 \\
  	\item $ \textbf{i=2} $ Anche in questo caso come nel precedente vale la disequazione \eqref{1}.\\
- 	Inoltre, sapendo che $ i = 2 $ e per costruzione dell'albero $ T $, si pu\`o dire che
+ 	Inoltre, essendo $ i = 2 $ per costruzione dell'albero $ T $ si pu\`o dire che
  	
  	\begin{equation}\label{4}
  	x = |T_1| \ge |T_2| = |T_i|
  	\end{equation}
  	
- 	Pertanto, sfruttando la disequazione \ref{4} nella \ref{1} si ha che
+ 	Pertanto, sfruttando la disequazione \eqref{4} combinata con la \eqref{1} si ha che
  	\begin{equation}\label{5}
  	2x > \frac{2}{3} \cdot S \Rightarrow x > \frac{S}{3}
  	\end{equation}
@@ -192,7 +200,11 @@ Quindi
 \begin{equation}\label{6}
 |T''| = 1 + S - x = 1+S-1 - \left\lfloor \frac{S}{3}\right\rfloor = \left\lceil \frac{2}{3}\cdot S \right\rceil = \left\lceil \frac{2}{3} \cdot (k-1) \right\rceil 	
 \end{equation}
-
+\\
+Inoltre
+\\
+\[ |T'| = 1+ x \ge 1+ (1 +  \left\lfloor \frac{S}{3}\right\rfloor ) = 2 +  \left\lfloor \frac{(k-1)}{3}\right\rfloor\]
+\\
 Poich\`e
 \\
  	 \[1 + \left\lfloor \frac{2}{3} \cdot (k-1) \right\rfloor \ge \left\lceil \frac{2}{3} \cdot (k-1) \right\rceil \]
@@ -201,13 +213,26 @@ Poich\`e
 Possiamo concludere che
 \\
 
-\[\max\{|T'|,|T''|\} \le 1 + \left\lfloor \frac{2}{3} \cdot (k-1) \right\rfloor \]
+\[2 +  \left\lfloor \frac{(k-1)}{3}\right\rfloor \le \max\{|T'|,|T''|\} \le 1 + \left\lfloor \frac{2}{3} \cdot (k-1) \right\rfloor \]
  \\
-
-ottenendo perci\'o cos\`i una decomposizione $ (\lfloor \frac{2}{3}(k-1) \rfloor + 1)$-bilanciata	 
+ottenendo perci\'o una decomposizione $ (\lfloor \frac{2}{3}(k-1) \rfloor +1)$-bilanciata, tale che $ \max \{|T'|,|T''|\} \ge 2+ \left\lfloor \frac{(k-1)}{3}\right\rfloor $	 
  	 
 \end{proof}\mbox{}\\
  
- 	Nel caso in cui si abbiano due centroidi, la scelta su quale radicare l'albero  \`e deterministica e  viene fatta prendendo quello che, tra i due, garantisce un'ordinamento corretto dei sottoalberi radicati nella radice oppure, a parit\`a di ordinamento, ne viene scelto uno dei due in maniera arbitraria. 
+ 	Nel caso in cui si abbiano due centroidi, la scelta su quale radicare l'albero  \`e deterministica.\\
+ 	Nel caso in cui gli alberi ottenuti radicando $ T $ in ognuno di essi abbiano strutture differenti, viene scelto quello che tra i due ha una struttura pi\`u piccola.
+ 	Altrimenti se gli alberi ottenuti sono identici, viene scelto uno dei due in maniera arbitraria.
+ 	
+\section{Algoritmo}
+\label{cap:3 par:2}
+In questa sezione si vede come \`e stato utilizzato il risultato del paragrafo \ref{cap:3 par:1} per ottimizzare e migliorare l'algoritmo \ref{algoritmo} descritto nel capitolo \ref{cap 2} paragrafo \ref{section1}.\\
+Molto brevemente, quello che si faceva precedentemente era la seguente cosa.
+Dato $ T_C = (T,C) $, con $ T $ un albero colorato radicato di $ k $ nodi i cui colori giacciono in $ C $, si procedeva a calcolare il numero di occorrenze $ c(T_C,v) $ \ $ \forall v \in V $ dividendo idealmente $ T $ in due sottoalberi $ T' $ e $ T'' $ con $ T'' $ il sottoalbero radicato in uno dei figli della radice di $ T $ e $ T'$ il sottoalbero di $ T $ , radicato in $ r $ contenente $ |T | - |T'' | $ nodi. 
+Si procedeva al conteggio delle occorrenze di $ T_C $ nel seguente modo
+\[	c(T_c,v)=\frac{1}{\beta_T}\sum_{(u,v)\in E}\sum_{\substack{C' \subset C \\C'' = C \setminus C' \\ |C'|=|T'|, |C''| = |T''|}}c(T'_{C'},v)\cdot c(T''_{C''},u)\]   
+
+In questa nuova versione, invece, la divisione dell'albero $ T_C $ non \`e pi\`u scelta in maniera ideale, ma bens\`i vengono presi due alberi $ T'_{C'} $ e $ T''_{C''} $ tali che la decomposizione di $ T_C $ risulti bilanciata.
+Inoltre, a differenza della precedente versione, gli alberi $ T'_{C'} $ e $ T''_{C''} $ saranno radicati entrambi nello stesso nodo $ v $ su cui sar\`a poi radicato $ T_C $.
+
 
 
