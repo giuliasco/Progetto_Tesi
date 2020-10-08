@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.IntUnaryOperator;
+
 
 import it.unimi.dsi.fastutil.longs.*;
 
@@ -41,7 +41,7 @@ public class Table
 
 
 
-    public ArrayList< ArrayList<ArrayList<Entry>> > table; //size, vertex, list of treelets with counts
+    public ArrayList< ArrayList<ArrayList<Entry>> > table; //dimensione, vertici, lista di treelet con numero di occorrenze
     private Graph graph;
     private int colors;
     private int k;
@@ -105,7 +105,6 @@ public class Table
         
         for(int i=2; i<=h ; i++)
         {
-
             final int size = i;
             next_vertex.set(0);
 
@@ -116,8 +115,7 @@ public class Table
 
         if(!balanced)
             return;
-        
-        
+
         next_vertex.set(0);
                 
         log("AVVIO CREAZIONE TABELLA PER H = " + k);
@@ -130,7 +128,6 @@ public class Table
     private void do_build1()
     {
         color = graph.colorGraph(colors, coloring_seed);
-
 
         log("AVVIO CREAZIONE TABELLA PER H = 1");
 
@@ -208,9 +205,6 @@ public class Table
                         
                         if(t>=0)
                             map.put(t, map.getOrDefault(t, 0L) + e1.count * e2.count);
-                            
-                        //if(Treelet.get_structure(t)==682)
-                        //    System.out.println(Treelet.get_structure(e1.treelet) +  "+" + Treelet.get_structure(e2.treelet));                         
                     }
                 }
 
@@ -221,22 +215,9 @@ public class Table
             ArrayList<Entry> l = new ArrayList<Entry>(map.size());
             for(Map.Entry<Long, Long> e : map.entrySet())
             {
-                //assert(e.getValue() % Treelet.normalization_factor_balanced(e.getKey()) == 0);
-                
-                //if(Treelet.get_structure(e.getKey())==682)
-                //    System.out.println("Normalization factor of " + Treelet.get_structure(e.getKey()) + ": " + Treelet.normalization_factor_balanced(e.getKey()) + "   repr: " + e.getKey());
-                //Entry entry = new Entry(e.getKey(), e.getValue() / Treelet.normalization_factor_balanced(e.getKey()) );
-                //l.add(entry);
-                
                 l.add(new Entry(e.getKey(), e.getValue()));
-                
-                //if(Treelet.get_structure(entry.treelet)==682)
-                //    System.out.println(u+" "+entry.count);
-                    
             }
-            
-            
-            
+
             Collections.sort(l);
 
             table.get(k).set(u ,l);
@@ -281,10 +262,6 @@ public class Table
          for (Map.Entry<Long,Long> e : map.entrySet())
          {
              long repr = Treelet.isomorphism_class_representative(e.getKey());
-             if(repr==13538)
-                System.out.println("** " + e.getKey());
-             
-             //System.out.println(e.getKey() + " mapped to " + repr + " (" + e.getValue() + ")");
              representant_map.put(repr, representant_map.getOrDefault(repr, 0L) + e.getValue());
          }
          
@@ -306,7 +283,6 @@ public class Table
         Long2LongMap representant_map = new Long2LongOpenHashMap(); 
         for(Map.Entry<Long,Long> e : map.entrySet())
         {
-            //assert(e.getValue() % Treelet.normalization_factor_balanced(e.getKey()) == 0);
             representant_map.put(Treelet.get_structure(e.getKey()), e.getValue() / Treelet.normalization_factor_balanced(e.getKey()) );
         }
         
@@ -321,14 +297,7 @@ public class Table
      {
 
          File file = new File(path);
-/*         if (file.exists())
-             System.out.println("Il file " + fileName + " esiste");
-         else if (file.createNewFile())
-             System.out.println("Il file " + fileName + " è stato creato");
-         else
-             System.out.println("Il file " + fileName + " non può essere creato");
-*/
-         FileWriter fw = new FileWriter(file);
+      FileWriter fw = new FileWriter(file);
 
 
          Long2LongMap representant_map = null;

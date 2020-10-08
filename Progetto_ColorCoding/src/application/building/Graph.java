@@ -5,6 +5,7 @@ package application.building;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class Graph {
@@ -16,6 +17,8 @@ public class Graph {
 
 	public Graph(String s )
 	{
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		System.out.println( "["+timestamp+"] " + "CREAZIONE DEL GRAFO");
 		String line = "";
 		HashSet<Integer> vertex = new HashSet<Integer>();
 		//inserisco i vertici e creo la lista di adiacenza
@@ -60,20 +63,16 @@ public class Graph {
 		{
 			e.printStackTrace();
 		}
+		Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
+		System.out.println( "["+timestamp1+"] " + "GRAFO CREATO CORRETTAMENTE");
 	}
 
 
 
-
-
-	//metodo per aggiungere un arco
-	public void addEdge(int u, int v)
-	{
-			adj.get(u).add(v);
-			adj.get(v).add(u);
-	}
-
-
+	/*
+	metodo per la colorazione del grafo, sfruttando i seed, se il seed è uguale a 0 si avrà una colorazione round robin,
+	mentre per seed diversi da 0 si avrà ua colorazione random basata sul seed.
+	 */
 	public int[] colorGraph (int c , long seed)
 	{
 		int color[] = new int[V];
@@ -94,46 +93,9 @@ public class Graph {
 	}
 
 
-	//stampare la lista di adiacenza
-	public void printAdjacencyList()
-	{
-		for (int i = 0; i < adj.size(); i++) {
-			System.out.println("Adjacency list of " + i);
-
-				System.out.println(adj.get(i)+ " ");
-
-			System.out.println();
-		}
-	}
-
-
 
 }
 
 
 
 
-
-
-/*
-	//costruttore vuoto
-	public Graph() {
-		adj = new ArrayList<ArrayList<Integer>>();
-		V = 0;
-	}
-
-	//costruttore che costruisce il grafo a partire della lista di adiacenza
-	public Graph(ArrayList<ArrayList<Integer>> adjacency) {
-		this.adj = adjacency;
-		this.V = adj.size();
-	}
-
-	//costruttore che costruisce un grafo con tutti nodi isolati, al quale si possono aggiungere gli archi in seguito
-	public Graph(int v)
-	{
-		V = v;
-		adj = new ArrayList<ArrayList<Integer>>(V);
-		for (int i = 0; i < V; i++)
-			adj.add(new ArrayList<Integer>());
-	}
- */
