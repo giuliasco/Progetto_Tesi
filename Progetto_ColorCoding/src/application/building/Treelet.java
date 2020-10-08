@@ -51,6 +51,7 @@ public class Treelet
             return -1;
 
         long structure = (structure1 << (2*size2+2)) | (1<<(2*size2+1)) | (structure2<<1);
+
         long t = (size1+size2+1) | ((size2+1)<<4) | (ncopies<<8) | ((t1 | t2) & 0xFFFF000L) | (structure<<28);
         assert(t<=0x0FFFFFFFFFFFFFFFL);
 
@@ -102,10 +103,10 @@ public class Treelet
         StructureInfo info1 = new StructureInfo(structure1);
         int v = info1.children.get(0).get(info1.children.get(0).size() - 1 ); //Ultimo figlio della radice di t1
         int len_v = info1.structure_start[v] - info1.structure_end[v] + 1;
-        long subtree = (structure1 >> info1.structure_end[v]) & ( 1L<<len_v - 1 ); //Sottoalbero di t1 radicato in v
+        long subtree = (structure1 >> info1.structure_end[v]) & ( (1L<<len_v) - 1 ); //Sottoalbero di t1 radicato in v
 
 
-        long subtree_z = (structure2 >> info2.structure_end[z]) & ( 1L<<len_z - 1 );
+        long subtree_z = (structure2 >> info2.structure_end[z]) & ( (1L<<len_z) - 1 );
         if(subtree_z > subtree)
             return -1;
 
@@ -115,7 +116,7 @@ public class Treelet
         for( Integer x : info2.children.get(0))
         {
             int l = info2.structure_start[x] - info2.structure_end[x] + 1;
-            long subtree2 = (structure2 >> info2.structure_end[x]) & ( 1L<<l - 1 );
+            long subtree2 = (structure2 >> info2.structure_end[x]) & ( (1L<<l) - 1 );
 
             if(subtree != subtree2)
                 break; //non appena trovo un sottoalbero non uguale a subtree esco dal ciclo
@@ -124,11 +125,6 @@ public class Treelet
         }
 
         long structure = structure1<<(2*size2) | structure2;
-        
-        
-        
-        
-        
         
 
         //controllo se la struttura ottenuta ha come radice il centroide dell'albero
@@ -143,7 +139,7 @@ public class Treelet
         {
             long rerooted = reroot(structure, c[1], info);
 
-            if(rerooted > structure)
+            if(structure > rerooted)
                 return -1;
             
             if(rerooted == structure ) 
@@ -211,6 +207,9 @@ public class Treelet
         if(v==0)
             return structure;
 
+        if(info==null)
+            info = new StructureInfo(structure);
+
         int path[] = new int[16]; //Index of the vertices in the path from v to the root in t
         int path_length = 0;
         do 
@@ -238,7 +237,7 @@ public class Treelet
             {
                 int z = info.children.get(u).get(idx);
                 int len = info.structure_start[z] - info.structure_end[z] + 1;
-                long s =  (structure >> info.structure_end[z]) & ( 1L<<len - 1 );
+                long s =  (structure >> info.structure_end[z]) & ( (1L<<len) - 1 );
 
                 if(parent_structure>s)
                     break;
@@ -334,8 +333,6 @@ public class Treelet
     {
         StructureInfo info = new StructureInfo(structure);
         int[] c = centroids(info);
-
-        //System.out.println("Centroidi: " + c[0] + " " + c[1]);
 
         if(c[1]==-1)
             return reroot(structure, c[0], info);

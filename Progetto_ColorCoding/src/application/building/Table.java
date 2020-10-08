@@ -45,20 +45,20 @@ public class Table
     private Graph graph;
     private int colors;
     private int k;
-    private int coloration;
+    private long coloring_seed;
     private boolean balanced;
     private int[] color;
 
     private int nthreads;
     private AtomicInteger next_vertex = new AtomicInteger(0);;
 
-    public Table(Graph graph, int c, int k, int nthreads, int coloration, boolean balanced)
+    public Table(Graph graph, int c, int k, int nthreads, long coloring_seed, boolean balanced)
     {
         this.graph = graph;
         this.colors = c;
         this.k = k;
         this.nthreads = nthreads;
-        this.coloration = coloration;
+        this.coloring_seed = coloring_seed;
         this.balanced = balanced;
 
         table = new ArrayList<ArrayList<ArrayList<Entry>>>();
@@ -129,7 +129,7 @@ public class Table
 
     private void do_build1()
     {
-        color= graph.colorGraph(colors , coloration);
+        color = graph.colorGraph(colors, coloring_seed);
 
 
         log("AVVIO CREAZIONE TABELLA PER H = 1");
@@ -281,6 +281,9 @@ public class Table
          for (Map.Entry<Long,Long> e : map.entrySet())
          {
              long repr = Treelet.isomorphism_class_representative(e.getKey());
+             if(repr==13538)
+                System.out.println("** " + e.getKey());
+             
              //System.out.println(e.getKey() + " mapped to " + repr + " (" + e.getValue() + ")");
              representant_map.put(repr, representant_map.getOrDefault(repr, 0L) + e.getValue());
          }

@@ -34,7 +34,9 @@ public class Main {
 */
 
 
-		System.out.println(Treelet.normalization_factor_balanced(0b001100100001));
+		//System.out.println(Treelet.normalization_factor_balanced(0b001100100001));
+
+		System.out.println(Treelet.reroot(15434, 1, null));
 
 		/*
 		FARE DEI TEST PIU SIGNIFICATIVI....
@@ -43,13 +45,13 @@ public class Main {
 
 		CommandLineParser parser = new DefaultParser();
 		Options options = new Options();
-		options.addOption("F",true, "input file path");
-		options.addOption("k",true,"size of searched treelet");
-		options.addOption("t",true,"Number of thread that it can use");
-		options.addOption("C", true, "1 if it's a random coloration, 2 if it's round robin");
-		options.addOption("help",false, "return list of command");
-		options.addOption("balanced",false, "[OPTIONAL] make a balance search of k-treelet");
-		options.addOption("p",true,"[OPTIONAL] path to save output file");
+		options.addOption("F", true, "Input graph");
+		options.addOption("k", true, "Size of the treelet to count");
+		options.addOption("t", true, "Number of threads to use");
+		options.addOption("s", true, "Seed for the random coloring. Use 0 for round-robin coloring.");
+		options.addOption("help", false, "display this help and exit");
+		options.addOption("balanced", false, "[OPTIONAL] use balanced treelet decompositions");
+		options.addOption("p",true, "path to save output file");
 		CommandLine cmd = parser.parse( options, args);
 
 		if(cmd.hasOption("help"))
@@ -86,14 +88,11 @@ public class Main {
 */
 
 		int c = Integer.parseInt(cmd.getOptionValue("k"));
-
 		int k = Integer.parseInt(cmd.getOptionValue("k"));
-
 		int thread = Integer.parseInt(cmd.getOptionValue("t"));
+        long seed = Long.parseLong(cmd.getOptionValue("s"));
 
-		int coloration = Integer.parseInt(cmd.getOptionValue("C"));
-
-		Table b = new Table(graph, c, k, thread, coloration, cmd.hasOption("balanced"));
+		Table b = new Table(graph, c, k, thread, seed, cmd.hasOption("balanced"));
 
 		try
 		{

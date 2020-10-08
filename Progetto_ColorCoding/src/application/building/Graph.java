@@ -74,23 +74,23 @@ public class Graph {
 	}
 
 
-	public int[] colorGraph (int c , int i)
+	public int[] colorGraph (int c , long seed)
 	{
 		int color[] = new int[V];
 
-		//colorazione Random
-		if (i==1) {
-			for (int j = 0; j < V; j++)
-				color[j] = (int) (Math.random() * c + 1);
-		}
-
-		//colorazione Round Robin
-		else if( i == 2 )
+        if(seed == 0)
 		{
 			for (int j = 0; j < V; j++)
 				color[j] = j % c;
 		}
-		return color;
+		else
+		{
+		    Random generator = new Random(seed);
+			for (int j = 0; j < V; j++)
+				color[j] = generator.nextInt(c);
+		}
+
+        return color;
 	}
 
 
