@@ -1,11 +1,5 @@
 \begin{thebibliography}{1}
 
-\bibitem{alon2008biomolecular}
-Noga Alon, Phuong Dao, Iman Hajirasouliha, Fereydoun Hormozdiari, and S~Cenk
-  Sahinalp.
-\newblock Biomolecular network motif counting and discovery by color coding.
-\newblock {\em Bioinformatics}, 24(13):i241--i249, 2008.
-
 \bibitem{bhuiyan2012guise}
 Mansurul~A Bhuiyan, Mahmudur Rahman, Mahmuda Rahman, and Mohammad Al~Hasan.
 \newblock Guise: Uniform sampling of graphlets for large graph analysis.
@@ -25,6 +19,12 @@ Paolo Boldi, Marco Rosa, Massimo Santini, and Sebastiano Vigna.
   for compressing social networks.
 \newblock In {\em Proceedings of the 20th international conference on World
   wide web}, pages 587--596, 2011.
+
+\bibitem{alon2008biomolecular}
+Noga Alon, Phuong Dao, Iman Hajirasouliha, Fereydoun Hormozdiari, and S~Cenk
+  Sahinalp.
+\newblock Biomolecular network motif counting and discovery by color coding.
+\newblock {\em Bioinformatics}, 24(13):i241--i249, 2008.
 
 \bibitem{alon1995color}
 Noga Alon, Raphael Yuster, and Uri Zwick.

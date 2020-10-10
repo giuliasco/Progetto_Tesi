@@ -5,7 +5,11 @@
 \contentsline {section}{\numberline {1.2}Organizzazione del testo}{4}
 \contentsline {chapter}{\numberline {2}Color Coding}{5}
 \contentsline {section}{\numberline {2.1}Algoritmo}{6}
-\contentsline {section}{\numberline {2.2}Dettagli implementativi: rappresentazione compatta dei treelet colorati}{8}
+\contentsline {section}{\numberline {2.2}Dettagli implementativi. Rappresentazione compatta dei treelet colorati e rispettivi conteggi}{8}
 \contentsline {chapter}{\numberline {3}Tecnica Ottimizzata}{14}
 \contentsline {section}{\numberline {3.1}Decomposizioni Bilanciate di un albero}{14}
 \contentsline {section}{\numberline {3.2}Algoritmo}{21}
+\contentsline {section}{\numberline {3.3}Dettagli implementativi. Modifica e aggiunte alle rappresentazioni}{23}
+\contentsline {chapter}{\numberline {4}Dati}{26}
+\contentsline {chapter}{\numberline {5}Conclusioni}{27}
+\contentsline {chapter}{\numberline {6}Ringraziamenti}{28}

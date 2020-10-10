@@ -23,13 +23,13 @@ Si pu\`o cos\`i stimare il numero dei motif in due fasi: la ``fase di costruzion
 
 In questo lavoro di tesi l'attenzione \`e stata concentrata  sull'ottimizzazione di un algoritmo basato sulle tecnica del Color Coding per il conteggio di $k$-treelet all'interno di grafi pi\`u o meno grandi.
 Per $ k $-treelet  si intendono alberi (non necessariamente indotti) in un grafo con $ k $ nodi.\\
-Nel 2008 il conteggio dei $ k $-treelet in un grafo è stata implementato su una rete $ PPI(PROTEIN-PROTEIN INTERACTION) $. In tal modo è stata riscontrata la sua grande utilità per la ricerca della frequenza di particolari strutture biomolecolari.\\
-Lo studio è stato svolto sia su reti di organismi unicellulari che possono risultare simili e sia su reti di organismi pluricellulari che possono variare molto tra di loro.
+Nel 2008 il conteggio dei $ k $-treelet in un grafo \`e stata implementato su una rete PPI(Protein-Protein Interaction). In tal modo \`e stata riscontrata la sua grande utilit\`a per la ricerca della frequenza di particolari strutture biomolecolari.\\
+Lo studio \`e stato svolto sia su reti di organismi unicellulari che possono risultare simili e sia su reti di organismi pluricellulari che possono variare molto tra di loro.
 
 Per effettuare il conteggio \`e stato necessario concentrarsi sulla fase costruttiva descritta in precedenza.
 
 La fase costruttiva \`e descritta mediante un algoritmo di programmazione dinamica che richiede un grande impiego di tempo e spazio.
-In primo luogo, tramite il lavoro svolto, si è arrivati ad implementare l'algoritmo in Java descritto in  \cite{bressan2018motif}.
+In primo luogo, tramite il lavoro svolto, si \`e arrivati ad implementare l'algoritmo in Java descritto in  \cite{bressan2018motif}.
 L'approccio dell'algoritmo, supposto di dover conteggiare i treelet di dimensione $ k $ di un grafo, lavora esattamente  in $ k $ fasi.
 Nell'$ i $-esima fase vengono conteggiati i treelet di dimensione $ i $.
 Tali conteggi saranno ottenuti in funzione della struttura del grafo e del numero di occorrenze dei treelet di dimensioni minore di $ i $.

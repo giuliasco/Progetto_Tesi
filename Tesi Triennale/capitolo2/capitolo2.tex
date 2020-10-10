@@ -30,7 +30,7 @@ Per ogni $ h = 2,\dots,k $ a turno, si considera ogni possibile albero radicato 
 Quindi $ \forall v \in V$ di $ G $, si calcola come segue il numero $ c(T_C,v) $ di occorrenze dei treelet (non indotti) radicati in $ v $ isomorfi a $ T $ e i cui colori giacciono nell'insieme $ C $.
 \\ Si divide idealmente $ T $ in due sottoalberi colorati unici $ T' $ di dimensione $ i $ con $ i = 1, \dots,h-1 $ e $ T'' $ di dimensione $ h-i $.
 I due alberi saranno tali che  $ T'' $ \`e il sottoalbero radicato in uno dei figli della radice $ v $ di $ T $ e $ T' $ \`e il sottoalbero di $ T $ radicato in $ v $ contenente $ |T| - |T''| $ nodi.\\
-Per calcolare $ c(T_C,v) $ si analizza $ \forall v \in V $ di $ G $ l'insieme dei nodi $ u \in V $ tale che la coppia $ (u,v)\in E $.
+Per calcolare $ c(T_C,v) $ si analizza $ \forall v \in V $ di $ G $ l'insieme dei nodi $ u \in V $ tale che la coppia $ (u,v)\in E $, si procede, pertanto, analizzando gli archi del archi del grafo $ G $.
 Si prendono  tutti i treelet colorati radicati in $ v $ isomorfi a $ T'_{C'} $ e tutti i  treelet radicati in $ u $ isomorfi a $ T''_{C''} $.\\
 Sia per $ T' $ che per $ T'' $ \`e noto il numero di occorrenze $ c(T'_{C'},v) $ e $ c(T_{C''},u) $ in $ G $. Poich\`e essendo la programmazione dinamica per poter calcolare le occorrenze di un treeelet con $ k $ nodi sar\`a necessario aver calcolato le occorrenze di tutti i treelet con un numero di nodi minore o uguale a $ k-1 $.\\
 Se $ C' \cap C'' = 0 $, si procede al conteggio delle occorrenze di $ T_C $ radicato in $ v $ nel modo seguente:
@@ -78,7 +78,7 @@ Perci\`o se due alberi sono isomorfi verranno raggruppati nella stessa classe di
 Cos\`i facendo otterremo i conteggi effettivi di tutti i $ k $-treelet colorati trovati in $ G $ e il numero di volte che occorrono nel grafo. 
 
 
-\section{Dettagli implementativi: rappresentazione compatta dei treelet colorati}
+\section{Dettagli implementativi. Rappresentazione compatta dei treelet colorati e rispettivi conteggi}
 \label{section 2}
 In questa sezione vengono descritte le strutture dati usate per implementare l'algoritmo in Java.
 Gli oggetti principali che vengono manipolati sono i treelet colorati e le occorrenze associate.
