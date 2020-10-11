@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.9.23)  11 OCT 2020 16:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.9.23)  11 OCT 2020 18:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -898,13 +898,66 @@ Capitolo 4.
 Capitolo 5.
 [27
 
-]) (./ringrazimenti.tex [28]
-Capitolo 6.
-) (./Tesi_Triennale.bbl [29
+]) (./Tesi_Triennale.bbl [28] [29
 
-] [30
+]) (./ringrazimenti.tex [30])
+Underfull \hbox (badness 10000) in paragraph at lines 7--54
 
-]) [31] (./Tesi_Triennale.aux)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--54
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--54
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--54
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--54
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--54
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--54
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--54
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--54
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--54
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--54
+
+ []
+
+[31
+
+] [32] [33] (./Tesi_Triennale.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -912,7 +965,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  8977 strings out of 492982
  129238 string characters out of 6134896
- 237055 words of memory out of 5000000
+ 238055 words of memory out of 5000000
  12317 multiletter control sequences out of 15000+600000
  23270 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -939,10 +992,10 @@ b></usr/share/texmf/fonts/type1/public/cm-super/sfss1728.pfb></usr/share/texmf/
 fonts/type1/public/cm-super/sfss2488.pfb></usr/share/texmf/fonts/type1/public/c
 m-super/sfti1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfxc1200.pfb
 >
-Output written on Tesi_Triennale.pdf (32 pages, 552998 bytes).
+Output written on Tesi_Triennale.pdf (34 pages, 557319 bytes).
 PDF statistics:
- 217 PDF objects out of 1000 (max. 8388607)
- 146 compressed objects within 2 object streams
+ 223 PDF objects out of 1000 (max. 8388607)
+ 150 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
