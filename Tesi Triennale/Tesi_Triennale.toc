@@ -12,4 +12,5 @@
 \contentsline {section}{\numberline {3.3}Dettagli implementativi. Modifica e aggiunte alle rappresentazioni}{23}
 \contentsline {chapter}{\numberline {4}Dati}{26}
 \contentsline {chapter}{\numberline {5}Conclusioni}{27}
-\contentsline {chapter}{\numberline {6}Ringraziamenti}{28}
+\contentsline {section}{\numberline {5.1}Sviluppi futuri}{28}
+\contentsline {chapter}{\numberline {6}Ringraziamenti}{29}

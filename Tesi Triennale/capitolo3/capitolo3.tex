@@ -219,14 +219,13 @@ ottenendo perci\'o una decomposizione $ (\lfloor \frac{2}{3}(k-1) \rfloor +1)$-b
 \section{Algoritmo}
 \label{cap:3 par:2}
 In questa sezione si vede come \`e stato utilizzato il risultato del paragrafo \ref{cap:3 par:1} per ottimizzare e migliorare l'algoritmo \ref{algoritmo} descritto nel capitolo \ref{cap 2} (paragrafo \ref{section1}).\\
-Molto brevemente, quello che si faceva in precedenza era, dato $ T_C = (T,C) $, con $ T $ un albero colorato radicato di $ k $ nodi i cui colori giacciono in $ C $, si procedeva al conteggio delle occorrenze di $ T_C $ nel seguente modo
+Molto brevemente, quello che si faceva in precedenza era, dato un albero $ T_C $, con $ T $ un albero colorato radicato di $ k $ nodi i cui colori giacciono in $ C $, si procedeva al conteggio delle occorrenze di $ T_C $ nel seguente modo
 \[	c(T_c,v)=\frac{1}{\beta_T}\sum_{(u,v)\in E}\sum_{\substack{C' \subset C \\C'' = C \setminus C' \\ |C'|=|T'|, |C''| = |T''|}}c(T'_{C'},v)\cdot c(T''_{C''},u) \]\\
-Con $ T' $ e $ T'' $ due alberi colorati radicati rispettivamente in $ v $ ed $ u $ tali che l'albero $ T' $ ha un numero di nodi pari ad $ i $, con $ i = 1, \dots , k-1 $ mentre l'albero $ T'' $ ha un numero di nodi pari a $ k-i $.
+con $ T' $ e $ T'' $ due alberi colorati, radicati rispettivamente in $ v $ ed $ u $ tali che, l'albero $ T' $ avesse un numero di nodi pari ad $ i $, con $ i = 1, \dots , k-1 $, mentre l'albero $ T'' $ avesse un numero di nodi pari a $ k-i $.
 
-In questa nuova versione, invece, la scelta dei due alberi $ T' $ e $ T'' $ si basa sul principio delle decomposizioni bilanciate descritte nella sezione precedente (\ref{cap:3 par:1}).\\
-Per calcolare le occorrenze dell'albero $ T_C $, quest'ultimo viene suddiviso in maniera bilanciata secondo il teorema \ref{teorema1 cap3 sez1}.\\
-Perci\`o per prima cosa si determina il centroide di $ T_C $ se tale nodo risulta diverso dalla radice di $ T $ l'albero non viene neanche considerato, altrimenti si procede.\\
-Successivamente verranno individuati due alberi $ T'_{C'} $ e $ T''_{C''} $ radicati entrambi nella nuova radice di $ T $ e colorati in modo tale che $ C' \cap C'' = c_r $, con $ c_r $ il colore del nodo radice $ r $.\\
+In questa nuova versione, invece, $ T_C $ viene suddiviso in due alberi $ T' $ e $ T'' $ tali da  rispettare il principio delle decomposizioni bilanciate e pi\`u nello specifico il teorema \ref{teorema1 cap3 sez1}.\\
+Innanzitutto si determina se l'albero $ T_C $ \`e radicato nel proprio centroide, nel caso in cui ci\`o non fosse vero, l'albero $ T_c $ non viene conteggiato.\\
+Successivamente vengono individuati due alberi $ T'_{C'} $ e $ T''_{C''} $ radicati entrambi nella radice $ r $ di $ T_C $ e colorati in modo tale che $ C' \cap C'' = c_r $, con $ c_r $ il colore del nodo radice.\\
 I due treelet $ T' $ e $ T'' $ saranno tali che $2+ \left\lfloor \frac{(k-1)}{3}  \right\rfloor \le |T'| \le \left\lfloor \frac{2}{3}(k-1) \right\rfloor  +1 $ e $ |T''| = |T| -|T'| $.\\
 Come nel caso precedente, l'algoritmo che si utilizza per il conteggio delle occorrenze dei $ k $-treelet colorati in $ G $ \`e dinamico, quindi si procede dai sottoproblemi pi\`u piccoli arrivando a quello pi\`u grande.\\
 Anche qui per ogni nodo $ v $ si inizializza $ c(T_{C_0} , v) = 1 $, dove T \`e il treelet di 1 nodo e $ C_0 = \{c_v\} $.
@@ -266,8 +265,8 @@ Perci\`o per calcolare le occorrenze dei $ k $-treelet in $ G $, $ \forall v \in
 Prima di poterle unire a creare l'albero $ T_C $ bisogna fare le opportune verifiche, ossia:
 \begin{itemize}
 	\item bisogna verificare che la coppia $ (T',T'') $ sia una decomposizione bilanciata per $ T $.
-	Pertanto dovr\`a risultare che $ |T'|-1 $, si esclude la radice, sia  
-	$ |T'| - 1 \le \left\lfloor\frac{2}{3}(k-1)\right\rfloor $ e che aggiungendo a tale quantit\`a la cardinalita del sottoalbero radicato nel primo figlio di $ T'' $, chiamata $ t'' $, si abbia che $ |T'| + t'' - 1 \ge \left\lfloor\frac{2}{3}(k-1)\right\rfloor $.
+	Pertanto dovr\`a risultare che $ |T'|-1 $, si va a guardare solo i sottoalberi radicati nei figli della radice, sia  
+	$ |T'| - 1 \le \left\lfloor\frac{2}{3}(k-1)\right\rfloor $ e che aggiungendo a tale quantit\`a la cardinalit\`a del sottoalbero radicato nel primo figlio di $ T'' $, chiamata $ t'' $, si abbia che $ |T'| + t'' - 1 \ge \left\lfloor\frac{2}{3}(k-1)\right\rfloor $.
 	\item Anche in questo caso bisogner\`a garantire l'ordinamento sulla struttura dell'albero.
 	Pertanto non sar\`a possibile unire $ T' $ e $ T'' $ se la dimensione del sottoalbero radicato nell'ultimo figlio della radice di $ T' $ \`e minore del sottoalbero radicato nel primo figlio della radice di $ T'' $.
 	\item Bisogna garantire che sia rispettato il vincolo sui colori $ C' \cap C'' = c_v$, ossia i due insiemi condividono esclusivamente in colore della radice $ v $, che \`e la stessa per entrambi. 
@@ -275,8 +274,7 @@ Prima di poterle unire a creare l'albero $ T_C $ bisogna fare le opportune verif
 \end{itemize}
 Queste condizioni sono necessarie affinch\`e l'unione tra gli alberi $ T'_{C'} $ e $ T''_{C''} $ produca un albero valido $ T_C $.
 
-Come si nota, anche in questo caso, i conteggi inizialmente vengono fatti su ogni $ v\in V $, ma poich\`e in questa tesi interessano le occorrenze dei diversi $ k $-treelet su tutto $ G $.
-A tal proposito, sar\'a necessario aggregare gli alberi radicati su ogni $ v $ di $ G $, unendoli a seconda della propria struttura e sommando le rispettive occorrenze.
+Come si nota, anche in questo caso, i conteggi inizialmente vengono fatti su ogni $ v\in V $, ma poich\`e in questa tesi interessano le occorrenze dei diversi $ k $-treelet su tutto $ G $  sar\'a necessario aggregare gli alberi radicati su ogni $ v $ di $ G $, unendoli a seconda della propria struttura e sommando le rispettive occorrenze.
 
 \section{Dettagli implementativi. Modifica e aggiunte alle rappresentazioni}
 \label{cap 3:3}
@@ -300,9 +298,9 @@ Alle precedenti operazioni sugli alberi se ne aggiungono delle nuove che sono:
 \begin{itemize}
 	\item $ \textbf{balance\_merge}(T',T'') $ : fa l'unione di due alberi $ T' $ e $ T'' $ in maniera bilanciata.
 	All'interno del metodo viene garantito che tutte le condizioni necessarie affinch\`e l'unione avvenga, descritte nel paragrafo \ref{cap 3:3}, siano verificate.
-	\item $ \textbf{normalization\_factor\_balanced}(T) $ : restituisce il fattore di normalizzazione dell'unione bilanciata.
+	\item $ \textbf{normalization\_factor\_balanced}(T) $ : restituisce il fattore di normalizzazione $ \gamma_T $ dell'unione bilanciata.
 \end{itemize}\mbox{}\\
 Un'altra differenza rispetto la versione precedente riguarda la costruzione della tabelle.
 Infatti, seguendo quanto descritto in algoritmo \ref{algoritmo2}, verranno costruite tutte le entrate da 1 a  $ \left\lfloor \frac{2}{3}(k-1) \right\rfloor +1 $ come veniva fatto nella versione precedente.
 Mentre non verranno costruite le $ h $ tabelle tali che: $ \left\lfloor \frac{2}{3}(k-1) \right\rfloor +1 < h < k $, ma si proceder\`a direttamente alla costruzione della tabella contenente i $ k $-treelet applicando il metodo $ \textbf{do\_build\_balanced}() $ salvando $ \forall v \in V $ di $ G $ i $ k $-treelet bilanciati raggiungibili con le rispettive occorrenze.
-Anche in questa versione i treelet colorati raggiunti $ \forall v \in V $ verranno aggregati e i loro conteggi sommati.
+Anche in questa versione i treelet colorati raggiunti $ \forall v \in V $ verranno aggregati e i loro conteggi sommati ed anche in questa versione vengono sfruttati i $ thread $ per permettere dei calcoli pi\`u veloci.
