@@ -1,45 +1,41 @@
 \chapter{Color Coding}
 \label{cap 2}
-Nel capitolo viene descritta la tecnica del Color Coding utilizzata in questa tesi.
+In questo capitolo verr\`a descritta la tecnica del Color Coding utilizzata in questa tesi.
 
 La tecnica fu introdotta nel 1995 da Alon, Yuster e Zwick \cite{alon1995color}.
-In generale, dato un grafo $G = (V,E)$, il problema dell'isomorfismo dei sottografi  di $G$ \`e un problema $NP$-completo.\\
-Il metodo del Color Coding permette di risolvere sottocasi di questo problema in tempo polinomiale tramite un algoritmo randomizzato.
+In generale, dati due grafi $G$ ed $ H $ , il problema di individuare un sottografo indotto di $ G $ isomorfo ad $ H $ \`e un problema $ NP $-completo, ma pu\`o essere risolto in tempo polinomiale tramite un algoritmo randomizzato per classi particolari di grafi $ H $, usando la tecnica del color coding.
 
-Il primo algoritmo che loro descrissero, per\`o, si limitava alla ricerca di sottografi indotti in un grafo senza farne un conteggio del numero delle occorrenze totali.
+Il primo algoritmo che Alon e i suoi colleghi descrissero in \cite{alon1995color} , per\`o, risolve tale problema quando $ H $ \`e un cammino o un albero con treewidth costante limitandosi, inoltre, alla sola ricerca senza farne un conteggio del numero delle occorrenze totali.
  
-\`E per questo motivo che, in questo capitolo, si presenta un'estensione dell'algoritmo descritto da Alon \cite{alon1995color,bressan2018motif} per effettuare un conteggio delle occorrenze dei treelet all'interno del grafo.\\
-Dati in input un grafo $ G=(V,E) $ e un numero $ k $, per prima cosa il color coding assegna uniformemente e indipendentemente per ogni nodo $ v\in V $ di $ G $ un'etichetta in $ [k] := \{1,....,k\} $, indicato come un colore.
-L'obiettivo \`e quello di conteggiare il numero di occorrenze di alberi colorati non indotti di $ k$-nodi in $ G $, chiamati $ k-treelet $, in cui ogni vertice dell'occorrenza ha un colore distinto.\\
-Questo viene fatto in maniera efficiente mediante  programmazione dinamica, una tecnica che identifica dei sottoproblemi del problema originario, procedendo dai problemi pi\`u piccoli verso quelli pi\`u grandi.\\
-In generale dato un $ k $-treelet colorato $ T $ in un grafo $ G $, il numero delle sue occorrenze nel grafo \`e pari al pi\`u a $ \frac{k!}{k^k} $ volte il numero di occorrenze totali non colorate.\\
+In questo capitolo, si presenta un'estensione dell'algoritmo descritto da Alon \cite{alon1995color,bressan2018motif} che per effettuare un conteggio delle occorrenze di tutti i treelet all'interno del grafo.\\
+
 
 
 
 \section{Algoritmo}
 \label{section1}
 
-In questa sezione viene descritta l'estensione dell'algoritmo del color coding che pu\`o contare i treelet (non indotti) colorati uniformemente a caso.
-
-L'algoritmo inizialmente prevede una fase di colorazione dove, ad ogni nodo $ v \in V $ di $ G $, \`e assegnato un colore $ c_v $ scelto indipendentemente e uniformemente a caso da $ [k] := \{1, \dots ,k\} $.\\
+Dati in input un grafo $ G=(V,E) $ e un numero $ k $, per prima cosa il color coding assegna uniformemente e indipendentemente per ogni nodo $ v\in V $ di $ G $ un'etichetta in $ [k] := \{1,....,k\} $, indicato come un colore.
+L'obiettivo \`e quello di conteggiare il numero di occorrenze di alberi colorati non indotti di $ k$-nodi in $ G $, chiamati $ k-treelet $, in cui ogni vertice dell'occorrenza ha un colore distinto.
+Questo viene fatto in maniera efficiente mediante  programmazione dinamica, una tecnica che identifica dei sottoproblemi del problema originario, procedendo dai problemi pi\`u piccoli verso quelli pi\`u grandi, costruendo le relative soluzioni ultime in funzione delle soluzioni calcolate per i problemi precedenti.\\
 L'obiettivo della fase di costruzione \`e quello di creare una tabella con il conteggio delle occorrenze dei treelet che si possono incontrare in $ G $.\\
-Per ogni nodo $ v \in V $ e per ogni albero colorato $ T_C $, con $ k $ nodi, si vuole calcolare il numero $ c(T_C , v) $ di copie di $ T_C $  in $ G $ che sono radicate in $ v $ (si noti che qui si intendono copie non indotte).\\
-Si definisce con $ T_C $ una coppia $ (T,C) $ con $ T $ un treelet radicato di $ k $ nodi e $ C \subseteq {\{1,\dots,k\}} $.\\
-Quello che si fa \`e per ogni nodo $ v $ si inizializza $ c(T_{C_0} , v) = 1 $, dove T \`e il treelet di 1 nodo e $ C_0 = \{c_v\} $.
+Si denoter\`a con $ T_C $ una coppia $ (T,C) $, dove $ T $ un treelet radicato e $ C \subseteq {\{1,\dots,k\}} $.\\
+Per ogni nodo $ v \in V $ e per ogni albero colorato $ T_C $, con $ k $ nodi, si vuole calcolare il numero $ c(T_C , v) $ di occorrenze, non indotte, di $ T_C $  in $ G $ che sono radicate in $ v $.\\
+Inizialmente per ogni nodo $ v $ si inizializza $ c(T_{C_0} , v) = 1 $, dove T \`e il treelet di 1 nodo e $ C_0 = \{c_v\} $.
 Per ogni $ h = 2,\dots,k $ a turno, si considera ogni possibile albero radicato T di dimensione $ h $ e ogni possibile insieme di colori $ C \subseteq [k] $ con $ |C| = h $.\\
-Quindi $ \forall v \in V$ di $ G $, si calcola come segue il numero $ c(T_C,v) $ di occorrenze dei treelet (non indotti) radicati in $ v $ isomorfi a $ T $ e i cui colori giacciono nell'insieme $ C $.
-\\ Si divide idealmente $ T $ in due sottoalberi colorati unici $ T' $ di dimensione $ i $ con $ i = 1, \dots,h-1 $ e $ T'' $ di dimensione $ h-i $.
+Quindi per ogni $ v \in V$ di $ G $ si calcola come segue il numero $ c(T_C,v) $ di occorrenze dei treelet (non indotti) radicati in $ v $ isomorfi a $ T $ e i cui colori giacciono nell'insieme $ C $.\\
+Per ogni albero $ T $ radicato in $ v $ si suppone di dividerlo in due alberi colorati unici: $ T' $ di dimensione $ i $ con $ i = 1, \dots,h-1 $ e $ T'' $ di dimensione $ h-i $.
 I due alberi saranno tali che  $ T'' $ \`e il sottoalbero radicato in uno dei figli della radice $ v $ di $ T $ e $ T' $ \`e il sottoalbero di $ T $ radicato in $ v $ contenente $ |T| - |T''| $ nodi.\\
-Per calcolare $ c(T_C,v) $ si analizza $ \forall v \in V $ di $ G $ l'insieme dei nodi $ u \in V $ tale che la coppia $ (u,v)\in E $, si procede, pertanto, analizzando gli archi del archi del grafo $ G $.
-Si prendono  tutti i treelet colorati radicati in $ v $ isomorfi a $ T'_{C'} $ e tutti i  treelet radicati in $ u $ isomorfi a $ T''_{C''} $.\\
-Sia per $ T' $ che per $ T'' $ \`e noto il numero di occorrenze $ c(T'_{C'},v) $ e $ c(T_{C''},u) $ in $ G $. Poich\`e essendo la programmazione dinamica per poter calcolare le occorrenze di un treeelet con $ k $ nodi sar\`a necessario aver calcolato le occorrenze di tutti i treelet con un numero di nodi minore o uguale a $ k-1 $.\\
-Se $ C' \cap C'' = 0 $, si procede al conteggio delle occorrenze di $ T_C $ radicato in $ v $ nel modo seguente:
+Per calcolare $ c(T_C,v) $ si considerano i vicini $ u $ di $ v $.
+Si prendono  tutti i treelet colorati radicati in $ v $ isomorfi a $ T'_{C'} $ e tutti i  treelet radicati in $ u $ isomorfi a $ T''_{C''} $, tali che $ C',C'' \subseteq [k] $ con $ |C'|=i $ e $ |C''| = k-i $ \\
+Sia per $ T' $ che per $ T'' $ \`e noto il numero di occorrenze $ c(T'_{C'},v) $ e $ c(T_{C''},u) $ in $ G $, poich\`e per poter calcolare le occorrenze di un treelet con $ k $ nodi sar\`a necessario aver calcolato le occorrenze di tutti i treelet con un numero di nodi minore o uguale a $ k-1 $.\\
+Se $ C' \cap C'' = \emptyset $, si procede al conteggio delle occorrenze di $ T_C $ radicato in $ v $ nel modo seguente:
 
 \begin{equation}\label{conta}
 	c(T_c,v)=\frac{1}{\beta_T}\sum_{(u,v)\in E}\sum_{\substack{C' \subset C \\C'' = C \setminus C' \\ |C'|=|T'|, |C''| = |T''|}}c(T'_{C'},v)\cdot c(T''_{C''},u)
 \end{equation}\mbox{}\\\\
 dove $ \beta_T $ \`e una costante di normalizzazione che \'e uguale al numero di sottoalberi di $ T $ isomorfi a $ T'' $ radicati nell'ultimo figlio della radice $ r $ di $ T $.\\
- La correttezza e la complessit\`a di questa costruzione, non sono trattate in questa tesi, ma vengono dimostrate da Alon in \cite{alon1995color}.\\
+ La correttezza e la complessit\`a di questo algoritmo, non sono trattate in questa tesi, ma vengono dimostrate da Alon in \cite{alon1995color}.\\
  Si pu\`o vedere l'algoritmo formalmente  descritto in Algoritmo \ref{algoritmo}.\mbox{}\\
 
 
@@ -48,14 +44,15 @@ dove $ \beta_T $ \`e una costante di normalizzazione che \'e uguale al numero di
 	\SetAlgoLined
 	\caption{Fase di costruzione}
  	\textbf{input} : Grafo $ G =(V,E) $, dimensione del treelet $ k $ ,insieme [$ k $] di colori\;	
- 		\For{$ v $ in $ G $}{
- 			$C_0 = \{c_v\}$; viene assegnato un colore uniformemente a caso preso da [$ k $]\;
+ 		\For{$ v  \in V$}{
+ 			$C_0 = \{c_v\}$; Sia $ C_0 $ un colore scelto in [$ k $]\;
  			$ c(T_{C_0} , v) = 1 $\;
  		}	
  			\For{$ h = 2$ to $ k $}{
  				\For{$ v \in V $}{
- 					\ForEach{$ T : |T| = h $}{					
- 						\( 	c(T_C,v)=\frac{1}{\beta_T}\sum_{(u,v)\in E}\sum_{\substack{{C',C''\subset C}\\{C'\cap C'' =0}}}c(T'_{C'},v)\cdot c(T''_{C''},u) \)	
+ 					\ForEach{$ T : |T| = h $}{
+ 							Suddivido $ T $ in due alberi $ T'$	e  $ T'' $ come descritto in precedenza\\		
+ 						\( 	c(T_C,v)=\frac{1}{\beta_T}\sum_{(u,v)\in E}\sum_{\substack{{C',C''\subset C}\\{C'\cap C'' =\emptyset}}}c(T'_{C'},v)\cdot c(T''_{C''},u) \)	
  					}
  				}
  			}
@@ -65,17 +62,23 @@ dove $ \beta_T $ \`e una costante di normalizzazione che \'e uguale al numero di
 Come si pu\'o notare, per calcolare le occorrenze di un albero $ T_C $ nell'algoritmo si sfrutta un approccio top-down, ossia, a partire dall'albero $ T_C $, si identificano i due alberi $ T' $ e $ T'' $ in cui pu\`o essere scomposto, si considerano tutte le partizioni di $ C',C'' \subset C $ e in seguito si procede al calcolo di $ c(T_C,v) $ come indicato in \eqref{conta}.
 
 In questa tesi, cos\'i come in \cite{bressan2019motivo}, si \`e sfruttato un approccio bottom-up. Infatti, per ogni nodo $ v \in V $ di $ G $ e per ogni nodo $ u \in V$ con $ (u,v)\in E $ si prendono tutte le coppie possibili di treelet colorati radicati  in $ v $ e $ u $, rispettivamente $ T'_{C'} $ e $ T''_{C''} $, tali che la loro unione generi l'albero $ T $ con $ k $ nodi radicato in $ v $.\\
-Sar\`a, pertanto, necessario che: $ |T'|,|T''|>0 $ e che $ |T'| + |T''| = k $.
+Sar\`a, pertanto, necessario che dati due alberi $ T' $ e $ T'' $ la loro cardinalit\`a, ossia il totale del numero di nodi in ogni albero, sia tale che: $ |T'|,|T''|>0 $ e che $ |T'| + |T''| = k $.
 Inoltre viene supposto di voler ottenere solo i $ k $-treelet $ T $ in cui i sottoalberi radicati nella radice $ r $ abbiano un ordinamento non crescente.
 Perci\`o se la cardinalit\`a di $ T'' $ supera la cardinalit\`a del sottoalbero radicato nell'ultimo figlio della radice di $ |T'| $, non \`e possibile compiere l'unione tra i due.
 
 Dallo sviluppo dell'algoritmo \ref{algoritmo}, si noti che i conteggi del numero di occorrenze di ogni $ k $-treelet colorato raggiungibile da ogni nodo $ v\in V $ di $ G $ , sono svolti e salvati in maniera separata.
 Lo scopo di questa tesi per\`o \'e quello di conteggiare il numero di $ k $-treelet colorati diversi individuabili su tutto il grafo $ G $ e le occorrenze totali per ognuno.
-A tale scopo \`e neccessario aggregare gli alberi in un unica tabella contenente i diversi $ k $-treelet e le rispettive occorrenze.
-Per evitare di conteggiare gli alberi un numero di volte superiori a quelle effettive, vengono classificati secondo una classe di equivalenza di isomorfismo.\\
+A tale scopo \`e neccessario aggregare i conteggi degli alberi in un unica tabella contenente il numero di occorrenze complessivo per ogni possibile $ k $-trelet.
+Per evitare di conteggiare gli alberi un numero di volte superiori a quelle effettive, si considerano le classi di equivalenza dell'insieme degli alberi di $ k $ nodi, in cui gli alberi di ogni classe sono isomorfi tra loro.
+Per ogni classe di equivalenza viene scelto un opportuno rappresentante , $ \tau(T) $, che aggrega tutti i conteggi delle occorrenze relativi alla classe che rappresenta. \\
  Dati due alberi $ T' = (V',E')$ e $ T''=(G'',E'') $ si dicono isomorfi se esiste una funzione bijettiva $ f : V' \rightarrow V'' $ tale che $ (u,v)\in E' $ se e solo se $ (f(u),f(v)) \in E' $.\\
 Perci\`o se due alberi sono isomorfi verranno raggruppati nella stessa classe di equivalenza e le loro occorrenze saranno sommate.
-Cos\`i facendo otterremo i conteggi effettivi di tutti i $ k $-treelet colorati trovati in $ G $ e il numero di volte che occorrono nel grafo. 
+Cos\`i facendo otterremo i conteggi effettivi di tutti i $ k $-treelet colorati trovati in $ G $ e il numero di volte che occorrono nel grafo.
+Poich\`e quello che interessa \`e il conteggio di tutti i $ k $-treelet in un grafo, sar\`a necessario tener conto che per ogni nodo colorato $ v\in V $ ogni albero viene conteggiato un numero $ k $ superiore di volte, una volta in pi\`u per ogni colore differente di radicamento, quindi per calcolare il numero corretto sar\`a sufficiente dividere il numero dei conteggi delle occorrenze per $ k $.
+Inoltre, poich\`e il numero delle occorrenze di un treelet colorato in un grafo subisce un fattore di normalizzazione pari a $ \frac{k!}{k^k} $.
+Per calcolare il numero di occorrenze di tutti i $ k $-treelet colorati sar\`a sufficiente fare quanto segue.
+Per ogni albero $ T $ tale che $ T_C $ \`e l'albero colorato in $ C=\{1,\dots, k\} $, si ha che $ N(T) $, il conteggio delle occorrenze di $ T $ in $ G $ \`e pari a:
+\[N(T) = \frac{1}{k} \cdot \frac{k^k}{k!} \cdot \sum_{v\in V} c(T_C,v) \]
 
 
 \section{Dettagli implementativi. Rappresentazione compatta dei treelet colorati e rispettivi conteggi}

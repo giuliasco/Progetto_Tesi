@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.9.23)  11 OCT 2020 18:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.9.23)  13 OCT 2020 11:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -649,51 +649,51 @@ File: t1cmss.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 (./capitolo2/capitolo2.tex [4]
 Capitolo 2.
 
-Underfull \hbox (badness 10000) in paragraph at lines 11--16
+Underfull \hbox (badness 10000) in paragraph at lines 10--11
 
  []
 
 [5
 
 ] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 40--44
+Underfull \hbox (badness 10000) in paragraph at lines 36--40
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 40--44
+Underfull \hbox (badness 10000) in paragraph at lines 36--40
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 63--64
+Underfull \hbox (badness 10000) in paragraph at lines 60--61
 
  []
 
-[7]
-Overfull \hbox (8.5163pt too wide) in paragraph at lines 81--81
+[7] [8]
+Overfull \hbox (8.5163pt too wide) in paragraph at lines 84--84
 []\T1/cmr/bx/n/17.28 Dettagli im-ple-men-ta-ti-vi. Rap-pre-sen-ta-zio-ne com-
  []
 
-[8]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 91.
- (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 94.
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 91.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 94.
 
-Underfull \hbox (badness 10000) in paragraph at lines 97--98
+Underfull \hbox (badness 10000) in paragraph at lines 100--101
 
  []
 
-<capitolo2/grafo3.png, id=56, 598.235pt x 163.61125pt>
+[9]
+<capitolo2/grafo3.png, id=59, 598.235pt x 163.61125pt>
 File: capitolo2/grafo3.png Graphic file (type png)
 <use capitolo2/grafo3.png>
-Package pdftex.def Info: capitolo2/grafo3.png  used on input line 108.
+Package pdftex.def Info: capitolo2/grafo3.png  used on input line 111.
 (pdftex.def)             Requested size: 312.9803pt x 85.5976pt.
-[9]
-Underfull \hbox (badness 10000) in paragraph at lines 113--117
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--120
 
  []
 
@@ -701,15 +701,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 113--117
 <capitolo2/grafo4.png, id=64, 1647.15375pt x 336.25626pt>
 File: capitolo2/grafo4.png Graphic file (type png)
 <use capitolo2/grafo4.png>
-Package pdftex.def Info: capitolo2/grafo4.png  used on input line 130.
+Package pdftex.def Info: capitolo2/grafo4.png  used on input line 133.
 (pdftex.def)             Requested size: 312.9803pt x 63.88934pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 134--145
+Underfull \hbox (badness 10000) in paragraph at lines 137--148
 
  []
 
 [11 <./capitolo2/grafo4.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 156--164
+Underfull \hbox (badness 10000) in paragraph at lines 159--167
 
  []
 
@@ -965,7 +965,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  8977 strings out of 492982
  129238 string characters out of 6134896
- 238055 words of memory out of 5000000
+ 239055 words of memory out of 5000000
  12317 multiletter control sequences out of 15000+600000
  23270 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -992,7 +992,7 @@ b></usr/share/texmf/fonts/type1/public/cm-super/sfss1728.pfb></usr/share/texmf/
 fonts/type1/public/cm-super/sfss2488.pfb></usr/share/texmf/fonts/type1/public/c
 m-super/sfti1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfxc1200.pfb
 >
-Output written on Tesi_Triennale.pdf (34 pages, 557319 bytes).
+Output written on Tesi_Triennale.pdf (34 pages, 558718 bytes).
 PDF statistics:
  223 PDF objects out of 1000 (max. 8388607)
  150 compressed objects within 2 object streams
