@@ -1,15 +1,15 @@
 \babel@toc {italian}{}
 \babel@toc {italian}{}
-\contentsline {chapter}{\numberline {1}Introduzione}{2}
-\contentsline {section}{\numberline {1.1}Contributo della tesi}{3}
-\contentsline {section}{\numberline {1.2}Organizzazione del testo}{4}
-\contentsline {chapter}{\numberline {2}Color Coding}{5}
-\contentsline {section}{\numberline {2.1}Algoritmo}{5}
-\contentsline {section}{\numberline {2.2}Dettagli implementativi. Rappresentazione compatta dei treelet colorati e rispettivi conteggi}{9}
-\contentsline {chapter}{\numberline {3}Tecnica Ottimizzata}{14}
-\contentsline {section}{\numberline {3.1}Decomposizioni Bilanciate di un albero}{14}
-\contentsline {section}{\numberline {3.2}Algoritmo}{21}
-\contentsline {section}{\numberline {3.3}Dettagli implementativi. Modifica e aggiunte alle rappresentazioni}{23}
-\contentsline {chapter}{\numberline {4}Dati}{26}
-\contentsline {chapter}{\numberline {5}Conclusioni}{27}
-\contentsline {section}{\numberline {5.1}Sviluppi futuri}{28}
+\contentsline {chapter}{\numberline {1}Introduzione}{2}% 
+\contentsline {section}{\numberline {1.1}Contributo della tesi}{3}% 
+\contentsline {section}{\numberline {1.2}Organizzazione del testo}{4}% 
+\contentsline {chapter}{\numberline {2}Color Coding}{5}% 
+\contentsline {section}{\numberline {2.1}Algoritmo}{5}% 
+\contentsline {section}{\numberline {2.2}Dettagli implementativi. Rappresentazione compatta dei treelet colorati e rispettivi conteggi}{9}% 
+\contentsline {chapter}{\numberline {3}Tecnica Ottimizzata}{14}% 
+\contentsline {section}{\numberline {3.1}Decomposizioni Bilanciate di un albero}{14}% 
+\contentsline {section}{\numberline {3.2}Algoritmo}{21}% 
+\contentsline {section}{\numberline {3.3}Dettagli implementativi. Modifica e aggiunte alle rappresentazioni}{23}% 
+\contentsline {chapter}{\numberline {4}Dati}{26}% 
+\contentsline {chapter}{\numberline {5}Conclusioni}{27}% 
+\contentsline {section}{\numberline {5.1}Sviluppi futuri}{28}% 
