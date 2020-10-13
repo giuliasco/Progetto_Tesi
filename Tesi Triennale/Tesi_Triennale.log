@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.9.23)  13 OCT 2020 11:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.9.23)  13 OCT 2020 18:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -419,11 +419,7 @@ Package: relsize 2013/03/29 ver 4.1
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 
-(./Tesi_Triennale.aux
-
-LaTeX Warning: Label `5' multiply defined.
-
-)
+(./Tesi_Triennale.aux)
 \openout1 = `Tesi_Triennale.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 42.
@@ -681,88 +677,68 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 94.
-
-Underfull \hbox (badness 10000) in paragraph at lines 100--101
-
- []
-
-[9]
+ [9]
 <capitolo2/grafo3.png, id=59, 598.235pt x 163.61125pt>
 File: capitolo2/grafo3.png Graphic file (type png)
 <use capitolo2/grafo3.png>
-Package pdftex.def Info: capitolo2/grafo3.png  used on input line 111.
+Package pdftex.def Info: capitolo2/grafo3.png  used on input line 110.
 (pdftex.def)             Requested size: 312.9803pt x 85.5976pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 116--120
+Underfull \hbox (badness 10000) in paragraph at lines 115--119
 
  []
 
 [10 <./capitolo2/grafo3.png>]
-<capitolo2/grafo4.png, id=64, 1647.15375pt x 336.25626pt>
-File: capitolo2/grafo4.png Graphic file (type png)
-<use capitolo2/grafo4.png>
-Package pdftex.def Info: capitolo2/grafo4.png  used on input line 133.
-(pdftex.def)             Requested size: 312.9803pt x 63.88934pt.
+<capitolo2/grafo5.png, id=64, 1049.9225pt x 287.0725pt>
+File: capitolo2/grafo5.png Graphic file (type png)
+<use capitolo2/grafo5.png>
+Package pdftex.def Info: capitolo2/grafo5.png  used on input line 131.
+(pdftex.def)             Requested size: 312.9803pt x 85.57486pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--148
-
- []
-
-[11 <./capitolo2/grafo4.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 159--167
+Underfull \hbox (badness 10000) in paragraph at lines 135--141
 
  []
 
-[12]) (./capitolo3/capitolo3.tex [13]
+[11 <./capitolo2/grafo5.png>]) (./capitolo3/capitolo3.tex [12]
 Capitolo 3.
 \c@definizione=\count145
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 20.
-[14
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 21.
+[13
 
-]
-<capitolo3/grafo2.png, id=79, 283.0575pt x 229.85875pt>
+] [14]
+<capitolo3/grafo2.png, id=81, 283.0575pt x 229.85875pt>
 File: capitolo3/grafo2.png Graphic file (type png)
 <use capitolo3/grafo2.png>
-Package pdftex.def Info: capitolo3/grafo2.png  used on input line 63.
+Package pdftex.def Info: capitolo3/grafo2.png  used on input line 71.
 (pdftex.def)             Requested size: 142.26378pt x 115.52884pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 57--68
+Underfull \hbox (badness 10000) in paragraph at lines 67--76
 
  []
 
-[15]
-Underfull \hbox (badness 10000) in paragraph at lines 89--90
+[15 <./capitolo3/grafo2.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 97--98
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 91--95
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 91--95
-
- []
-
-<capitolo3/grafo3.png, id=83, 521.95pt x 497.86pt>
+<capitolo3/grafo3.png, id=86, 521.95pt x 497.86pt>
 File: capitolo3/grafo3.png Graphic file (type png)
 <use capitolo3/grafo3.png>
-Package pdftex.def Info: capitolo3/grafo3.png  used on input line 98.
+Package pdftex.def Info: capitolo3/grafo3.png  used on input line 105.
 (pdftex.def)             Requested size: 142.26378pt x 135.70024pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 102--103
+Underfull \hbox (badness 10000) in paragraph at lines 99--110
 
  []
 
-[16 <./capitolo3/grafo2.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 121--122
+[16 <./capitolo3/grafo3.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 128--129
 
  []
 
 
-Overfull \hbox (25.57672pt too wide) in paragraph at lines 123--125
+Overfull \hbox (25.57672pt too wide) in paragraph at lines 130--131
 []\T1/cmr/m/n/12 Una vol-ta con-clu-so l'al-go-rit-mo 2[] si avrà una cop-pia $
 \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 T[]; T[]\OT1/cmr/m/n/12 )$ \T1/cmr/m/n/12 ta-
 le che : $[]\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 T[]\OMS/cmsy/m/
@@ -770,137 +746,122 @@ n/12 j\OML/cmm/m/it/12 ; \OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 T[]\OMS/cmsy/m/n/12
  j\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ^^T
  []
 
-[17 <./capitolo3/grafo3.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 137--146
+
+Underfull \hbox (badness 10000) in paragraph at lines 132--133
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 151--153
+Underfull \hbox (badness 10000) in paragraph at lines 143--151
+
+ []
+
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 156--158
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 155--159
+Underfull \hbox (badness 10000) in paragraph at lines 160--164
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--170
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 173--176
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 178--182
 
  []
 
 [18]
-Underfull \hbox (badness 10000) in paragraph at lines 161--165
+Underfull \hbox (badness 10000) in paragraph at lines 186--188
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 167--169
+Underfull \hbox (badness 10000) in paragraph at lines 188--192
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 169--172
+Underfull \hbox (badness 10000) in paragraph at lines 192--196
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 174--178
+Underfull \hbox (badness 10000) in paragraph at lines 198--204
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 180--182
+Underfull \hbox (badness 10000) in paragraph at lines 206--210
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--185
+Underfull \hbox (badness 10000) in paragraph at lines 212--216
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 185--189
+Underfull \hbox (badness 10000) in paragraph at lines 216--220
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 189--193
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 189--193
+Underfull \hbox (badness 10000) in paragraph at lines 220--224
 
  []
 
 [19]
-Underfull \hbox (badness 10000) in paragraph at lines 195--197
+Underfull \hbox (badness 10000) in paragraph at lines 226--227
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--203
+Underfull \hbox (badness 10000) in paragraph at lines 226--227
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 203--207
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 207--211
-
- []
-
-
-Overfull \hbox (27.34494pt too wide) in paragraph at lines 211--214
-\T1/cmr/m/n/12 ottenendo per-ció una de-com-po-si-zio-ne $\OT1/cmr/m/n/12 (\OMS
-/cmsy/m/n/12 b[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 k \OMS/cmsy/m/n/12 ^^@ \OT1/c
-mr/m/n/12 1)\OMS/cmsy/m/n/12 c \OT1/cmr/m/n/12 + 1)$\T1/cmr/m/n/12 -bilanciata,
- ta-le che $[]\OMS/cmsy/m/n/12 fj\OML/cmm/m/it/12 T[]\OMS/cmsy/m/n/12 j\OML/cmm
-/m/it/12 ; \OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 T[]\OMS/cmsy/m/n/12 jg ^^U
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 214--218
+Underfull \hbox (badness 10000) in paragraph at lines 236--245
 
  []
 
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 226--235
-
- []
-
-[21]
-Underfull \hbox (badness 10000) in paragraph at lines 235--262
+Underfull \hbox (badness 10000) in paragraph at lines 245--268
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 235--262
+Underfull \hbox (badness 10000) in paragraph at lines 245--268
 
  []
 
-[22] [23]
-Overfull \hbox (2.67041pt too wide) in paragraph at lines 287--290
-[]\T1/cmr/m/n/12 i bit da 0-3 con-ten-go-no un fat-to-re di ``ugua-glian-za'' n
-o-mi-na-to $[]$.
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 296--298
+[21] [22] [23]
+Underfull \hbox (badness 10000) in paragraph at lines 308--310
 
  []
 
-) (./capitolo4/capitolo4.tex [24] [25]
+) (./capitolo4/capitolo4.tex [24]
 Capitolo 4.
-) (./capitolo5/capitolo5.tex [26
+) (./capitolo5/capitolo5.tex [25
 
 ]
 Capitolo 5.
-[27
+[26
 
-]) (./Tesi_Triennale.bbl [28] [29
+]) (./Tesi_Triennale.bbl [27] [28
 
-]) (./ringrazimenti.tex [30])
+]) (./ringrazimenti.tex [29])
 Underfull \hbox (badness 10000) in paragraph at lines 7--54
 
  []
@@ -955,47 +916,49 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--54
 
  []
 
-[31
 
-] [32] [33] (./Tesi_Triennale.aux)
+Underfull \hbox (badness 10000) in paragraph at lines 7--54
 
-LaTeX Warning: There were multiply-defined labels.
+ []
 
- ) 
+[30
+
+] [31] [32] (./Tesi_Triennale.aux) ) 
 Here is how much of TeX's memory you used:
- 8977 strings out of 492982
- 129238 string characters out of 6134896
- 239055 words of memory out of 5000000
- 12317 multiletter control sequences out of 15000+600000
- 23270 words of font info for 56 fonts, out of 8000000 for 9000
+ 8976 strings out of 492982
+ 129209 string characters out of 6134896
+ 238044 words of memory out of 5000000
+ 12318 multiletter control sequences out of 15000+600000
+ 21897 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,27n,40p,803b,590s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/s
-hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/te
-xlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texm
-f/fonts/type1/public/cm-super/sfbx0800.pfb></usr/share/texmf/fonts/type1/public
-/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1728.p
-fb></usr/share/texmf/fonts/type1/public/cm-super/sfcc1200.pfb></usr/share/texmf
-/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/
-cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pf
-b></usr/share/texmf/fonts/type1/public/cm-super/sfss1728.pfb></usr/share/texmf/
-fonts/type1/public/cm-super/sfss2488.pfb></usr/share/texmf/fonts/type1/public/c
-m-super/sfti1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfxc1200.pfb
->
-Output written on Tesi_Triennale.pdf (34 pages, 558718 bytes).
+ 41i,24n,39p,803b,521s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/cm-super/
+cm-super-t1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols
+/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/
+msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx0800.pfb></usr/sha
+re/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1
+/public/cm-super/sfbx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfc
+c1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/shar
+e/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/
+public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss
+1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss2488.pfb></usr/share
+/texmf/fonts/type1/public/cm-super/sfti1200.pfb></usr/share/texmf/fonts/type1/p
+ublic/cm-super/sfxc1200.pfb>
+Output written on Tesi_Triennale.pdf (33 pages, 574146 bytes).
 PDF statistics:
- 223 PDF objects out of 1000 (max. 8388607)
- 150 compressed objects within 2 object streams
+ 224 PDF objects out of 1000 (max. 8388607)
+ 151 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

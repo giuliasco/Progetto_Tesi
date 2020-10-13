@@ -1,19 +1,15 @@
 \chapter{Conclusioni}
-Si pu\`o concludere questa tesi riassumendo brevemente quanto visto fino ad ora.\\
-Innanzitutto \`e stato definita la fase di costruzione dell'algoritmo del Color Coding (capitolo \ref{cap 2}).\\
-\`E stato mostrato come tale algoritmo pu\`o essere sfruttato per la ricerca e il conteggio di $ k $-treelet colorati presenti in un grafo $ G=(V,E) $.
-Si \`e visto come, in questa tesi, sia stato sviluppato con un approccio bottom-up piuttosto che top-down.\\
+Innanzitutto \`e stato descritta la fase di costruzione di un algoritmo per il conteggio di $ k $-treelet basato sulla tecnica del Color Coding (capitolo \ref{cap 2}).
+\`E stato mostrato come tale algoritmo pu\`o essere sfruttato per la ricerca e il conteggio approssimato di tutti i $ k $-treelet colorati presenti in un grafo $ G=(V,E) $.\\
+Si \`e visto come, in questa tesi, l'algoritmo sia stato sviluppato con un approccio basato sulle unioni tra alberi piuttosto che sulle scomposizioni.\\
 Sono state discusse le scelte implementative sviluppate per rappresentare i treelet colorati e i conteggi associati.
 
-Sucessivamente si \`e provveduto a introdurre un'ottimizzazione a quanto detto prima.\\
-Per fare ci\`o \`e stato necessario introdurre alcune nozioni fondamentali come ad esempio la nozione di centroide e di decomposizioni bilanciate.
-Una volta fatto ci\`o si \`e modificato l'algoritmo del color coding, sulla base delle nozioni date, definendo cos\`i un nuovo algoritmo nel capitolo \ref{cap:3}.\\
-Anche per questo nuovo algoritmo si \`e discusso sulla scelta di valutare i $ k $-treelet con un approccio bottom-up, piuttosto che top-down e si sono analizzate le scelte implementative aggiunte rispetto alla precedente versione.\\
-Alla fine sono stati messi a confronto i risultati ottenuti con l'esecuzione di entrambe le implementazioni, discutendo il guadagno, in termini di tempo, che si \`e avuto usando il secondo algoritmo.
+Sucessivamente si \`e provveduto a introdurre un'ottimizzazione a tale Algoritmo.\\
+Per fare ci\`o \`e stato necessario introdurre alcune nozioni fondamentali come ad esempio la nozione di centroide e di decomposizioni bilanciate, l'Algoritmo risultante \'e stato descritto nel capitolo \ref{cap:3}.\\
+Anche per questo nuovo algoritmo, come per il precedente, si sono valutati i $ k $-treelet basandoci sull'unione piuttosto che sulle decomposizioni.\\
+Alla fine sono stati messi a confronto i risultati ottenuti con l'esecuzione di entrambe le implementazioni, discutendo l'accuratezza dei risultati e il risparmio, in termini di tempo, che si \`e ottenuto usando l'algoritmo ottimizzato.
 
-\section{Sviluppi futuri}
-Come detto inizialmente, in questa tesi \`e stata sviluppata e ottimizzata solo una piccola parte di quello che \`e realmente l'algoritmo del color coding.\\
-Infatti si \`e limitata la ricerca ai $ k $-treelet (non indotti) di un grafo $ G $.
+Come detto inizialmente, il lavoro di tesi si \`e concentrato solo sul conteggio $ k $-treelet (non indotti) di un grafo $ G $.\\
+Cionondimeno, in \cite{bressan2018motif,bressan2019motivo} \`e mostrato come sia possibile campionare (e contare) le occorrenze dei $ k $-graphlet di interesse nel grafo in input $ G $ avendo a disposizione un algoritmo in grado di campionare i $ k $-treelet di $ G $.
+A tale scopo le tecniche descritte in \cite{bressan2018motif,bressan2019motivo} possono essere facilmente adattate per restituire un $ k $-graphlet di $ G $ ben colorato uniformemente a caso a partire dai conteggi $ c(T_C,v) $ calcolati dall'Algoritmo \ref{algoritmo2}.
 
-Estensione naturale a tale ricerca \`e quella che concerne la ricerca dei graphlet, indotti in $ G $.\\
-Pertanto un possibile sviluppo sar\`a quello di aggiungere all'algoritmo ottimizzato una fase di campionamento per la ricerca dei graphlet indotti in $ G $, allo scopo di garantire cos\`i dei tempi di esecuzione pi\`u rapidi. 

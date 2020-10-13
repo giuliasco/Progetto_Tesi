@@ -61,7 +61,7 @@ dove $ \beta_T $ \`e una costante di normalizzazione che \'e uguale al numero di
 
 Come si pu\'o notare, per calcolare le occorrenze di un albero $ T_C $ nell'algoritmo si sfrutta un approccio top-down, ossia, a partire dall'albero $ T_C $, si identificano i due alberi $ T' $ e $ T'' $ in cui pu\`o essere scomposto, si considerano tutte le partizioni di $ C',C'' \subset C $ e in seguito si procede al calcolo di $ c(T_C,v) $ come indicato in \eqref{conta}.
 
-In questa tesi, cos\'i come in \cite{bressan2019motivo}, si \`e sfruttato un approccio bottom-up. Infatti, per ogni nodo $ v \in V $ di $ G $ e per ogni nodo $ u \in V$ con $ (u,v)\in E $ si prendono tutte le coppie possibili di treelet colorati radicati  in $ v $ e $ u $, rispettivamente $ T'_{C'} $ e $ T''_{C''} $, tali che la loro unione generi l'albero $ T $ con $ k $ nodi radicato in $ v $.\\
+In questa tesi, cos\'i come in \cite{bressan2019motivo}, si \`e sfruttato un approccio . Infatti, per ogni nodo $ v \in V $ di $ G $ e per ogni nodo $ u \in V$ con $ (u,v)\in E $ si prendono tutte le coppie possibili di treelet colorati radicati  in $ v $ e $ u $, rispettivamente $ T'_{C'} $ e $ T''_{C''} $, tali che la loro unione generi l'albero $ T $ con $ k $ nodi radicato in $ v $.\\
 Sar\`a, pertanto, necessario che dati due alberi $ T' $ e $ T'' $ la loro cardinalit\`a, ossia il totale del numero di nodi in ogni albero, sia tale che: $ |T'|,|T''|>0 $ e che $ |T'| + |T''| = k $.
 Inoltre viene supposto di voler ottenere solo i $ k $-treelet $ T $ in cui i sottoalberi radicati nella radice $ r $ abbiano un ordinamento non crescente.
 Perci\`o se la cardinalit\`a di $ T'' $ supera la cardinalit\`a del sottoalbero radicato nell'ultimo figlio della radice di $ |T'| $, non \`e possibile compiere l'unione tra i due.
@@ -87,20 +87,19 @@ In questa sezione vengono descritte le strutture dati usate per implementare l'a
 Gli oggetti principali che vengono manipolati sono i treelet colorati e le occorrenze associate.
 
 Ogni treelet colorato $ T_C = (T,C) $ ha una rappresentazione unica nella quale sono memorizzate la topologia di $ T $, i colori in $ C $ ed informazioni aggiuntive per facilitare la minipolazione di $T_C$.
-Tale rappresentazione richiede al pi\`u 58 bit e pu\`o pertanto essere memorizzata usando degli interi a 64 bit, un tipo di dati nativo in Java e nelle pi\`u comuni architetture moderne.
+Tale rappresentazione richiede al pi\`u 58 bit e pu\`o pertanto essere memorizzata usando degli interi a 64 bit, un tipo di dati nativo in Java, nelle pi\`u comuni architetture moderne.
 I bit sono numerati da 0 a 63 e ordinati dal bit meno significativo a quello pi\`u significativo.\\
 Sono cos\'i suddivisi:
 \begin{itemize}
-	\item i bit da 0-3 contengono il numero di nodi di $ T $ a meno della radice, che non \`e necessaria ai fini delle operazioni effettuate.
+	\item i bit da 0-3 contengono il numero di nodi di $ T $ a meno della radice.
 	\item i bit da 4-7 contengono la dimensione del sottoalbero radicato nell'ultimo figlio della radice di $ T $.
 	\item i bit da 8-11 vengono usati per memorizzare il valore di $ \beta_T $ associato a $ T $.
 	\item i bit da 12-27 sono usati per indicare i colori in $ C $.
 	\item i bit da 28-58 sono usati per codificare la struttura del treelet, come descritto di seguito.
-	\item gli ultimi 5 bit sono lasciati a zero
-\end{itemize}\mbox{}\\
+	\item gli ultimi 5 bit sono lasciati a zero.
+\end{itemize}\mbox{}
 
-Per codificare la struttura dell'albero si procede a partire da una visita DFS su $ T $.
-Nella teoria dei grafi il DFS ($ depth-first-search $), o ricerca in profondit\`a, \`e un algoritmo di ricerca su alberi e grafi che ha la propriet\`a di essere intrinsecamente ricorsivo. \\
+Per codificare la struttura dell'albero si procede a partire da una visita in profondit\`a (DFS) su $ T $.\\
 In questo caso la visita avviene partendo dalla radice $ r $ di $ T $ e attraversando tutti gli archi. Al termine ogni arco sar\`a stato attraversato esattamente 2 volte, in direzioni opposte. \\
 Sia $h=|T|$ e sia $e_i$, con $i = 1, 2, \dots, 2(h-1)$, l'$i$-esimo arco attraversato dalla visita. 
 L'$i$-esimo bit della codifica \`e $0$ se $e_i$ \`e attraversato in direzione di $r$ in $T$ e $1$ in caso contrario.\\
@@ -114,56 +113,36 @@ L'$i$-esimo bit della codifica \`e $0$ se $e_i$ \`e attraversato in direzione di
 \end{figure}
 
 Per un qualunque $ k \le 16 $ questa codifica richiede al massimo 30 bit.
-Come abbiamo precedentemente detto i sottoalberi radicati nei figli della radice dell'albero $ T $ hanno un ordinamento non crescente, garantito anche nella struttura.\\
-L'ordinamento lessicografico sulla struttura permette anche un'ordinamento totale sui treelet. Questo ordinamento \`e anche una regola decisiva per la visita DFS: i figli di un nodo vengono visitati nell'ordine dato dai sottoalberi radicati in esso.
-Ci\`o implica che ogni treelet $ T $ ha una codifica unica ed ogni codifica valida corrisponde ad un solo treelet. Inoltre, in questo modo \`e possibile implementare rapidamente l'operazione di unione.\\
-
+L'ordinamento lessicografico sulla struttura definisce anche implicitamente un'ordinamento totale sui treelet. Questo ordinamento \`e anche una regola decisiva per la visita DFS: i figli di un nodo vengono visitati nell'ordine indotto dai sottoalberi radicati in essi.
+Ci\`o implica che ogni treelet $ T $ ha una codifica unica ed ogni codifica valida corrisponde ad un solo treelet. Inoltre, in questo modo \`e possibile implementare rapidamente l'operazione di unione.\\\\
 La codifica dei treelet supporta le seguenti operazioni :
 \begin{itemize}
-	\item $ \textbf{singleton} $ (c) : permette di inizializzare un treelet di un solo nodo con il rispettivo $ c \in {1, \dots, k} $
-	\item $ \textbf{merge} $ ($ T' $,$ T'' $) : fa l'unione di due alberi $ T' $ e $ T'' $ e se possibile crea un nuovo albero $ T $ che avr\`a come struttura la concatenazione delle strutture di $ T' $ e $ T'' $.
-	Come dimensione, a meno della radice, $ T $ avr\`a la somma delle dimensioni di $ T' $ e $ T'' $ pi\'u 1.
-	I colori di $ T $, sono dati dall'unione dei colori di $ T' $ e $ T'' $.
-	In $ T $ come $ \beta_T $ viene memorizzato il valore corrispondente a quello di $ T' $ e se la struttura del sottoalbero pi\'u piccolo di $ T' $ \`e uguale a quella di $ T'' $ viene incrementato di 1. Per finire, la dimensione del sottoalbero pi\`u piccolo radicato in $ T $ sar\`a esattamente la dimensione di $ T''+1  $ .
-	\item $\textbf{normalization\_factor}$ ($ T $): restituisce la costante di normalizzazione $ \beta_T $ associata a $ T $.
+	\item $ \textbf{singleton} $ (c) : permette di inizializzare un treelet di un solo nodo con il rispettivo colore $ c \in \{1, \dots, k\} $
+	\item $ \textbf{merge} $ ($ T'_{C'} $,$ T''_{C''} $) : fa l'unione di due alberi $ T' $ e $ T'' $ e se possibile crea un nuovo albero $ T $ che avr\`a come struttura la concatenazione delle strutture di $ T' $ e $ T'' $ (a meno della radice).
+	La dimensione, a meno della radice, sar\`a data dalla somma delle dimensioni di $ T' $ e $ T'' $ pi\'u 1.
+	I colori di $ T $, sono il risultato dell'unione dei colori di $ T' $ e $ T'' $.
+	$ \beta_T $ sar\`a, inizialmente, pari al valore $ \beta_{T'} $ corrispondente a $ T' $ e se la struttura del sottoalbero radicato nell'ultimo figlio di $ T' $ \`e uguale alla struttura di $ T'' $ viene eventualmente incrementato di 1.\\
+ 	 Per finire, la dimensione del sottoalbero pi\`u piccolo radicato in $ T $ sar\`a esattamente la dimensione di $ T'' $, a meno della radice, pi\`u 1 .
+	\item $\textbf{normalization\_factor}$ ($ T_C $): restituisce la costante di normalizzazione $ \beta_T $ associata a $ T_C $.
 	    
 \end{itemize}
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=11cm]{capitolo2/grafo4}
-	\caption{un treelet colorato e la sua codifica, mostrata per semplicit\`a solo su 8+8+4+4+4=28 bit}
+	\includegraphics[width=11cm]{capitolo2/grafo5}
+	\caption{un treelet colorato $ T_C =(T,C) $ e la sua codifica, mostrata per semplicit\`a solo su 8+8+4+4+4=28 bit}
 	\label{figura1}
 \end{figure}
  In Figura \ref{figura1} \`e mostrato un esempio di treelet colorato e della sua codifica\\\\
 Nell'implementazione i treelet individuati da ogni nodo e i rispettivi conteggi vengono salvati all'interno di una tabella indicizzata, rappresentata mediante strutture annidate di $ ArrayList $.\\
-Inizialmente, come nell'algoritmo \ref{algoritmo}, i treelet e i conteggi sono stati valutati su ogni nodo $ v \in V $ di $ G $ scorrendo tutti gli archi $ E $.
-Solo una volta calcolati  tutti i treelet su tutti i nodi $ v $, questi verranno aggregati e i loro conteggi sommati, inoltre, per ogni classe di equivalenza sar\`a identificato un unico rappresentante che \`e il k-treelet radicato in un nodo particolare dell'albero.
-Nella sezione \ref{cap:3 par:1} verr\`a definito tale nodo e l'algoritmo per la sua ricerca.\\
-Inizialmente, perci\`o, quello che si ha \`e una tabella con $ k $ entrate indicizzate da $ 1 $ a $ k $ ed associate al numero di vertici dei treelet.\\
+Inizialmente, come nell'algoritmo \ref{algoritmo}, i treelet e i conteggi sono stati valutati su ogni nodo $ v \in V $ di $ G $ scorrendo tutti gli archi $ E $, quello che si ha, perc\`o \`e una tabella con $ k $ entrate indicizzate da $ 1 $ a $ k $ ed associate al numero di vertici dei treelet.\\ 
 L'$ i $-esima entrata della tabella, con $ 1\le i \le k $ generico, a sua volta, \`e un $ ArrayList $, con una dimensione fissata, che varia a secondo della cardinalit\`a di $ V $, cos\`i che ad ogni entrata \`e associato un vertice $ v\in V $ di $ G $.\\
 Per ognuna delle $ |V| $ entrate, viene creato un $ ArrayList $ contenente tutti i treelet colorati di dimensione $ i $ raggiungibili dai differenti nodi in $ V $, insieme al relativo numero di occorrenze.\\
-All'interno di quest'ultima lista i treelet sono ordinati in ordine non descrescente.\\
-La tabella ha una costruzione dinamica, perci\`o l'$ i $-esima entrata \`e costruita solo dopo aver terminato la costruzione della $ i-1 $-esima.
-Per creare la tabella nel metodo venfono usati i segueenti metodi:
-\begin{itemize}
-	\item $ \textbf{build}() $: si procede alla creazione della tabella mediante l'invocazione al suo interno dei metodi principali:
-	\begin{itemize}
-		\item $\textbf{do\_build1}()$ : colora ogni nodo $ v\in V $ di $ G $ in maniera casuale o round robin. Popola la tabella per $ h=1 $, creando per ogni nodo $ v $ un albero colorato con un solo nodo, esattamente $ v $, e numero di occorrenze pari a 1 (paragrafo \ref{section1} algoritmo \ref{algoritmo} da linea 2 a linea 5).
-		\item  $\textbf{do\_build}(h)$ : al variare di $ h = 1,\dots,k $ vengono popolate le rispettive tabelle, salvando per ogni nodo $ v $ i treelet colorati con $ h $ nodi e le rispettive occorrenze (paragrafo \ref{section1} algoritmo \ref{algoritmo} da linea 6 a linea 12).	
-	\end{itemize}
-\end{itemize}\mbox{}\\
-Come detto precedentemente una volta calcolati i k-treelet raggiungibili dai singoli nodi andranno aggregati, secondo equivalenze isomorfiche, per ottenere le occorrenze totali dei treelet nel grafo.
-Questa operazione viene garantita nel metodo
-\begin{itemize}
-	\item $ \textbf{aggregate}() $: resituisce gli alberi di dimensione $ k $ radicati in ogni nodo aggregati secondo equivalenze di isomorfismo e somma tutte le rispettive occorrenze.  
-\end{itemize}\mbox{}\\
+All'interno di quest'ultima lista i treelet sono ordinati in ordine non descrescente.
+
 Per permettere una costruzione pi\`u rapida della tabella, nell'implentazione \`e utilizzato il $ Multithreading $, cio\`e vengono utilizzati pi\`u thread che lavorano in parallelo.
 Un thread \`e un flusso di esecuzione indipendente all'interno di un processo.
 Il numero di thread utilizzato nell'implementazione \`e dipendente dal numero di processori presenti nella macchina.
-Supponendo di avere una macchina con 4 processori, vengono usati 3 thread, uno in meno rispetto al totale, poich\`e lavorando in Java era neccessario garantirel'utilizzo di un processore al $ Garbage \ \  Collector $ essendo la mole di dati molto elevata.\\
-Per garantire un funzionamento in parallelo senza conflitti si \`e dovuto provvedere affinch\`e nessuna operazione necessitasse di semafori di mutua esclusione (mutex) e che ogni tipo di dato coinvolto fosse atomico, ossia non scomponibile.\\
-Riguardo le operazioni sugli ArrayList non \`e stato necessario ricorrere alla mutua esclusione.
-Per le variabili \`e stato necessario, invece, garantire la visita dei vertici del grafo in maniera atomica e a tal proposito i vertici, in ogni ArrayList, sono rappresentati mediante $ AtomicInteger $, ossia valori interi che possono essere aggiornati in maniera atomica.\mbox{}\\
+
 
 
 
