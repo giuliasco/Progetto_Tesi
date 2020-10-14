@@ -27,10 +27,8 @@ Ne segue che per poter calcolare il numero di occorrenze dei treelet di dimensio
 Tale dipendenza \`e evidenziata dalle formule di ricorrenza che descrivono l'algoritmo di programmazione dinamica, che verr\`a descritto nella sezione \ref{section1}.
 Poich\`e il numero dei $ k $-treelet cresce in maniera esponenziale rispetto a $ k $, l'algoritmo pu\'o essere eseguito solo per valori piccoli di $ k $ prima che il tempo richiesto diventi eccessivo.\\
 A tal proposito nella tesi viene proposta un'ottimizzazione, basata su opportune decomposizioni ``bilanciate'' degli alberi, che consente di rendere indipendenti i conteggi dei treelet di dimensione $ k $ da circa un terzo dei conteggi precedenti.
-Tale ottimizzazione permette di eseguire solo le prime $\frac{2}{3} k + O(1)$ (si veda la sezione TODO per maggiori dettagli) fasi prima della fase $ k $, comportando un risparmio notevole di tempo.
-
-TODO Dì che facciamo un analisi sperimentale
-
+Tale ottimizzazione permette di eseguire solo le prime $\frac{2}{3} k + O(1)$ (si veda la sezione \ref{cap 3:3} per maggiori dettagli) fasi prima della fase $ k $, comportando un risparmio notevole di tempo.\\
+Inoltre sono stati fatte analisi sperimentali su cinque grafi, con lo scopo di mostrare oltre all'accuratezza dei risultati, anche il risparmio di tempo che si ottiene nell'utilizzo della tecnica ottimizzata rispetto a quella non ottimizzata.
 Ad esempio, su un grafo sociale con 63731 nodi e 817090 archi, l'algoritmo non ottimizzato richiede DA VEDERE tempo per la ricerca dei treelet con DA VEDERE nodi, mentre quello ottimizzato richiede un tempo DA VEDERE.
 
 
