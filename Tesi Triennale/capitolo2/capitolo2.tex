@@ -19,14 +19,12 @@ Dati in input un grafo $ G=(V,E) $ ed un intero positivo $ k $, per prima cosa i
 Dato un sottografo $H$ di $G$, diremo che $H$ è \emph{ben colorato} se ogni nodo $v$ di $H$ ha un colore $c_v$ distinto.
 
 Il cuore dell'algoritmo consiste nel conteggiare il numero di occorrenze (non necessariamente indotte) di alberi ben-colorati di $k$-nodi in $ G $.
-%, chiamati $ k-treelet $, in cui ogni vertice dell'occorrenza ha un colore distinto.
 Questo viene fatto in maniera efficiente mediante programmazione dinamica, una tecnica che risolve dei sottoproblemi del problema di interesse, procedendo dai problemi ``pi\`u piccoli'' verso quelli ``pi\`u grandi'' e ricostruendo le relative soluzioni in funzione delle soluzioni già calcolate per i problemi precedentemente risolti, fino a risolvere il problema originario.
 
 Nel seguito denoteremo con $ T_C $ un \emph{treelet colorato}, ovvero una coppia $ (T,C) $ dove $ T $ un albero radicato e $ C \subseteq \{1,\dots,k\}$.
 Per ogni nodo $ v \in V $ e per ogni treelet colorato $ T_C $, con $ k $ nodi, si vuole calcolare il numero $ c(T_C , v) $ di occorrenze (non indotte) di $ T_C $  in $ G $ che sono radicate in $v$.\\
 Inizialmente per ogni nodo $ v $ si inizializza $ c(T_C , v) = 1 $, dove $T$ \`e il treelet di $1$ nodo e $ C = \{c_v\}$.
 Dopodichè, per ogni $ h = 2,\dots,k $,  si considera ogni possibile albero radicato $T$ di dimensione $ h $, ogni possibile insieme di colori $ C \subseteq [k] $ con $ |C| = h $ ed ogni nodo $v \in V$.
-%Il numero $ c(T_C,v) $ di occorrenze dei treelet (non indotti) radicati in $ v $ isomorfi a $ T $ e i cui colori giacciono nell'insieme $ C $.\\
 L'albero $T_C$ viene \emph{decomposto} in due alberi $T'$ e $T''$ come segue: $ T'' $ \`e il sottoalbero radicato in uno dei figli della radice $ v $ di $ T $ e $ T' $ \`e il sottoalbero di $ T $ radicato in $ v $ tale che $ T' = T \backslash T'' $. In questa tesi la scelta di $ T' $ e $ T'' $ non è casuale, ma bensì vengono scelti garantendo un'ordinamento non crescente sugli alberi radicati nei figli della radice $ v $ di $ T $.
 Questo implica, perciò, che non sar\`a mai possibile che l'albero $ T'' $ abbia una grandezza superiore di $ T' $.
 Più precisamente, non potrà mai risultare che la grandezza di $ T'' $ superi la grandezza dell'albero radicato nell'ultimo figlio della radice $ v $ di $ T' $.

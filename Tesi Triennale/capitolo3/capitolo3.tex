@@ -271,8 +271,8 @@ c(T'_{C'},v)\cdot c(T''_{C''},v)\]
 } 	
 \end{algorithm}\bigskip
 
-Come nell'algortimo \ref{algoritmo} il numero di occorrenze di $ T $ è calcolato con un approccio basato sulla scomposizione dell'albero in due sottoalberi,  per\`o, anche in questo caso nella tesi l'algoritmo \ref{algoritmo2} \'e stato implementato nel verso opposto.\\
-Ossia presi due alberi $ T' $ e $ T'' $, radicati entrambi nello stesso nodo $ r $, si verifica unendo i due alberi, ossia appendendo alla radice di $ T' $ tutti i sottoalberi radicati nella radice di $ T'' $, si generi un albero $ T $ radicato in $ r $ valido, i cui conteggi sono ottenuti a partire dai conteggi di $ T' $ e $ T'' $. 
+Come nell'algortimo \ref{algoritmo} il numero di occorrenze di $ T $ è calcolato con un approccio basato sulle ``scomposizioni'' dell'albero in due sottoalberi,  anche in questo caso come per quanto detto nel capitolo \ref{cap 2} si è sfruttato un approccio basato sulle ``unioni''.\\
+Ossia per ogni nodo $ v\in V $ di $ G $ si prendono tutte le coppie di treelet colorati $ T'_{C'} $ e $ T''_{C''} $ radicate in $ v $ e si verifica se esiste un albero $ T_C $ radicato in $ v $ per cui la coppia $ T' $ e $ T'' $ rappresenta una decomposizione ammissibile e tale che $ C' $ e $ C'' $ siano una partizione di $ C $. 
 Perci\`o per calcolare le occorrenze dei $ k $-treelet in $ G $, $ \forall v \in V $ di $ G $ si prendono tutte le possibili coppie di alberi colorati $ (T'_{C'}, T''_{C''} )$ radicate in $ v $ tali che: $ 2+ \left\lfloor \frac{(k-1)}{3}  \right\rfloor \le |T'| \le \left\lfloor \frac{2}{3}(k-1) \right\rfloor  +1 $ e $ |T''| = k-|T'| $.
 Per poter unire $T'$ e $T''$ è necessario che valgono proprietà siano verificate: 
 \begin{itemize}
