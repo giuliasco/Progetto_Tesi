@@ -39,7 +39,7 @@ Dalla discussione seguente segue che, per calcolare $ c(T_C,v)$ è sufficiente c
 Sia per $ T' $ che per $ T'' $ \`e noto il numero di occorrenze $ c(T'_{C'},v) $ e $ c(T_{C''},u) $ in $ G $, poich\`e $|T'|, |T''| \le h-1$. Pertanto:
 
 \begin{equation}\label{conta}
-	c(T_c,v)=\frac{1}{\beta_T}\sum_{(u,v)\in E}\sum_{\substack{C', C'' \subset C \\C' \cup C'' = C  \\ C' \cap C'' = \emptyset}}c(T'_{C'},v)\cdot c(T''_{C''},u).
+	c(T_c,v)=\frac{1}{\beta_T}\sum_{(u,v)\in E} \;\; \sum_{\substack{C', C'' \subset C : |C'| = |T'| \\C' \cup C'' = C  \\ C' \cap C'' = \emptyset}}c(T'_{C'},v)\cdot c(T''_{C''},u).
 \end{equation}
 
  La correttezza e la complessit\`a di questo algoritmo, non sono trattate in questa tesi, ma vengono dimostrate da Alon in \cite{alon1995color}.\\
@@ -47,6 +47,7 @@ Sia per $ T' $ che per $ T'' $ \`e noto il numero di occorrenze $ c(T'_{C'},v) $
 
 
 \begin{algorithm}[H]
+	\caption{TODO}
 	\label{algoritmo}
 	\SetAlgoLined
  	\textbf{input} : Grafo $ G =(V,E) $, dimensione del treelet $ k $ ,insieme [$ k $] di colori\;	
@@ -60,7 +61,7 @@ Sia per $ T' $ che per $ T'' $ \`e noto il numero di occorrenze $ c(T'_{C'},v) $
  				\For{$ v \in V $}{
  					\ForEach{$ T : |T| = h $}{
  							Suddivido $ T $ in due alberi $ T'$	 e  $ T'' $ come descritto in precedenza. %TODO In precedenza dove? Metti il riferimento alla sezione
- 						\( 	c(T_C,v)=\frac{1}{\beta_T}\sum_{(u,v)\in E}\sum_{\substack{C', C'' \subset C \\C' \cup C'' = C  \\ C' \cap C'' = \emptyset}}c(T'_{C'},v)\cdot c(T''_{C''},u) \)	
+ 						\( 	c(T_c,v)=\frac{1}{\beta_T}\sum_{(u,v)\in E} \;\; \sum_{\substack{C', C'' \subset C : |C'| = |T'| \\C' \cup C'' = C  \\ C' \cap C'' = \emptyset}}c(T'_{C'},v)\cdot c(T''_{C''},u) \)	
  					}
  				}
  			}
