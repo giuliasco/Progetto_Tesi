@@ -7,8 +7,8 @@
 \contentsline {section}{\numberline {2.1}Algoritmo}{5}
 \contentsline {section}{\numberline {2.2}Dettagli implementativi. Rappresentazione compatta dei treelet colorati e rispettivi conteggi}{9}
 \contentsline {chapter}{\numberline {3}Algoritmo ottimizzato tramite decomposizioni bilanciate}{13}
-\contentsline {section}{\numberline {3.1}Decomposizioni Bilanciate di un albero}{13}
-\contentsline {section}{\numberline {3.2}Algoritmo}{20}
+\contentsline {section}{\numberline {3.1}Decomposizioni bilanciate di un albero}{13}
+\contentsline {section}{\numberline {3.2}Algoritmo}{19}
 \contentsline {section}{\numberline {3.3}Dettagli implementativi. Modifica e aggiunte alle rappresentazioni}{23}
 \contentsline {chapter}{\numberline {4}Analisi Sperimentale}{25}
 \contentsline {chapter}{\numberline {5}Conclusioni}{26}
