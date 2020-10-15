@@ -25,15 +25,13 @@ Nel seguito denoteremo con $ T_C $ un \emph{treelet colorato}, ovvero una coppia
 Per ogni nodo $ v \in V $ e per ogni treelet colorato $ T_C $, con $ k $ nodi, si vuole calcolare il numero $ c(T_C , v) $ di occorrenze (non indotte) di $ T_C $  in $ G $ che sono radicate in $v$.\\
 Inizialmente per ogni nodo $ v $ si inizializza $ c(T_C , v) = 1 $, dove $T$ \`e il treelet di $1$ nodo e $ C = \{c_v\}$.
 Dopodichè, per ogni $ h = 2,\dots,k $,  si considera ogni possibile albero radicato $T$ di dimensione $ h $, ogni possibile insieme di colori $ C \subseteq [k] $ con $ |C| = h $ ed ogni nodo $v \in V$.
-L'albero $T_C$ viene \emph{decomposto} in due alberi $T'$ e $T''$ come segue: $ T'' $ \`e il sottoalbero radicato in uno dei figli della radice $ v $ di $ T $ e $ T' $ \`e il sottoalbero di $ T $ radicato in $ v $ tale che $ T' = T \backslash T'' $. In questa tesi la scelta di $ T' $ e $ T'' $ non è casuale, ma bensì vengono scelti garantendo un'ordinamento non crescente sugli alberi radicati nei figli della radice $ v $ di $ T $.
-Questo implica, perciò, che non sar\`a mai possibile che l'albero $ T'' $ abbia una grandezza superiore di $ T' $.
-Più precisamente, non potrà mai risultare che la grandezza di $ T'' $ superi la grandezza dell'albero radicato nell'ultimo figlio della radice $ v $ di $ T' $.
-
-Ne segue che, per un'opportuna partizione dei colori $C$ in due insiemi $C'$ e $C''$, ogni occorrenza di $T_C$ in $G$ implica l'esistenza due due occorrenze distinte $T'_{C'} = (T', C')$ e $T''_{C''} = (T'', C'')$  in $G$ radicate, rispettivamente nei nodi $v$ e $u$.
+L'albero $T_C$ viene \emph{decomposto} in due alberi $T'$ e $T''$ come segue: $ T'' $ \`e il sottoalbero radicato in uno dei figli della radice $ v $ di $ T $ e $ T' $ \`e il sottoalbero di $ T $ radicato in $ v $ ottenuto rimuovendo i vertici di $T''$ da $T$.
+Ne segue che, per un'opportuna partizione dei colori $C$ in due insiemi $C'$ e $C''$, ogni occorrenza di $T_C$ in $G$ induce l'esistenza due due occorrenze distinte $T'_{C'} = (T', C')$ e $T''_{C''} = (T'', C'')$  in $G$ radicate, rispettivamente nei nodi $v$ e $u$.
 Viceversa, ogni coppia di occorrenze $T'_{C'}$ e $T''_{C''}$ radicate, rispettivamente, in $v$ e $u$ induce un'occorrenza (non necessariamente distinta) di $T_C$ radicata in $v$.
-In particolare è facile osservare che chiamato $\beta_T$ il numero di sottoalberi di $T$ radicati in un figlio di $r$ isomorfi a $T''$, esistono esattamente $\beta_T$ coppie di occorrenze $T'_{C'}$ e $T''_{C''}$ che inducono $T_C$. 
+In particolare è facile osservare che, chiamato $\beta_T$ il numero di sottoalberi di $T$ radicati in un figlio di $r$ isomorfi a $T''$, esistono esattamente $\beta_T$ coppie di occorrenze $T'_{C'}$ e $T''_{C''}$ che inducono $T_C$. 
 
-Dalla discussione seguente segue che, per calcolare $ c(T_C,v)$ è sufficiente considerare tutti treelet colorati radicati in $ v $ isomorfi a $ T'_{C'} $ e tutti i  treelet radicati in un vicino $ u $ di $v$ isomorfi a $ T''_{C''} $, tali che $ C',C'' \subseteq [k] $ con  $C' \cup C'' = C$ e $C' \cap C' = \emptyset$. 
+Dalla discussione precedente segue che, per calcolare $ c(T_C,v)$ è sufficiente considerare tutti treelet colorati radicati in $ v $ isomorfi a $ T'_{C'} $ e tutti i  treelet radicati in un vicino $ u $ di $v$ isomorfi a $ T''_{C''} $, tali che $|C'|=|T'|$, $C',C'' \subseteq [k] $ con  $C' \cup C'' = C$ e $C' \cap C' = \emptyset$.\footnote{Dato un albero $\tau$, in questa tesi utilizzeremo la notazione $|\tau|$ per denotare il numero di nodi dell'albero $\tau$.}
+
 Sia per $ T' $ che per $ T'' $ \`e noto il numero di occorrenze $ c(T'_{C'},v) $ e $ c(T_{C''},u) $ in $ G $, poich\`e $|T'|, |T''| \le h-1$. Pertanto:
 
 \begin{equation}\label{conta}
@@ -45,7 +43,7 @@ Sia per $ T' $ che per $ T'' $ \`e noto il numero di occorrenze $ c(T'_{C'},v) $
 
 
 \begin{algorithm}[H]
-	\caption{Algoritmo di costruzione per i $ k $-treelet in $ T $}
+	\caption{Algoritmo per il conteggio del numero di occorrenze di $ k $-treelet ben-colorati in $ G $}
 	\label{algoritmo}
 	\SetAlgoLined
  	\textbf{input} : Grafo $ G =(V,E) $, dimensione del treelet $ k $ ,insieme [$ k $] di colori\;	
@@ -56,47 +54,72 @@ Sia per $ T' $ che per $ T'' $ \`e noto il numero di occorrenze $ c(T'_{C'},v) $
  			$ c(T_C, v) = 1 $\;
  		}	
  			\For{$ h = 2$ to $ k $}{
- 				\For{$ v \in V $}{
+ 				\For{$ v \in V $}{ \label{ln:for_alg1}
  					\ForEach{$ T : |T| = h $}{
-<<<<<<< HEAD
- 							Suddivido $ T $ in due alberi $ T'$	 e  $ T'' $ come descritto in precedenza nella sezione \ref{section1}
- 						\( 	c(T_C,v)=\frac{1}{\beta_T}\sum_{(u,v)\in E}\sum_{\substack{C', C'' \subset C \\C' \cup C'' = C  \\ C' \cap C'' = \emptyset}}c(T'_{C'},v)\cdot c(T''_{C''},u) \)	
+ 							Suddivido $ T $ in due alberi $ T'$	 e  $ T'' $ come descritto nella sezione \ref{section1}
+ 						\( 	c(T_C,v)=\frac{1}{\beta_T}\sum_{(u,v)\in E}\sum_{\substack{C', C'' \subset C : |C'| = |T'| \\C' \cup C'' = C  \\ C' \cap C'' = \emptyset}}c(T'_{C'},v)\cdot c(T''_{C''},u) \)	
  					}
  				}
  			}
  			
 \end{algorithm}\mbox{}\\
 
-Come si pu\'o notare, per calcolare le occorrenze di un albero $ T_C $ nell'algoritmo si sfrutta un approccio basato sulle ``scomposizioni'', ossia, a partire dall'albero $ T_C $, si identificano i due alberi $ T' $ e $ T'' $ in cui pu\`o essere scomposto, si considerano tutte le partizioni di $ C',C'' \subset C $ e in seguito si procede al calcolo di $ c(T_C,v) $ come indicato in \eqref{conta}.
+Come si pu\'o notare, per calcolare le occorrenze di un albero $ T_C $ nell'algoritmo si sfrutta un approccio basato sulle decomposizioni dei treelet, ossia si scopone l'albero $ T_C $in due alberi $ T' $ e $ T'' $, si considerano tutte le partizioni $ C',C''$ di $C$ e in seguito si procede al calcolo di $ c(T_C,v) $ come indicato in \eqref{conta}.
 
-In questa tesi, cos\'i come in \cite{bressan2019motivo}, si \`e sfruttato un approccio basato sulle ``unioni''. Infatti, per ogni nodo $ v \in V $ di $ G $ e per ogni nodo $ u \in V$ con $ (u,v)\in E $ si prendono tutte le coppie possibili di treelet colorati radicati  in $ v $ e $ u $, rispettivamente $ T'_{C'} $ e $ T''_{C''} $, e si verifica se esiste un albero $T_C$ radicato in $v$ per cui la coppia  $ T'$ e $ T''$ rappresenta una decomposizione ammissibile e tale che $C'$ e $C''$ sono una partizione di $C$.
-Sar\`a pertanto necessario che dati due alberi $ T' $ e $ T'' $ siano tali che il numero totale di nodi che contengono, che indicheremo rispettivamente con $ |T'| $ e $ |T''| $, sia: $ |T'|,|T''|>0 $ e che $ |T'| + |T''| = k $.\\
-Anche in questo caso si vuole ottenere solo i $ k $-treelet $ T $ in cui i sottoalberi radicati nella radice $ r $ abbiano un ordinamento non crescente.
-Perci\`o se la struttura di $ T'' $ è più grande della struttura del sottoalbero radicato nell'ultimo figlio della radice di $ T' $, non \`e possibile compiere l'unione tra i due.
+Ciò richiede di esaminare tutti i possibili alberi colorati $T_C$, il cui numero $\lambda_h$ cresce almeno esponenzialmente con $h$. Infatti, per $h \to +\infty$ (e $h \le k)$, $\lambda_h \to c \cdot \frac{d^h}{h^{3/2}} \cdot \binom{k}{h}$, dove $a=0.4399\dots$ e $d=2.9557\dots$ \cite{TODO}.
+
+
+%@misc{knuth1969art,
+%  title={The Art of Computer Programming, Volume 1. Fundamental Algorithms. 634 pages},
+%  author={Knuth, D},
+%  year={1969},
+%  publisher={Addison-Wesley}
+%}
+
+
+
+Dal momento che il numero di $h$-treelet colorati distinti radicati in ogni nodo $v$ di $G$ è tipicamente di molto inferiore a $\lambda_h$, risulta perciò conveniente esaminare i soli treelet $T_C$ per cui $c(T_c, v) \neq 0$.
+A tale scopo e, in questa tesi, come in \cite{bressan2019motivo}, il ciclo for a linea~\ref{for_alg1} dell'algoritmo TODO è stato implementato come segue:
+per arco $(u,v)$ di $G$ e per ogni coppia di treelet colorati $T'_{C'}$ e $T''_{C''}$ radicati, rispettivamente, in $v,u$  si verifica se esiste un albero $T_C$ radicato in $v$ per cui la coppia  $ T'$ e $ T''$ rappresenta una decomposizione ammissibile e tale che $C'$ e $C''$ sono una partizione di $C$ (con $C'$=|T'|). In caso affermativo diremo che l'\emph{unione} tra $T'_{C'}$ e $T''_{C'}$ è l'albero $T_C = (T, C)$.
+Ciò richiede di fissare una regola deterministica che, dato $T$, consenta di selezionare l'albero $T''$, radicato in un figlio della radice $r$ di $T$, risultante dalla decomposizione di $T$. A tale scopo si consiera una relazione d'ordine stretto $\prec$ sull'insieme degli $h$-treelet e si seleziona $T''$ come l'albero minimo rispetto a $\prec$ tra tutti i sottoalberi (massimali) di $T$ radicati nei figli di $r$.
+
+
+
 
 Si noti che i conteggi del numero di occorrenze di ogni $ k $-treelet colorato radicato in ogni nodo $ v\in V $ di $ G $, sono calcolati e salvati in maniera indipendente.
 Lo scopo di questa tesi per\`o \'e quello di stimare, per ogni $k$-treelet $T^*$, il numero $N(T^*)$ di  sottografi (non necessariamente indotti) isomorfi a $T^*$ nel grafo $ G $.
-A tal proposito si noti che ogni occorrenza $O$ di un generico $k$-treelet $T$ in $G$ è responsabile dell'incremento di $1$ di esattamente $k$ contatori $c(T_C, v)$. In particolare tali contatori si riferiscono ai nodi $v$ di $O$ e agli alberi $T_C = (T,C)$ per cui $C = \{1, \dots, k\} $ e $T$ è ottenuto radicando $T$ nel nodo corrispondente a $v$.
+A tal proposito si noti che ogni occorrenza $O$ di un generico $k$-treelet $T$ in $G$ è responsabile dell'incremento di $1$ di esattamente $k$ contatori $c(T_C, v)$. In particolare tali contatori si riferiscono ai nodi $v$ di $O$ e agli alberi $T_C = (T,C)$ per cui $C = \{1, \dots, k\} $ e $T$ è ottenuto radicando $T^*$ nel nodo corrispondente a $v$.
 
-Sia $\mathcal{T}$ l'insieme di tutti gli alberi isomorfi a $T$ e $\widetilde{N}(T)$ il numero di occorrenze ben colorate di $T$ in $G$. Dalla discussione precedente segue che:
-$\widetilde{N}(T) = \frac{1}{k}\sum_{T \in \mathcal{T}} \sum_{v \in V} c( T_C, v)$ dove $T_C = (T, \{1,\dots, k\})$. 
-Inoltre, poich\`e ogni occorrenza di un $k$-treelet $T$ in $G$ è ben colorata con probabilità $\frac{k!}{k^k}$, uno stimatore unbiased del numero di $N(T^*)$ è $\frac{k^k}{k!} \cdot \widetilde{N}(T)$, cioè
-$\mathbb{E}\left[\frac{k^k}{k!} \cdot \widetilde{N}(T)\right] = N(T^*)$.
+Sia $\mathcal{T}$ l'insieme di tutti gli alberi isomorfi a $T^*$ e $\widetilde{N}(T^*)$ il numero di occorrenze ben colorate di (sottografi non indotti isomorfi a) $T^*$ in $G$. Dalla discussione precedente segue che:
+$\widetilde{N}(T^*) = \frac{1}{k}\sum_{T \in \mathcal{T}} \sum_{v \in V} c( T_C, v)$ dove $T_C = (T, \{1,\dots, k\})$. 
+Inoltre, poich\`e ogni occorrenza di un $k$-treelet $T$ in $G$ è ben colorata con probabilità $\frac{k!}{k^k}$, uno stimatore unbiased del numero di $N(T^*)$ è $\frac{k^k}{k!} \cdot \widetilde{N}(T^*)$, cioè
+$\mathbb{E}\left[\frac{k^k}{k!} \cdot \widetilde{N}(T^*)\right] = N(T^*)$.
 
 
 
-Quello che è stato fatto in questa tesi per arrivare a calcolare il valore di $ N(T^*) $ sono due passaggi fondamentali.
+%Quello che è stato fatto in questa tesi per arrivare a calcolare il valore di $ N(T^*) $ sono due passaggi fondamentali.
 
-Al fine di calcolare $\widetilde{N}(T) $ per ogni $ k $-treelet $ T $ ben colorato in $ G $, quello che si fa è calcolare i conteggi $ c(T_C,v) $ solo per quei treelet la cui radice $ v $ sia tale per cui $ c_v = 0 $.
-Si noti che la scelta del colore è arbitraria e ristretta ad un colore tra $ 0 $ e $ k $.
-Così facendo ogni occorrenza $ O $, sarà responsabile di un unico incremento piuttosto che di $ k $.
-In questo modo non sarà necessario calcolare $ \widetilde{N}(T) $ perchè il numero di occorrenze degli alberi sarà già ben calcolato.
 
-Il secondo passaggio fondamentale invece sarà quello di aggregare gli alberi in opportuni insiemi.
-Tale suddivisione viene effettuata sulla base di opportune classi di equivalenza basate su isomorfismi.\\
-Pertanto se due alberi $ T $ e $ T' $ sono isomorfi apparterranno allo stesso insieme, $ T = (V,E)$ e $ T'=(V',E') $ si dicono isomorfi se esiste una funzione bijettiva $ f : V \rightarrow V' $ tale che $ (u,v)\in E $ se e solo se $ (f(u),f(v)) \in E' $.\\
-Per ogni insieme viene scelto un opportuno rappresentante sul quale saranno aggregati tutti i conteggi degli alberi a lui isomorfi.
-Solo una volta divisi gli alberi negli opportuni insiemi sarà possibile eseguire direttamente il calcolo di $ N(T) $ per ogni $ T $ rappresentante delle classi di equivalenza.
+
+Un'ottimmizazione adottata in questa tesi per il calcolo di $\widetilde{N}(T^*)$ è basata sulla seguente identità:
+\[
+\widetilde{N}(T^*) = \frac{1}{k}\sum_{T \in \mathcal{T}} \sum_{v \in V} c( T_C, v)
+=
+\sum_{T \in \mathcal{T}} \sum_{\substack{v \in V \\ c_v = 0}} c( T_C, v).
+\]
+Ciò implica che, al fine di calcolare $\widetilde{N}(T^*)$, è sufficiente calcolare i conteggi $ c(T_C,v) $ solo per i nodi $v$ di $G$ per cui $ c_v = 0 $ (si noti che la scelta del colore $0$ è arbitraria).
+
+
+Infine, per aggregare i valori di $c(\cdot, \cdot)$
+rispetto alle rispettive classi di equivalenza è sufficiente
+selezionare, per ogni insieme di alberi isomorfi $\mathcal{T}$ un rappresentante $\tau \in \mathcal{T}$.
+Dato $T$, il rappresentante $\tau$ della classe di equivalenza $\mathcal{T}$ contenente $T$ è ottenuto radicando $T$ in uno dei suoi centroidi\footnote{Si veda la sezione~\ref{TODO} per una definizione formale della nozione di centroide di un albero}.
+Se $T$ ammette due centroidi $c_1$ e $c_2$ per cui
+gli alberi
+$T^{(c_1)}$ e $T^{(c_2)}$  ottenuti radicando $T$ in $c_1$ e $c_2$, rispettivamente, sono distinti allora il rappresentante $\tau$ sarà il più piccolo albero tra $T^{(c_1)}$ e $T^{(c_1)}$ rispetto a $\prec$.
+In caso contrario $\tau$ sarà l'albero ottenuto radicando $T$ in un centroide arbitrario.
+
+
 
 
 

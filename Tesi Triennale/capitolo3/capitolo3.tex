@@ -36,11 +36,11 @@ Data una funzione $f : \mathbb{N} \to \mathbb{N}$ ed un albero $ T $ con $ k $, 
 \end{definizione}
 
 
-Una nozione che è stata molto utile in questa tesi è quella di $ centroide $, definita a seguire.
+Una nozione che sarà utile nel seguito è quella di $ centroide $ di un albero, definito come segue:
 
 \begin{definizione}
 Per ogni nodo $ v $ di un albero $ T $, le diramazioni di $ T $  rispetto a $ v $, sono tutti i sottoalberi massimali di $ T $ non contenenti $ v $. 
-Per ogni $ v \in T $, si definisce $\alpha(v)$ come il massimo numero di nodi tra le diramazioni rispetto a $ v $.\\ %
+Per ogni $ v \in T $, si definisce $\alpha(v)$ come il massimo numero di nodi tra le diramazioni rispetto a $ v $.\\ 
 Un nodo $ v $ di un albero $ T $ con $ n $ nodi, \`e un nodo centroide se $\alpha(v)\le\frac{n}{2}$.
 \end{definizione}
 
@@ -119,11 +119,11 @@ Poich\`e il numero di nodi \`e dispari certamente questo sar\`a l'unico centroid
 \end{esempio}\mbox{}\\
 
 L'ultimo punto da considerare prima di poter enunciare e dimostrare il risultato principale di questa sezione riguarda la definizione di un algoritmo valido per decomporre un albero in due sottoalberi che chiameremo $ T' $ e $ T'' $, in maniera $ f(k) $-bilanciata.\\
-Sia dati in input un albero $ T $, con $ k\ge 3 $ nodi.
-Si suppone inoltre, senza perdita di generalit\`a, che i sottoalberi radicati nei figli della radice $ r $ di $ T $ siano ordinati in ordine non crescente.
+Sia dato in input un albero $ T $, con $ k\ge 3 $ nodi e
+si supponga, senza perdita di generalit\`a, che i sottoalberi radicati nei figli della radice $ r $ di $ T $ siano ordinati in ordine non crescente rispetto al rispettivo numero di nodi.
 Da questo deriva che, supponendo che $ r $ abbia $ \ell $ figli, vi saranno $ \ell $ alberi radicati tali che: $ |T_{i}|\ge |T_{i+1}| \ \  \forall {i = 1,\dots, \ell-1} $, inoltre si indica con $ S $ la seguente quantit\`a $ S=\sum_{i=1}^{\ell}|T_i| $.
 Sia $i = \max \{ j : \sum_{h=1}^{j} |T_h| \le \frac{2 S}{3} \}$. L'algoritmo selezionerà $T'$ come il sottoalbero di $T$ indotto da $r$ e dai nodi in $T_1, \dots, T_i$, e $T''$ di conseguenza.
-La decomposizione di $T$ in $T'$ e $T''$ restituita dall'algoritmo appena descritto, il cui pseudocodice è mostrato in \ref{algoritmo1}, è $ (\lfloor \frac{2}{3}(k-1) \rfloor + 1)$-bilanciata, come dimostrato dal teorema a seguire.
+La decomposizione di $T$ in $T'$ e $T''$ restituita dall'algoritmo appena descritto, il cui pseudocodice è mostrato nell'algoritmo \ref{algoritmo1}, è $ (\lfloor \frac{2}{3}(k-1) \rfloor + 1)$-bilanciata, come dimostrato dal teorema a seguire.
 
 	\begin{figure}[htbp]
 	\centering
@@ -140,16 +140,17 @@ La decomposizione di $T$ in $T'$ e $T''$ restituita dall'algoritmo appena descri
 	$r \gets $ un centroide di $T$\;
 	$T_r \gets $ albero $T$ radicato in $r$\;
 	$\ell \gets$ grado di $r$ in $T$\; 
-	Sia $ |T_i| $ l'albero radicato nell'$ i $-esimo figlio di $ r $\;
-	$ |T_{i}|\ge |T_{i+1}| \ \ \forall {i = 1,\dots, \ell-1} $\;
+	Sia $T_i$ l'albero radicato nell'$ i $-esimo figlio di $ r $ e $V_i$ l'insieme dei nodi di $T_i$ \;
+	Si considerino gli alberi $T_i$ in ordine non crescrente rispetto al rispettivo numero di nodi, i.e., $ |T_{i}|\ge |T_{i+1}| \ \ \forall {i = 1,\dots, \ell-1} $\;
+	
 	$ S \gets \sum_{i=1}^{n}|T_i| $;\\
 	\For{$ i = 1,\dots,\ell $}
 	{
 		\If{$ \sum_{j=1}^{i}{|T_j|} > \frac{2}{3}\cdot S $}
 		{
-			$ T'\gets $ sottoalbero di  di $ T_r $ indotto da $ \{r\} \cup \bigcup_{j=1}^{i-1}V(T_j)$;\\ %TODO Hai definito la notazione V(T)??
-			$ T'' \gets $ sottoalbero di $ T_r $ indotto da $ V(T) \setminus V(T')$;\\ 
-			\textbf{return} ($ T',T'' $);\\
+			$ T'\gets $ sottoalbero di  di $ T_r $ indotto da $ \{r\} \cup \bigcup_{j=1}^{i-1} V_j$\; %TODO Hai definito la notazione V(T)??
+			$ T'' \gets $ sottoalbero di $ T_r $ indotto da \{r\} \cup \bigcup_{j=i}^\ell V_j\;
+			\textbf{return} ($ T',T'' $);\;
 		}	 
 }
 \end{algorithm}
@@ -251,7 +252,7 @@ Di seguito viene riportato lo pseudocodice dell'algoritmo precedentemente descri
 \begin{algorithm}[H]
 	\label{algoritmo2}
 	\SetAlgoLined
-	\caption{Algoritmo di costruzione per i $ k $-treelet in $ T $ usando le decomposizioni  $ (\lfloor \frac{2}{3}(k-1) \rfloor + 1)$-bilanciate}
+	\caption{Algoritmo per TODO (vedi prima) usando le decomposizioni  $ (\lfloor \frac{2}{3}(k-1) \rfloor + 1)$-bilanciate}
 	\textbf{input} : Grafo $ G =(V,E) $, dimensione deI treelet di interesse $ k \ge 3 $;\\		
 	\For{$ h = 1$ to $ \left\lfloor \frac{2}{3}(k-1) \right\rfloor +1 $}{
 	Si calcolano le occorrenze secondo quanto riportato nell'Algoritmo \ref{algoritmo};\\
@@ -271,16 +272,16 @@ c(T'_{C'},v)\cdot c(T''_{C''},v)\]
 } 	
 \end{algorithm}\bigskip
 
-Come nell'algortimo \ref{algoritmo} il numero di occorrenze di $ T $ è calcolato con un approccio basato sulle ``scomposizioni'' dell'albero in due sottoalberi,  anche in questo caso come per quanto detto nel capitolo \ref{cap 2} si è sfruttato un approccio basato sulle ``unioni''.\\
-Ossia per ogni nodo $ v\in V $ di $ G $ si prendono tutte le coppie di treelet colorati $ T'_{C'} $ e $ T''_{C''} $ radicate in $ v $ e si verifica se esiste un albero $ T_C $ radicato in $ v $ per cui la coppia $ T' $ e $ T'' $ rappresenta una decomposizione ammissibile e tale che $ C' $ e $ C'' $ siano una partizione di $ C $. 
-Perci\`o per calcolare le occorrenze dei $ k $-treelet in $ G $, $ \forall v \in V $ di $ G $ si prendono tutte le possibili coppie di alberi colorati $ (T'_{C'}, T''_{C''} )$ radicate in $ v $ tali che: $ 2+ \left\lfloor \frac{(k-1)}{3}  \right\rfloor \le |T'| \le \left\lfloor \frac{2}{3}(k-1) \right\rfloor  +1 $ e $ |T''| = k-|T'| $.
-Per poter unire $T'$ e $T''$ è necessario che valgono proprietà siano verificate: 
+Come nell'algortimo \ref{algoritmo} il numero di occorrenze di $ T $ è calcolato con un approccio basato sulla decomposizione di $T$ in due sottoalberi $T', T''$. Anche in questo caso, come nel \ref{cap 2}, si è sfruttato l'approccio inversio, basato cioè, sull'ottenere $T$ come unione di $T'$ a $T''$.\\
+Operativamente, per ogni nodo $ v\in V $ di $ G $ si considerano tutte le coppie di treelet colorati $ T'_{C'} $ e $ T''_{C''} $ radicate in $ v $ e si verifica se esiste un albero $ T_C $ radicato in $ v $ per cui la coppia $ T' $ e $ T'' $ rappresenta una decomposizione ammissibile e tale che $ C' $ e $ C'' $ siano una partizione di $ C $ (con $|C'|=|T'|$). 
+In particolare, grazie al Teorema~TODO, per calcolare le occorrenze dei $ k $-treelet in $ G $, per ogni $v \in V $  è sufficiente considerare tutte le possibili coppie di alberi colorati $ (T'_{C'}, T''_{C''} )$ radicate in $ v $ tali che: $ 2+ \left\lfloor \frac{(k-1)}{3}  \right\rfloor \le |T'| \le \left\lfloor \frac{2}{3}(k-1) \right\rfloor  +1 $ e $ |T''| = k-|T'| $.
+Inoltre, per poter effettuare l'unione di  $T'$ e $T''$ è necessario che vengano verificate le seguenti proprietà aggiuntive: 
 \begin{itemize}
 	\label{prova}
-	\item bisogna verificare che la coppia $ (T',T'') $ sia una decomposizione bilanciata per $ T $.
+	\item la coppia $ (T',T'') $ deve essere una decomposizione bilanciata per $ T $.
 	Pertanto dovr\`a risultare che $ |T'| - 1 \le \left\lfloor\frac{2}{3}(k-1)\right\rfloor $ e che aggiungendo a tale quantit\`a la cardinalit\`a del sottoalbero radicato nel primo figlio di $ T'' $, denotata con $ t'' $, si abbia che $ |T'| + t'' - 1 \ge \left\lfloor\frac{2}{3}(k-1)\right\rfloor $.
 	\item Anche in questo caso bisogner\`a garantire l'ordinamento sui sottoalberi radicati nei figli dell'albero generato dall'unione di $ T' $ e $ T'' $.
-	Pertanto non sar\`a possibile unire $ T' $ e $ T'' $ se la dimensione del sottoalbero radicato nell'ultimo figlio della radice di $ T' $ \`e minore del sottoalbero radicato nel primo figlio della radice di $ T'' $.
+	In particolare se $T_1$ (risp. $T_2$) è un solttoalbero di $T'$ (risp. $T''$) radicato in un figlio delle radice di $T'$ (risp. $T''$), doverà valere $T_2 = T_1$ o $T_2 \prec T_1$, dove $\prec$ è la relazione d'ordine definita nella sezione~\ref{TODO}.  %
 	\item Bisogna garantire che sia rispettato i vincoli sui colori: $C' \cup C'' = C$ e $ C' \cap C'' = \{c_r\}$, ossia i due insiemi $C'$ e $C''$ condividono esclusivamente in colore della radice $ r $.
 	\item bisogna verificare che il nodo $ r $ sia il centroide dell'albero $ T $ risultante dall'unione di $ T' $ e $ T'' $. 
 \end{itemize}
@@ -288,13 +289,30 @@ Queste condizioni sono necessarie affinch\`e l'unione tra gli alberi $ T'_{C'} $
 
 Come si nota, anche in questo caso, i conteggi inizialmente vengono fatti su ogni $ v \in V $, ma poich\`e in questa tesi interessano le occorrenze dei diversi $ k $-treelet in $ G $  sar\'a necessario aggregare gli alberi radicati su ogni $ v $ di $ G $, unendoli a seconda della propria struttura e sommando le rispettive occorrenze.
 
-Nel caso in cui si abbiano due centroidi, la scelta su quale radicare l'albero segue delle regole precise.
-Nel caso in cui gli alberi ottenuti radicando $ T $ in ognuno di essi abbiano strutture differenti, viene scelto quello che tra i due ha una struttura pi\`u piccola.
-Altrimenti se gli alberi ottenuti sono identici vengono mantenuti entrambi,ma questo implica che tali alberi vengano conteggiati un numero di volte doppio rispetto al conteggio reale.
-Perci\`o in fase di normalizzazione i conteggi di tutti gli alberi per cui questa condizione risulta vera saranno ulteriormente divisi per due.
+Secondo le regole precedenti, ogni occorrenza (ben colorata) in $G$ di un $k$-treelet $T^*$ contribuisce esattamente 1 al valore di $c(T_C, v)$ dove $T_C = (T,C)$, $T$ è un $k$-treelet isomorfo a $T^*$, $C = \{1, \dots, k\}$, e la radice di $T$ è un centroide di $T^*$.
+Come conseguenza, ogni occorrenza in $G$ di (un sottografo non indotto isomorfo) a $T^*$ con un solo centroide verrà conteggiata una volta, mentre le occorrenze degli alberi $T^*$ con due centroidi contribuiranno complessivamente $2$ alla quantità 
+\begin{equation}
+\label{eq:conteggio_balanced}
+\widetilde{N}(T^*) = \frac{1}{k}\sum_{T \in \mathcal{T}} \sum_{v \in V} c( T_C, v),
+\end{equation}
+dove $\mathcal{T}$ indica l'insieme di tutti i $k$-treelet isomorfi a $T^*$.
 
-Come per la versione non bilanciata anche questi conteggi si riferiscono al numero di occorrenza di un $ k $-treelet $ T $ in $ G $ ben colorato con $ k $ colori distinti.
-Perciò anche in questo caso per ottenere uno stimatore unbiased del numero di occorrenze di $ T $ bisognerà moltiplicare il numero di occorrenze ben colorate per $ \frac{k^k}{k!} $.
+
+Per ovviare a questo problema l'operazione di unione tra due $k$ treelet $T'_{C'}$ e $T''_{C''}$ fa uso delle seguenti regole aggiuntive nel caso in cui l'albero risultate $T_C = (T, C)$ abbia due centroidi $c_1$ e $c_2$:
+\begin{itemize}
+\item  Nel caso in cui gli alberi $T^{(c_1)}$ e $T^{(c_2)}$ ottenuti radicando $ T $
+in c_1 ed in c_2, rispettivamente,  siano distinti sia $\tau$ il minimo tra $T^{(c_1)}$ e $T^{(c_2)}$ rispetto a $\prec$. L'operazione di unione avviene solo se $T = \tau$.
+
+\item Per i soli alberi $T^{(c_1)}$ e $T^{(c_2)}$ ottenuti radicando $ T $
+in $c_1$ ed in $c_2$ coincidono, l'equazione \eqref{eq:conteggio_balanced} è modificata come segue:
+\[
+\widetilde{N}(T^*) = \frac{1}{2} \cdot \frac{1}{k}\sum_{T \in \mathcal{T}} \sum_{v \in V} c( T_C, v),
+\]
+\end{itemize}
+
+
+Come per la versione non bilanciata, anche questi conteggi si riferiscono al numero di occorrenze di un $ k $-treelet $ T^* $ in $ G $  con $ k $ colori distinti.
+Perciò anche in questo caso per ottenere uno stimatore unbiased del numero $N(T^*)$ di occorrenze di $T^*$ in $G$ bisognerà moltiplicare $\widetilde{N}(T^*)$ per $ \frac{k^k}{k!} $.
 
 
 \section{Dettagli implementativi. Modifica e aggiunte alle rappresentazioni}
