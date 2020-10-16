@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{bhuiyan2012guise}
 Mansurul~A Bhuiyan, Mahmudur Rahman, Mahmuda Rahman, and Mohammad Al~Hasan.
@@ -38,6 +38,11 @@ Marco Bressan, Flavio Chierichetti, Ravi Kumar, Stefano Leucci, and Alessandro
 \newblock {\em ACM Transactions on Knowledge Discovery from Data (TKDD)},
   12(4):1--25, 2018.
 
+\bibitem{knuth1969art}
+D~Knuth.
+\newblock The art of computer programming, volume 1. fundamental algorithms.
+  634 pages, 1969.
+
 \bibitem{bressan2019motivo}
 Marco Bressan, Stefano Leucci, and Alessandro Panconesi.
 \newblock Motivo: fast motif counting via succinct color coding and adaptive
@@ -48,5 +53,32 @@ Marco Bressan, Stefano Leucci, and Alessandro Panconesi.
 Camille Jordan.
 \newblock Sur les assemblages de lignes.
 \newblock {\em J. Reine Angew. Math}, 70(185):81, 1869.
+
+\bibitem{leskovec2010predicting}
+Jure Leskovec, Daniel Huttenlocher, and Jon Kleinberg.
+\newblock Predicting positive and negative links in online social networks.
+\newblock In {\em Proceedings of the 19th international conference on World
+  wide web}, pages 641--650. ACM, 2010.
+
+\bibitem{babu2012interaction}
+Mohan Babu, James Vlasblom, Shuye Pu, Xinghua Guo, Chris Graham, Bj{\"o}rn~DM
+  Bean, Helen~E Burston, Franco~J Vizeacoumar, Jamie Snider, Sadhna Phanse,
+  et~al.
+\newblock Interaction landscape of membrane-protein complexes in saccharomyces
+  cerevisiae.
+\newblock {\em Nature}, 489(7417):585--589, 2012.
+
+\bibitem{bader2013graph}
+David~A Bader, Henning Meyerhenke, Peter Sanders, and Dorothea Wagner.
+\newblock Graph partitioning and graph clustering-10th dimacs implementation
+  challenge workshop, georgia institute of technology, atlanta, ga, usa,
+  february 13-14, 2012.
+\newblock In {\em Proceedings}, volume 588, page~69, 2013.
+
+\bibitem{leskovec2009community}
+Jure Leskovec, Kevin~J Lang, Anirban Dasgupta, and Michael~W Mahoney.
+\newblock Community structure in large networks: Natural cluster sizes and the
+  absence of large well-defined clusters.
+\newblock {\em Internet Mathematics}, 6(1):29--123, 2009.
 
 \end{thebibliography}

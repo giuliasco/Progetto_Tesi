@@ -1,7 +1,7 @@
 \chapter{Introduzione}
 
 I Motif, anche chiamati Graphlet o Pattern, sono piccoli sottografi connessi indotti di un grafo ed il loro conteggio è un problema ben noto del graph mining e dell'analisi dei social network. Pi\`u precisamente, dato in input un grafo $G$ e un intero positivo $k$, il problema richiede di contare,  per ogni graphlet $H$ di $k$ nodi, il numero di sottografi indotti di $G$ isomorfi ad $H$.
-Comprendere la distribuzione dei motif in un grafo fa luce sul tipo di strutture locali presenti in esso che possono essere usate per molteplici tipi di analisi applicate, per esempio, a reti sociali \cite{bhuiyan2012guise,zhao2010subgraph,boldi2011layered}, biologiche \cite{alon2008biomolecular}, \dots.
+Comprendere la distribuzione dei motif in un grafo fa luce sul tipo di strutture locali presenti in esso che possono essere usate per molteplici tipi di analisi applicate, per esempio, a reti sociali \cite{bhuiyan2012guise,zhao2010subgraph,boldi2011layered}, biologiche \cite{alon2008biomolecular}, ecc \dots \ .\\
 Poich\`e il conteggio esatto del numero di occorrenze dei graphlet risulta computazionalmente impegnativo, di solito ci si accontenta di obiettivi meno ambiziosi come la stima \emph{approssimata} della loro frequenza: per ogni sottografo di $k$ nodi si richiede di stimare, nel modo pi\`u accurato possibile, la sua frequenza relativa rispetto a tutti i sottografi della stessa dimensione (i.e., numero di nodi).
 Dal momento che il numero di motif cresce più che esponenzialmente rispetto al numero di nodi $k$, spesso si restringe l'attenzione al problema della stima della frequenza relativa dei soli sottografi che compaiono il maggior numero di volte nel grafo input.
 Ci sono due approcci principali per ottenere tali stime:
@@ -17,7 +17,7 @@ Si pu\`o cos\`i stimare il numero dei motif in due fasi: la ``fase di costruzion
 
 \section{Contributo della tesi}
 
-In questo lavoro di tesi l'attenzione si è concentrata principalmente sull'ottimizzazione di un algoritmo basato sulle tecnica del Color Coding per il conteggio delle occorrenze di tutti i $k$-treelet presenti nel grafo $G$ in input, dove per $k$-treelet  si intendono alberi con $ k $ nodi e ed un occorrenza di un $k$-treelet $T$ in $G$ è un sottografo (non necessariamente indotto) isomorfo a $T$.
+In questo lavoro di tesi l'attenzione si è concentrata principalmente sull'ottimizzazione di un algoritmo basato sulle tecnica del Color Coding per il conteggio delle occorrenze di tutti i $k$-treelet presenti nel grafo $G$ in input, dove per $k$-treelet  si intendono alberi con $ k $ nodi ed un occorrenza di un $k$-treelet $T$ in $G$ è un sottografo (non necessariamente indotto) isomorfo a $T$.
 Ci\`o corrisponde alla ``fase di costruzione'' descritta in precedenza. Tale fase pu\`o essere descritta mediante un algoritmo basato sulla tecnica della programmazione dinamica.
 In primo luogo, tramite il lavoro svolto, si \`e implementato l'algoritmo descritto in  \cite{bressan2018motif} in Java.
 L'algoritmo, supposto di voler conteggiare i treelet di dimensione $ k $ di un grafo, lavora in esattamente  $k$ fasi.
@@ -28,8 +28,8 @@ Tale dipendenza \`e evidenziata dalle formule di ricorrenza che descrivono l'alg
 Poich\`e il numero dei $ k $-treelet cresce in maniera esponenziale rispetto a $ k $, l'algoritmo pu\'o essere eseguito solo per valori piccoli di $ k $ prima che il tempo richiesto diventi eccessivo.\\
 A tal proposito nella tesi viene proposta un'ottimizzazione, basata su opportune decomposizioni ``bilanciate'' degli alberi, che consente di rendere indipendenti i conteggi dei treelet di dimensione $ k $ da circa un terzo dei conteggi precedenti.
 Tale ottimizzazione permette di eseguire solo le prime $\frac{2}{3} k + O(1)$ (si veda la sezione \ref{cap 3:3} per maggiori dettagli) fasi prima della fase $ k $, comportando un risparmio notevole di tempo.\\
-Inoltre è stata condotta un'analisi sperimentale su quattro grafi, con lo scopo di valutare l'accuratezza delle stime ottenute ed  il risparmio di tempo che risultante dall'utilizzo dell'algoritmo ottimizzato rispetto a quello non ottimizzato.
-Ad esempio, su un grafo sociale con 63731 nodi e 817090 archi, l'algoritmo non ottimizzato richiede DA VEDERE tempo per la ricerca dei treelet con DA VEDERE nodi, mentre quello ottimizzato richiede un tempo DA VEDERE.
+Inoltre è stata condotta un'analisi sperimentale su quattro grafi, con lo scopo di valutare l'accuratezza delle stime ottenute ed  il risparmio di tempo risultante dall'utilizzo dell'algoritmo ottimizzato rispetto a quello non ottimizzato.
+Ad esempio, su un grafo sociale con circa 82K nodi e 870K archi, l'algoritmo  ottimizzato risparmia 7 minuti rispetto all'algoritmo non ottimizzato per arrivare a calcolare i treelet di dimensione $ k=10 $.
 
 
 \section{Organizzazione del testo}
