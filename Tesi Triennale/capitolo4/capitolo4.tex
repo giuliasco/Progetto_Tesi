@@ -72,8 +72,9 @@ Un'altro aspetto interessante da vedere è come variano i tempi di esecuzione de
 Nelle figure di seguito vengono mostrati, per ogni grafo e su ogni dimensione,
 vengono messi a confronto i tempi di esecuzione delle due diverse implementazioni.
 
-Come si può osservare nelle figure \ref{Tempi:1}, \ref{Tempi:2}, \ref{Tempi:3}, e \ref{Tempi:4}, l'asse delle ascisse rappresenta le diverse dimensioni dei treelet, ossia i diversi valori che $ k $ può assumere, le barre blu rappresentano i tempi relativi all'esecuzione dell'implementazione dell'Algoritmo \ref{algoritmo2} in secondi,
-mentre le linee rosse indicano i tempi di esecuzione relative all'esecuzione dell'implementazione dell'Algoritmo \ref{algoritmo}.
+Come si può osservare nelle figure \ref{Tempi:1}, \ref{Tempi:2}, \ref{Tempi:3}, e \ref{Tempi:4}, l'asse delle ascisse rappresenta le diverse dimensioni dei treelet, ossia i diversi valori che $ k $ può assumere, le barre blu rappresentano i tempi relativi all'esecuzione dell'implementazione dell'Algoritmo \ref{algoritmo2} in secondi,mentre le linee rosse indicano i tempi di esecuzione relative all'esecuzione dell'implementazione dell'Algoritmo \ref{algoritmo}.
+Le ordinate, dei grafi, che appunto indicano i secondi necessari per l'esecuzione, sono rappresentati in scala logaritmica.
+\\
 
 \begin{figure}[htbp]
 	\includegraphics[width=15.4cm]{capitolo4/tempiWIKI}
@@ -96,7 +97,7 @@ mentre le linee rosse indicano i tempi di esecuzione relative all'esecuzione del
 	\label{Tempi:4}
 \end{figure}
 
-É facile notare come i tempi di esecuzione per l'implementazione ottimizzata siano minori rispetto a quella non ottimizzata.
+Si può notare come, in generale, i tempi di esecuzione per l'implementazione ottimizzata siano minori rispetto a quella non ottimizzata.
 L'unico grafo i cui tempi restano sostanzialmente in linea è quello biologico (fig.\ref{Tempi:2}), la causa principale da attribuirsi a ciò è la dimensione ridotta del grafo. 
 Infatti su grafi più grandi come ad esempio soc-Slashdot0902 (fig.\ref{Tempi:4}) la differenza si nota maggiormente. 
 Un'altra cosa che si può notare vedendo i grafici, sono i differenti valori di $ k $ raggiunti: per i valori di $k$ mancanti l'esecuzione del rispettivo algoritmo è stata interrotta dopo aver raggiunto un limite sul tempo di esecuzione fissato a $2$ ore.
@@ -107,7 +108,7 @@ la Figura~\ref{ERROR} mostra, per il grafo YeastNet e diversi valori di $k$, la 
 la distribuzione dei treelet ottenuta usando l'implemetazione dell'algoritmo~\ref{algoritmo} discussa in \cite{bressan2019motivo} e le implementazioni usate nel presente lavoro di tesi.
 
 La distanza in norma $1$ tra le due distribuzioni è la somma delle differenze, in valore assoluti, tra le frequenze dei rispettivi treelet.
-Più precisamente, se $s$ indica il numero di treelet distinti di $k$-nodi, e $f_i$ (risp. $f'_i$) indica la frequenza delle occorrenze dell'$i$-esimo treelet  conderato, come calcolata dagli gli algoritmi~\ref{TODO} o \ref{TODO} (risp. come calcolata dall'implementazione dell'algoritmo di \cite{TODO}), la distanza in norma $1$ è:
+Più precisamente, se $s$ indica il numero di treelet distinti di $k$-nodi, e $f_i$ (risp. $f'_i$) indica la frequenza delle occorrenze dell'$i$-esimo treelet  conderato, come calcolata dagli gli algoritmi~\ref{algoritmo} o \ref{algoritmo2} (risp. come calcolata dall'implementazione dell'algoritmo di \cite{bressan2019motivo}), la distanza in norma $1$ è:
 \[
 	\sum_{i=1}^{s}{\left| f_i - f'_i \right| }.
 \]
