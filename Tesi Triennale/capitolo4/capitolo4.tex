@@ -35,7 +35,7 @@ Nello specifico per i grafi Wiki-Talk, YeastNet e road-luxembourg-osm osserverem
 Mentre per soc-Slashdot0902 osserveremo la distribuzione dei treelet per $ k=7 $, 
  n questo caso verranno mostrati tutti poichè il numero totale di treelet distinti è $11$.
 Il valore scelto per $ k $, in entrambi i casi, non rappresenta il limite raggiunto dall'esecuzione di entrambi gli algoritmi, ma semplicemente è l'ultimo valore per cui vengono prodotti valori che non superassero il limite di rappresentazione.
-Questo avviene perchè in entrambe le rappresentazioni i treelet e il numero delle relative occorrenze viene rappresentato mediante interi a 64 bit, perciò pr valori di $ k $ più alti è possibile che, soprattutto il valore del numero di occorrenze superi $2^{63}-1$.
+Questo avviene perchè il numero delle occorrenze dei treelet radicati viene rappresentato mediante interi a 64 bit, perciò per valori di $ k $ elevati tale numero supera $2^{63}-1$, il massimo intero rappresentabile in Java con il tipo di dati \emph{long}.
 Nei grafici riportati di seguito le ascisse rappresentano i differenti treelet, mentre le ordinate rappresentano la frequenza dei rispettivi treelet, in percentuale.
 \counterwithin*{figure}{chapter}
 \renewcommand{\thefigure}{\arabic{figure}}
@@ -72,9 +72,9 @@ Un'altro aspetto interessante da vedere è come variano i tempi di esecuzione de
 Nelle figure di seguito vengono mostrati, per ogni grafo e su ogni dimensione,
 vengono messi a confronto i tempi di esecuzione delle due diverse implementazioni.
 
-Come si può osservare nelle figure \ref{Tempi:1}, \ref{Tempi:2}, \ref{Tempi:3}, e \ref{Tempi:4}, l'asse delle ascisse rappresenta le diverse dimensioni dei treelet, ossia i diversi valori che $ k $ può assumere, le barre blu rappresentano i tempi relativi all'esecuzione dell'implementazione dell'Algoritmo \ref{algoritmo2},
+Come si può osservare nelle figure \ref{Tempi:1}, \ref{Tempi:2}, \ref{Tempi:3}, e \ref{Tempi:4}, l'asse delle ascisse rappresenta le diverse dimensioni dei treelet, ossia i diversi valori che $ k $ può assumere, le barre blu rappresentano i tempi relativi all'esecuzione dell'implementazione dell'Algoritmo \ref{algoritmo2} in secondi,
 mentre le linee rosse indicano i tempi di esecuzione relative all'esecuzione dell'implementazione dell'Algoritmo \ref{algoritmo}.
-I tempi indicati sulle ordinate sono espressi in HH:MM:SS,00 tranne che nella figura \ref{Tempi:3} dove si è ristretto a MM:SS,00 a causa dei tempi molto ridotti.
+
 \begin{figure}[htbp]
 	\includegraphics[width=15.4cm]{capitolo4/tempiWIKI}
 	\caption{Tempi di esecuzione per gli Algoritmi \ref{algoritmo} e \ref{algoritmo2} sul grafo Wiki-Talk}
@@ -106,10 +106,14 @@ Per concludere l'analisi dei dati sperimentali ottenuti,
 la Figura~\ref{ERROR} mostra, per il grafo YeastNet e diversi valori di $k$, la distanza in norma $1$ tra 
 la distribuzione dei treelet ottenuta usando l'implemetazione dell'algoritmo~\ref{algoritmo} discussa in \cite{bressan2019motivo} e le implementazioni usate nel presente lavoro di tesi.
 
-Per calcolare la distanza in norma 1, indicata con $ \ell_1 $, si esegue il seguente calcolo. 
-Siano $ f=(f_1,f_2,\dots,f_s) $ le frequenze reali dei $ k $-treelet in un grafo e siano $ \tilde{f}=(\tilde{f_1},\dots,\tilde{f_s}) $ quelle stimate, allora l'errore $ \ell_1 $ è $ \ell_1(f,\tilde{f}) = \sum_{i=1}^{s}{ (\tilde{f}-f)}$.
+La distanza in norma $1$ tra le due distribuzioni è la somma delle differenze, in valore assoluti, tra le frequenze dei rispettivi treelet.
+Più precisamente, se $s$ indica il numero di treelet distinti di $k$-nodi, e $f_i$ (risp. $f'_i$) indica la frequenza delle occorrenze dell'$i$-esimo treelet  conderato, come calcolata dagli gli algoritmi~\ref{TODO} o \ref{TODO} (risp. come calcolata dall'implementazione dell'algoritmo di \cite{TODO}), la distanza in norma $1$ è:
+\[
+	\sum_{i=1}^{s}{\left| f_i - f'_i \right| }.
+\]
 
-Nel grafico in figura \ref{ERROR} si mostra appunto come varia $ \ell_1 $ all'aumentare di $ k $.\\
+
+Nel grafico in figura \ref{ERROR} si mostra appunto come varia la distanza in norma $1$ all'aumentare di $ k $.\\
 Sulle ascisse sono riportate le differenti dimensioni $ k $ mentre sulle ordinate si trovano la relativa distanza in noma $1$ sul grafo YeastNet.
 È possibile osservare come l'errore non superi mai l'1\% in tutti i casi e come aumenti all'aumentare di $k$. 
 Ciò è dovuto alla varianza intrinseca delle stime del numero di occorrenze dei treelet ottenute con la tecnica del color coding (dovute alla colorazione casuale dei nodi di $G$) e all'incremento esponenziale del numero di treelet $k$ nodi al crescere di $k$.
