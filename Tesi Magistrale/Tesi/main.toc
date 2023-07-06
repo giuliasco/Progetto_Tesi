@@ -1,0 +1,35 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\contentsline {chapter}{\numberline {1}Introduzione}{4}{}%
+\contentsline {section}{\numberline {1.1}Contributo della tesi}{7}{}%
+\contentsline {section}{\numberline {1.2}Organizzazione del testo}{7}{}%
+\contentsline {chapter}{\numberline {2}Registro ARRT}{9}{}%
+\contentsline {section}{\numberline {2.1}Indicazione al Trattamento}{10}{}%
+\contentsline {section}{\numberline {2.2}Monitoraggi}{11}{}%
+\contentsline {subsection}{\numberline {2.2.1}Cervello}{12}{}%
+\contentsline {subsection}{\numberline {2.2.2}Cuore}{14}{}%
+\contentsline {subsection}{\numberline {2.2.3}Polmoni}{16}{}%
+\contentsline {subsection}{\numberline {2.2.4}Reni}{18}{}%
+\contentsline {subsection}{\numberline {2.2.5}Fegato}{19}{}%
+\contentsline {subsection}{\numberline {2.2.6}Sepsi, Coronavirus e Score}{20}{}%
+\contentsline {subsection}{\numberline {2.2.7}Prescrizione al trattamento}{23}{}%
+\contentsline {section}{\numberline {2.3}Risultati finali}{24}{}%
+\contentsline {chapter}{\numberline {3}Analisi dei Dati}{25}{}%
+\contentsline {section}{\numberline {3.1}Data Quality}{26}{}%
+\contentsline {subsection}{\numberline {3.1.1}Fasi della Data quality}{27}{}%
+\contentsline {section}{\numberline {3.2}Data quality e registri medici}{28}{}%
+\contentsline {section}{\numberline {3.3}Caso di studio}{30}{}%
+\contentsline {chapter}{\numberline {4}Tecniche di Clusterizzazione}{34}{}%
+\contentsline {section}{\numberline {4.1}Tecniche di clusterizzazione}{35}{}%
+\contentsline {subsection}{\numberline {4.1.1}Metodo Gerarchico}{36}{}%
+\contentsline {subsection}{\numberline {4.1.2}Metodo basato sulle densità}{37}{}%
+\contentsline {subsection}{\numberline {4.1.3}Metodo delle partizioni}{38}{}%
+\contentsline {section}{\numberline {4.2}Algoritmo K-mean}{38}{}%
+\contentsline {subsection}{\numberline {4.2.1}Metriche per la scelta di $K$}{40}{}%
+\contentsline {section}{\numberline {4.3}PCA}{41}{}%
+\contentsline {subsection}{\numberline {4.3.1}Interpretazione matematica}{42}{}%
+\contentsline {section}{\numberline {4.4}PCA e K-Mean}{44}{}%
+\contentsline {section}{\numberline {4.5}Caso di studio}{44}{}%
+\contentsline {chapter}{\numberline {5}Conclusioni}{50}{}%
+\contentsline {section}{\numberline {5.1}Considerazioni finali e sviluppi futuri}{50}{}%
+\contentsline {chapter}{\numberline {6}Appendice A - Elenco sigle }{52}{}%

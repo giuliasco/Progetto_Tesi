@@ -1,0 +1,10 @@
+\newpage
+%%dedica
+\thispagestyle{empty}
+\null\vspace{\stretch{1}}
+\begin{flushright}
+	{\itshape 
+			Ai miei nonni
+	}
+\end{flushright}
+\vspace{\stretch{2}}\null

@@ -1,0 +1,59 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ left=38mm,
+ right=22mm,
+ top=28mm,
+ bottom=28mm,
+ }
+
+\usepackage[italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage[font=small]{caption}
+\usepackage{color}
+\usepackage{listings}
+\usepackage[Glenn]{fncychap}
+\usepackage{indentfirst}
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{chngcntr}
+\usepackage[babel]{csquotes}
+\usepackage[table]{xcolor}
+\usepackage{multirow}
+\usepackage{gensymb}
+\usepackage{pdflscape}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage[toc,page]{appendix}
+\linespread{1.5}
+\counterwithout{equation}{chapter} 
+\usepackage{array, booktabs}
+\usepackage{comment}
+\usepackage[linesnumbered, ruled]{algorithm2e}
+\usepackage{xcolor}
+\SetAlgorithmName{Algortimo}{Algoritmo}{Algorithm 1}
+\newcommand\xqed[1]{%
+	\leavevmode\unskip\penalty9999 \hbox{}\nobreak\hfill
+	\quad\hbox{#1}}
+\newcommand\demo{\xqed{$\square$}}
+\newcommand\myworries[1]{\textcolor{red}{#1}}
+
+\begin{document}
+\author{Giulia Scoccia}
+\input{frontespizio/frontespizio.tex}
+\input{dedica}
+\tableofcontents
+\input{introduzione/introduzione.tex}
+\input{capitolo1/capitolo1.tex}
+\input{capitolo2/capitolo2.tex}
+\input{capitolo3/capitolo3.tex}
+\input{conclusione/conclusione.tex}
+\input{appendiceA/appendiceA.tex}
+\bibliography{bibliography}
+\input{ringraziamenti.tex}
+\bibliographystyle{unsrt}
+\end{document}

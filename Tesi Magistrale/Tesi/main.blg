@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2022)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: unsrt.bst
+Database file #1: bibliography.bib
+Warning--there's a number but no volume in rabindranath2007intermittent
+Warning--can't use both volume and number fields in bishop2006pattern
+You've used 34 entries,
+            1791 wiz_defined-function locations,
+            671 strings with 10695 characters,
+and the built_in function-call counts, 7880 in all, are:
+= -- 669
+> -- 424
+< -- 2
++ -- 155
+- -- 121
+* -- 611
+:= -- 1281
+add.period$ -- 100
+call.type$ -- 34
+change.case$ -- 29
+chr.to.int$ -- 0
+cite$ -- 36
+duplicate$ -- 310
+empty$ -- 750
+format.name$ -- 121
+if$ -- 1699
+int.to.chr$ -- 0
+int.to.str$ -- 34
+missing$ -- 36
+newline$ -- 170
+num.names$ -- 32
+pop$ -- 84
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 124
+stack$ -- 0
+substring$ -- 531
+swap$ -- 46
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 2
+while$ -- 78
+width$ -- 36
+write$ -- 362
+(There were 2 warnings)

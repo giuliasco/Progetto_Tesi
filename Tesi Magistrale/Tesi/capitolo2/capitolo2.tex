@@ -1,0 +1,126 @@
+\chapter{Analisi dei Dati}
+
+Molti significanti cambiamenti tecnologici sono avvenuti nel settore informatico dall'inizio del XXI Secolo, come ad esempio: Cloud Computing, Internet of Things e Social Network. Lo sviluppo di queste tecnologie ha fatto sì che la quantità di dati crescesse continuamente e si accumulasse con una velocità senza precedenti. Tutte le tecnologie citate sopra  hanno annunciato l'arrivo dei \textbf{Big Data}\cite{meng2013big}.
+
+Attualmente, il numero di dati a livello globale è cresciuto esponenzialmente, l'unità di misura utilizzate non sono più GB e TB, ma PB (1PB=$2^{10}$TB), EB (1EB=$2^{10}$PB) e ZB (1ZB=$2^{10}$EB).
+Secondo il sito \textit{Statista} la quantità di dati creati, consumati e salvati nel 2022 è stata di 97 ZB a livello globale, un numero che prevedono arriverà a 181 ZB entro il 2025\cite{Statista}.
+
+L'emergere di un'era di Big Data attira l'attenzione dell'industria, del mondo accademico e del governo. Ad esempio, nel 2012 il governo statunitense ha investito 200 milioni di dollari per avviare la "Big Data Research and Development Initiative"\cite{li2012research}. Inoltre, lo sviluppo e l'utilizzo dei big data si sono diffusi ampiamente anche nel settore medico, nella vendita al dettaglio, nella finanza, nella produzione, nella logistica, nelle telecomunicazioni e in altri settori, generando un grande valore sociale e un grande potenziale industriale\cite{feng2013research}.
+Acquisendo e analizzando rapidamente i big data da varie fonti e con vari utilizzi, i ricercatori e i decision maker si sono gradualmente resi conto che questa enorme quantità di informazioni offre vantaggi per la comprensione delle esigenze dei clienti, il miglioramento della qualità del servizio e la previsione e prevenzione dei rischi. Tuttavia, l'utilizzo e l'analisi dei big data devono basarsi su dati accurati e di alta qualità\cite{cai2015challenges}.
+
+\section{Data Quality}
+
+La \textbf{data quality} si riferisce allo stato qualitativo e informativo di pezzi di informazioni. Gli studi sulla Data Quality sono iniziati intorno agli anni '90 e ci sono numerose definizioni, ma i dati spesso vengono considerati di alta qualità se \textit{"idonei agli usi previsti per le operazioni, i processi decisionali e le pianificazioni"}\cite{fadahunsi2019protocol,fadahunsi2021information,redman2008data}.
+
+L'assicurazione della qualità è il processo di \textbf{data profiling} per scoprire incongruenze e altre anomalie, nonché l'esecuzione di operazioni di \textbf{data cleaning}\cite{gao2016big} (ad esempio, rimozione degli outlier, interpolazione dei dati mancanti) per migliorare la qualità dei dati.
+
+La data quality fa riferimento al grado di accuratezza, completezza, affidabilità, tempestività e coerenza dei dati con i requisiti e le aspettative degli utenti. In altre parole, la qualità dei dati descrive la salute e l'affidabilità complessiva dei dati.
+Si possono descrivere le principali caratteristiche come segue: \cite{mcgilvray2021executing}
+
+\begin{itemize}
+	\item \textbf{Accuratezza}: I dati sono corretti e privi di errori.
+	\item \textbf{Completezza}: I dati includono tutte le informazioni richieste e non mancano di alcun elemento critico.
+	\item\textbf{ Affidabilità}: I dati sono coerenti, ossia appropriati rispetto al settore a cui si riferiscono e ci si può fidare che forniscano risultati ideonei.
+	\item \textbf{Tempestività:} I dati sono aggiornati e riflettono le informazioni più recenti disponibili.
+	\item \textbf{Coerenza:} I dati sono uniformi e seguono un insieme di regole o standard definiti.
+	\item \textbf{Pertinenza}: I dati sono rilevanti per lo scopo per cui vengono utilizzati e sono appropriati per il pubblico a cui sono destinati.
+\end{itemize} 
+
+I dati, inoltre, sono considerati di alta qualità se rappresentano correttamente il real-world costruito a cui fanno riferimento. Pertanto la definizione varia a seconda del punto di vista e dal settore in cui si opera. In ogni caso, però,  è un confronto dello stato attuale di un  particolare insieme di dati con uno stato desiderato, che in genere rappresenta lo stato che meglio si addice all'uso.
+Oltre tutte queste definizioni, con l'aumento del numero di fonti per i dati, la questione della coerenza interna diventa importante, indipendentemente dall'idoneità all'uso per un particolare scopo esterno. Le opinioni sulla qualità dei dati possono spesso essere in disaccordo, anche quando si parla dello stesso insieme di dati utilizzati per lo stesso scopo. In questi casi, la governance dei dati viene utilizzata per definire uno standard (ISO 9000) \cite{smallwood2019information}.
+
+\subsection{Fasi della Data quality}
+
+In generale la sequenza di attività da svolgere durante l'analisi della qualità dei dati si compone di tre fasi principali:
+\begin{enumerate}
+	\item \textbf{Ricostruzione dello stato}, finalizzata alla raccolta di informazioni contestuali sui processi organizzativi e sui servizi, sulla raccolta dei dati e sulle relative procedure di gestione, sui problemi di qualità e sui costi corrispondenti; questa fase può essere saltata se le informazioni contestuali sono disponibili da analisi precedenti.
+	\item \textbf{Valutazione/misurazione}, è il processo di valutazione della qualità delle raccolte di dati in relazione a importanti dimensioni qualitative; il termine "misurazione" si riferisce al processo di determinazione dell'importanza di un certo insieme di attributi di qualità dei dati. Quando tali misurazioni vengono confrontate con valori di riferimento per consentire una diagnosi della qualità, si usa il termine valutazione.
+	\item \textbf{Miglioramento }riguarda la selezione delle fasi, delle strategie e delle tecniche per raggiungere nuovi obiettivi di qualità dei dati\cite{batini2009methodologies}.
+\end{enumerate}
+
+
+
+
+\section{Data quality e registri medici}
+
+La Data Quality è particolarmente importante quando ci si riferisce a dati medici, perché ha implicazioni significative per l'assistenza, il trattamento e i risultati sui pazienti. Una scarsa qualità dei dati medici può portare a diagnosi errate, trattamenti impropri e potenzialmente danneggiare i pazienti.
+Anche i dati medici sono di alta qualità se rispettano le caratteristiche principali descitte in precedenza, ossia:
+
+\begin{itemize}
+	\itemsep -0.5 \parsep
+	\item\textbf{ Accuratezza}: dati medici non corretti possono portare a diagnosi errate o a trattamenti sbagliati.
+	\item \textbf{Completezza}: I dati devono essere completi, con tutte le informazioni rilevanti a disposizione degli operatori sanitari. Dati incompleti possono causare un ritardo nel trattamento o un'errata interpretazione dei sintomi.
+	\item\textbf{ Coerenza}: Dati medici incoerenti possono generare confusione, diagnosi imprecise e trattamenti inappropriati.
+	\item \textbf{Tempestività}: I dati devono essere aggiornati, riflettendo le informazioni più recenti sul paziente, i risultati degli esami e la storia del trattamento. La tempestività dei dati medici è essenziale per prendere decisioni informate sulla cura del paziente.
+	\item \textbf{Pertinenza}: I dati devono essere pertinenti allo scopo per cui vengono utilizzati e devono essere raccolti solo quelli necessari. I dati non pertinenti possono creare confusione e rendere difficile l'identificazione delle informazioni rilevanti necessarie per fornire un'assistenza adeguata.
+\end{itemize}
+
+Alcuni fattori che, però, possono influire sulla qualità dei dati medici sono:
+
+\begin{description}
+	\itemsep -0.5 \parsep
+	\item[Errori di inserimento dei dati]: I dati medici possono essere registrati manualmente o attraverso sistemi elettronici e possono verificarsi errori durante l'inserimento dei dati.
+	\item [Dati mancanti]:  possono essere incompleti se non vengono registrate alcune informazioni, come l'anamnesi del paziente o l'uso di farmaci.
+	\item [Dati obsoleti]: possono diventare obsoleti se non vengono aggiornati regolarmente o se vi è un ritardo nella registrazione di nuove informazioni.
+	\item [Dati incoerenti]: I dati medici possono essere incoerenti se ci sono differenze nel modo in cui vengono registrate le informazioni, come l'uso di abbreviazioni o terminologie diverse.
+\end{description}
+
+Per garantire dati medici di alta qualità, gli operatori sanitari devono stabilire protocolli chiari per la raccolta e l'inserimento dei dati, rivedere e aggiornare regolarmente le cartelle cliniche e utilizzare una terminologia e sistemi di codifica standardizzati. Inoltre, le strutture sanitarie devono dare priorità alle misure di controllo della qualità dei dati e garantire che il personale riceva una formazione adeguata su come raccogliere e registrare correttamente i dati medici \cite{chan2010electronic}.
+
+Negli ultimi anni si è assistito ad un amento dei registri medici, questo come conseguenza dei grandi aggiornamenti nel campo della salute, come il progresso delle tecnologie e la maggior richiesta di responsabilità. Come in parte già visto con la descrizione del Registro ARRT, un registro medico è definito come una raccolta sistematica di un insieme chiaramente definito di dati sanitari e demografici per pazienti con caratteristiche sanitarie specifiche, conservati in un database centrale per uno scopo predefinito \cite{solomon1991evaluation}. 
+
+Un aspetto molto importante dei registri medici è che i dati siano di buona qualità. Purtroppo, però, abbastanza spesso possono venire non registrati i pazienti corretti o i dati possono essere non accurati o completamente assenti \cite{goldhill1998apache,lorenzoni1999quality,seddon1997data,barrie1992quality,horbar1995assessment}. Per ottimizzare la qualità, sarebbe opportuno che i centri partecipanti progettassero e seguissero procedure in grado di minimizzare le incompletezze e le mancanze.
+Nel contesto di un registro medico la qualità dei dati può essere definita come \textit{"l'insieme delle caratteristiche di un insieme di dati, che influiscono sulla sua capacità di soddisfare le esigenze derivanti dall'uso previsto dei dati stessi"}. 
+In ogni caso è poco credibile pensare che un registro possa completamente essere privo di errori, infatti alcuni errori rimarranno non identificati e non corretti nonostante le operazioni per aumentare la qualità. In generale, però, si aspira a raggiungere un livello qualitativo accettabile\cite{arts2002defining}.
+
+
+
+
+\section{Caso di studio}
+
+Prima di poter analizzare e discutere la qualità dei dati ottenuti dal registro ARRT, è necessario descrivere il dataset, così da poter evidenziare nel dettaglio le principali criticità riscontrate e illustrare le soluzioni attuate, laddove possibile. Infatti va segnalato che, come detto a conclusione del paragrafo precedente, non è stato possibile eliminare totalmente gli errori, ma si è cercato di ridurli al massimo.
+
+Il dataset ottenuto si compone di un totale di 290 righe per 6995 colonne.
+Più nel dettaglio le righe indicano i pazienti mentre le colonna rappresentano i parametri medici (feature). Come detto anche nell'introduzione, ad oggi il registro è ancora in aggiornamento e pertanto soggetto a modifiche.
+
+In generale le feature presenti possono essere categoriche (maggiormente 0/1), numeriche (float) e testuali (es. nomi di farmaci,ecc...).  Più nel dettaglio ci sono 4665 colonne numeriche, 2066 categoriche e 264 stringhe.
+Le feature nel dataset seguono la stessa struttura riportata nel capitolo precedente quindi nello specifico si hanno:
+\begin{itemize}
+	\item 47 colonne che rappresentano l'anagrafica, all'interno di queste colonne sono contenuti anche dati sensibili (es. nome, cognome, ecc...) che per privacy sono state rimosse in fase di pulizia anche perché non funzionali per le analisi finali;
+	\item 73 colonne che sono riservate all'indicazione al trattamento.
+	\item 482 colonne sui dati clinici relativi al tempo 0, va precisato che solo al tempo 0 i dati clinici sono separati dai dati relativi al trattamento che sono riportati in "prescrizione al trattamento" , in tutti gli altri monitoraggi i due dati sono riportati insieme;
+	\item 118 colonne che rappresentano la prescrizione al trattamento del tempo 0;
+	\item 561 sono le colonne necessarie per rappresentare ogni monitoraggio;
+	\item infine 56 sono le colonne riepilogative che raccolgono i dati alla fine dei trattamenti. 
+\end{itemize}
+
+Passando alle criticità incontrate, il primo grande problema riscontrato sui dati è stato  l'abbondante numero di missing value, basti pensare che le colonne con i dati completamente nulli sono 2848, ossia il 35.5\% del totale.\newline
+La soluzione attuata è stata quella di non considerarle nell'analisi finale, riducendo pertanto il numero di feature a 4512.\newline
+Va fatta, inoltre, una precisazione molto importante, nonstante vi fossero pazienti con un numero di informazioni mancanti elevato si è deciso di non andare a toccare il numero totale della popolazione indagata.
+
+Per alcune colonne i dati che risultano mancanti, in realtà sono giustificati da altre valutazioni precedenti, ad esempio se l'obiettivo del ricovero risulta essere diverso da: \textit{Sostituzione della funzione renale} oppure \textit{Supporto della funzione renale e Modulazione della risposta infiammatoria}, allora non è possibile scegliere l'indicazione alla terapia, che però sarà comunque mostrata nel dataset relativamente alla riga del paziente. È evidente che in casi come questo non si è pensato ad impostare un valore di default nel caso in cui il dato non dovesse essere proprio inserito, ma bensì i valori risultano come missing value. Nei casi come questo, si è proceduto a sostituire il valore nullo con un altro tale da non alterare i valori effettivi delle valutazioni, ad esempio non sempre è stato possibile sostituirli con lo zero, poiché rappresentante uno stato particolare del paziente in specifiche misurazioni.\newline
+In altri casi, invece, i dati mancanti sono stati recuperati mediante strumenti di interpolazione. Per esempio FiO2, PaO2 e Horowitz, sono recuperabili interpolando i dati con quelli delle 24h successive al valore mancante, ad esempio se il dato risulta mancante al tempo 0, si può recuperare dai valori nelle 12h e 24h successive. La bilirubina è recuperabile interpolando i dati fino a 4 giorni successivi a quelli di riferimento.
+Bicarbonato e BE sono interpolabili tra di loro, infatti 24 mEq/L di Bicarbonato = 0 BE, pertanto si è adattato i valori dell'uno rispetto a quelli dell'altro.
+Anche i citrati sono stati recuperati seguendo le indicazioni e conversioni a seguire, che hanno permesso di recuperare, laddove possibile i valori mancanti, infatti, la dose citrato (Dc) è uguale alla quantità di citrato (mmol) per litro di sangue in ingresso nel filtro. Tutte le soluzioni di citrato utilizzate (PBP) hanno una concentrazione di 18 mmol/l, perciò:
+\begin{gather*}
+	Qb = 100ml/min = 6l/hr\\
+	Dc = 3 mmol/l \\
+	PBP= 6 l/hr x 3 mmol/l = 18 mmol/h => 1l/hr
+\end{gather*}
+In tutti gli altri casi in cui l'interpolazione sui dati mancanti non è stata possibile si è provveduto a sostituire i valori missing con il valore 0.
+
+Un altro problema da subito evidente è stato quello degli errori di inserimento, sulla base di differenti unità di misura utilizzati tra i diversi centri. In alcuni casi, come nei lattati, la soluzione è stata semplice perché il registro già permetteva la conversione, quindi si è proceduto unificando tutti i dati rispetto un'unica unità di misura.
+Diverso invece è stato il caso del calcio, infatti l'unità di misura potrebbe essere o il mmol/L oppure il mg/dL, in generale hanno un rapporto di 1:4, ossia un 1 mmol/L = 4 mg/dL, ma spesso si è notato come i dati risultassero alterati, quindi si sono isolati gli outlier e si è provveduto a modificarli basandosi sulle misurazioni descritte in precedenza.
+Anche i globuli bianchi hanno inizialmente presentato questa criticità, poiché nel registro era sufficiente inserire solo i valori dei microlitri che successivamente sarebbero stati moltiplicati per $10^3$, alcuni però inserivano i dati già convertiti creando delle incongurenze.
+
+Infine sono stati riscontrati numerosi errori umani nell'inserimento, ad esempio sono state riscontrate delle incongurenze sui giorni totale di somministrazione dei vasoattivi che spesso risultavano memorizzati in numero minore rispetto ai giorni effettivi di somministrazione. Questo si è risolto calcolando i giorni di vasoattivi direttamente dai monitoraggi giornalieri e sostituendoli a quelli totali, laddove quest'ultimi risultassero in numero minore. 
+Anche sulle date di ingresso, avvio trattamento e fine trattamento sono stati riscontrati degli errori che sono stati subito segnalati ai medici, in modo da poterli correggere.
+
+Ovviamente qui sono stati citati solo alcune delle criticità riscontrate durante l'analisi delle qualità del dataset, è evidente che data la quantità di feature il lavoro svolto per riuscire a raggiungere una qualità discreta per le analisi più raffinate ha richiesto tempi di lavoro lunghi (circa due mesi), ma ha portato a galla la necessità di creare in campo medico, quanto più possibile omogeneità sui protocolli adottati a seconda delle situazioni e soprattutto cercare di avere un'attenzione maggiore ai dati che si hanno, perché se considerati alleati e non solo numeri, potrebbero permettere delle analisi ancora più avanzate. 
+
+
+
+
+
+
+
